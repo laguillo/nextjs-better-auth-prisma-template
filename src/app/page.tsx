@@ -1,65 +1,78 @@
-import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className='flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black'>
-      <main className='flex min-h-screen w-full max-w-3xl flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black'>
-        <Image
-          className='dark:invert'
-          src='/next.svg'
-          alt='Next.js logo'
-          width={100}
-          height={20}
-          priority
-        />
-        <div className='flex flex-col items-center gap-6 text-center sm:items-start sm:text-left'>
-          <h1 className='max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50'>
-            To get started, edit the page.tsx file.
+    <div className='from-background to-muted/20 flex min-h-screen items-center justify-center bg-gradient-to-br'>
+      <div className='mx-auto max-w-3xl space-y-8 px-6 py-12 text-center'>
+        <div className='space-y-4'>
+          <h1 className='text-5xl font-bold tracking-tight md:text-6xl'>
+            Next.js Template
           </h1>
-          <p className='max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400'>
-            Looking for a starting point or more instructions? Head over to{' '}
-            <a
-              href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-              className='font-medium text-zinc-950 dark:text-zinc-50'
-            >
-              Templates
-            </a>{' '}
-            or the{' '}
-            <a
-              href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-              className='font-medium text-zinc-950 dark:text-zinc-50'
-            >
-              Learning
-            </a>{' '}
-            center.
+          <p className='text-muted-foreground text-xl'>
+            Production-ready starter with modern authentication
           </p>
         </div>
-        <div className='flex flex-col gap-4 text-base font-medium sm:flex-row'>
-          <a
-            className='bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]'
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              className='dark:invert'
-              src='/vercel.svg'
-              alt='Vercel logomark'
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className='flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]'
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Documentation
-          </a>
+
+        <div className='grid grid-cols-2 gap-6 pt-8 md:grid-cols-4'>
+          <div className='space-y-2'>
+            <div className='text-primary text-3xl font-bold'>⚡</div>
+            <h3 className='font-semibold'>Next.js 15</h3>
+            <p className='text-muted-foreground text-sm'>App Router & RSC</p>
+          </div>
+
+          <div className='space-y-2'>
+            <div className='text-primary text-3xl font-bold'>🔐</div>
+            <h3 className='font-semibold'>Better Auth</h3>
+            <p className='text-muted-foreground text-sm'>
+              Secure authentication
+            </p>
+          </div>
+
+          <div className='space-y-2'>
+            <div className='text-primary text-3xl font-bold'>🗄️</div>
+            <h3 className='font-semibold'>Prisma</h3>
+            <p className='text-muted-foreground text-sm'>Type-safe ORM</p>
+          </div>
+
+          <div className='space-y-2'>
+            <div className='text-primary text-3xl font-bold'>🎨</div>
+            <h3 className='font-semibold'>shadcn/ui</h3>
+            <p className='text-muted-foreground text-sm'>
+              Beautiful components
+            </p>
+          </div>
         </div>
-      </main>
+
+        <div className='space-y-4 pt-8'>
+          <div className='bg-muted/50 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm'>
+            <span className='h-2 w-2 animate-pulse rounded-full bg-green-500'></span>
+            <span>PostgreSQL database connected</span>
+          </div>
+
+          <div className='flex flex-col justify-center gap-4 pt-4 sm:flex-row'>
+            <Link
+              href='/api/auth/signin'
+              className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
+            >
+              Get Started
+            </Link>
+            <Link
+              href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='border-border hover:bg-muted/50 rounded-lg border px-6 py-3 font-medium transition-colors'
+            >
+              View on GitHub
+            </Link>
+          </div>
+        </div>
+
+        <div className='border-border border-t pt-8'>
+          <p className='text-muted-foreground text-sm'>
+            Deploy to Railway in one click • Start building immediately
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

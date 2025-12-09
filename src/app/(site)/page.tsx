@@ -51,7 +51,7 @@ export default function Home() {
 
           <div className='flex flex-col justify-center gap-4 pt-4 sm:flex-row'>
             <Link
-              href='/api/auth/signin'
+              href='/login'
               className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
             >
               Get Started

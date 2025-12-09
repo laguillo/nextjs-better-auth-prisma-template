@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className='from-background to-muted/20 flex min-h-screen items-center justify-center bg-gradient-to-br'>
+    <div className='from-background to-muted/20 flex min-h-screen items-center justify-center bg-linear-to-br'>
       <div className='mx-auto max-w-3xl space-y-8 px-6 py-12 text-center'>
         <div className='space-y-4'>
           <h1 className='text-5xl font-bold tracking-tight md:text-6xl'>

@@ -1,20 +1,22 @@
+'use client';
+
 import { cn } from '@/lib/utils';
-import { Button } from '@/app/(auth)/signup/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from '@/app/(auth)/signup/ui/card';
+} from '@/components/ui/card';
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator
-} from '@/app/(auth)/signup/ui/field';
-import { Input } from '@/app/(auth)/signup/ui/input';
+} from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 
 export function LoginForm({
   className,

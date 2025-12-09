@@ -16,7 +16,7 @@ export default function Home() {
         <div className='grid grid-cols-2 gap-6 pt-8 md:grid-cols-4'>
           <div className='space-y-2'>
             <div className='text-primary text-3xl font-bold'>⚡</div>
-            <h3 className='font-semibold'>Next.js 15</h3>
+            <h3 className='font-semibold'>Next.js 16</h3>
             <p className='text-muted-foreground text-sm'>App Router & RSC</p>
           </div>
 

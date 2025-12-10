@@ -1,5 +1,8 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,16 +15,41 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
+const formSchema = z.object({
+  email: z
+    .email('Please enter a valid email address.')
+    .min(5, 'Email is too short.')
+    .max(50, 'Email must be at most 50 characters.'),
+  password: z
+    .string()
+    .min(20, 'Password is too short.')
+    .max(100, 'Password must be at most 100 characters.')
+});
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    console.log(data);
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -32,7 +60,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <Button variant='outline' type='button'>
@@ -57,15 +85,27 @@ export function LoginForm({
               <FieldSeparator className='*:data-[slot=field-separator-content]:bg-card'>
                 Or continue with
               </FieldSeparator>
-              <Field>
-                <FieldLabel htmlFor='email'>Email</FieldLabel>
-                <Input
-                  id='email'
-                  type='email'
-                  placeholder='m@example.com'
-                  required
+              <FieldGroup>
+                <Controller
+                  name='email'
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>Email address</FieldLabel>
+                      <Input
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        type='email'
+                        placeholder='Email address'
+                        autoComplete='email'
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
                 />
-              </Field>
+              </FieldGroup>
               <Field>
                 <div className='flex items-center'>
                   <FieldLabel htmlFor='password'>Password</FieldLabel>

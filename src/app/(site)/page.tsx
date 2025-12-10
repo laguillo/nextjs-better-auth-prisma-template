@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
@@ -15,13 +16,22 @@ export default function Home() {
 
         <div className='grid grid-cols-2 gap-6 pt-8 md:grid-cols-4'>
           <div className='space-y-2'>
-            <div className='text-primary text-3xl font-bold'>⚡</div>
+            <div className='flex items-center justify-center'>
+              <Image src={'/nextjs.svg'} alt='Next.js' width={50} height={50} />
+            </div>
             <h3 className='font-semibold'>Next.js 16</h3>
             <p className='text-muted-foreground text-sm'>App Router & RSC</p>
           </div>
 
           <div className='space-y-2'>
-            <div className='text-primary text-3xl font-bold'>🔐</div>
+            <div className='flex items-center justify-center'>
+              <Image
+                src={'/better-auth.svg'}
+                alt='Better Auth'
+                width={50}
+                height={50}
+              />
+            </div>
             <h3 className='font-semibold'>Better Auth</h3>
             <p className='text-muted-foreground text-sm'>
               Secure authentication
@@ -29,13 +39,29 @@ export default function Home() {
           </div>
 
           <div className='space-y-2'>
-            <div className='text-primary text-3xl font-bold'>🗄️</div>
+            <div className='flex items-center justify-center'>
+              <Image
+                src={'/prisma.svg'}
+                alt='Prisma'
+                width={50}
+                height={50}
+                className='dark:invert'
+              />
+            </div>
             <h3 className='font-semibold'>Prisma</h3>
             <p className='text-muted-foreground text-sm'>Type-safe ORM</p>
           </div>
 
           <div className='space-y-2'>
-            <div className='text-primary text-3xl font-bold'>🎨</div>
+            <div className='flex items-center justify-center'>
+              <Image
+                src={'/shadcn-ui.svg'}
+                alt='Shadcn/UI'
+                width={50}
+                height={50}
+                className='dark:invert'
+              />
+            </div>
             <h3 className='font-semibold'>shadcn/ui</h3>
             <p className='text-muted-foreground text-sm'>
               Beautiful components

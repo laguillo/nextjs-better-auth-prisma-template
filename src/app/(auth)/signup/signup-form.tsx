@@ -61,16 +61,19 @@ export function SignupForm({
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      await signUp(data.name, data.email, data.password);
+      const result = await signUp(data);
+      if (result.success) {
+        toast.success('Account created successfully!');
+        router.push('/dashboard');
+      } else {
+        throw new Error(result.error);
+      }
     } catch (error) {
       console.log('Error creating account' + error);
       toast.error('There was an error creating your account.');
     } finally {
       setIsSubmitting(false);
     }
-
-    toast.success('Account created successfully!');
-    router.push('/');
   }
 
   return (

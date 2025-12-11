@@ -10,6 +10,17 @@ import prisma from '@/lib/prisma';
 const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 export const auth = betterAuth({
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }) => {
+      await resend.emails.send({
+        from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
+        to: user.email,
+        subject: 'Verify your email',
+        react: VerifyEmail({ username: user.name, verifyUrl: url })
+      });
+    },
+    sendOnSignUp: true
+  },
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
@@ -31,17 +42,6 @@ export const auth = betterAuth({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     }
-  },
-  emailVerification: {
-    sendVerificationEmail: async ({ user, url }) => {
-      await resend.emails.send({
-        from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
-        to: user.email,
-        subject: 'Verify your email',
-        react: VerifyEmail({ username: user.name, verifyUrl: url })
-      });
-    },
-    sendOnSignUp: true
   },
   database: prismaAdapter(prisma, {
     provider: 'postgresql'

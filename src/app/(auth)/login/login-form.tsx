@@ -137,12 +137,12 @@ export function LoginForm({
                     <Field data-invalid={fieldState.invalid}>
                       <div className='flex items-center'>
                         <FieldLabel htmlFor='password'>Password</FieldLabel>
-                        <a
-                          href='#'
+                        <Link
+                          href='/forgot-password'
                           className='ml-auto text-sm underline-offset-4 hover:underline'
                         >
                           Forgot your password?
-                        </a>
+                        </Link>
                       </div>
                       <Input
                         {...field}
@@ -172,8 +172,9 @@ export function LoginForm({
         </CardContent>
       </Card>
       <FieldDescription className='px-6 text-center'>
-        By clicking continue, you agree to our <a href='#'>Terms of Service</a>{' '}
-        and <Link href='#'>Privacy Policy</Link>.
+        By clicking continue, you agree to our{' '}
+        <Link href='#'>Terms of Service</Link> and{' '}
+        <Link href='#'>Privacy Policy</Link>.
       </FieldDescription>
     </div>
   );

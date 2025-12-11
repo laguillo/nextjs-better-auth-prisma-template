@@ -51,6 +51,7 @@ export function ForgotPasswordForm({
     setIsSubmitting(true);
     try {
       const result = await forgotPassword(data);
+      console.log('🚀 ~ onSubmit ~ result:', result);
       if (result.success) {
         toast.success('Password reset link sent to your email.');
         router.push('/login');

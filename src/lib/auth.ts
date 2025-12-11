@@ -6,7 +6,9 @@ import prisma from '@/lib/prisma';
 
 export const auth = betterAuth({
   emailAndPassword: {
-    enabled: true
+    enabled: true,
+    autoSignIn: true,
+    requireEmailVerification: false
   },
   socialProviders: {
     github: {

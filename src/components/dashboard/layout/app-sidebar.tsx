@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 import {
   IconCamera,
   IconChartBar,
@@ -16,13 +16,13 @@ import {
   IconReport,
   IconSearch,
   IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
+  IconUsers
+} from '@tabler/icons-react';
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavDocuments } from '@/components/dashboard/layout/nav-documents';
+import { NavMain } from '@/components/dashboard/layout/nav-main';
+import { NavSecondary } from '@/components/dashboard/layout/nav-secondary';
+import { NavUser } from '@/components/dashboard/layout/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -30,139 +30,139 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+  SidebarMenuItem
+} from '@/components/ui/sidebar';
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg'
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+      title: 'Dashboard',
+      url: '#',
+      icon: IconDashboard
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: 'Lifecycle',
+      url: '#',
+      icon: IconListDetails
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: 'Analytics',
+      url: '#',
+      icon: IconChartBar
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
+      title: 'Projects',
+      url: '#',
+      icon: IconFolder
     },
     {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
+      title: 'Team',
+      url: '#',
+      icon: IconUsers
+    }
   ],
   navClouds: [
     {
-      title: "Capture",
+      title: 'Capture',
       icon: IconCamera,
       isActive: true,
-      url: "#",
+      url: '#',
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: 'Active Proposals',
+          url: '#'
         },
         {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+          title: 'Archived',
+          url: '#'
+        }
+      ]
     },
     {
-      title: "Proposal",
+      title: 'Proposal',
       icon: IconFileDescription,
-      url: "#",
+      url: '#',
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: 'Active Proposals',
+          url: '#'
         },
         {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+          title: 'Archived',
+          url: '#'
+        }
+      ]
     },
     {
-      title: "Prompts",
+      title: 'Prompts',
       icon: IconFileAi,
-      url: "#",
+      url: '#',
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: 'Active Proposals',
+          url: '#'
         },
         {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
+          title: 'Archived',
+          url: '#'
+        }
+      ]
+    }
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
+      title: 'Settings',
+      url: '#',
+      icon: IconSettings
     },
     {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
+      title: 'Get Help',
+      url: '#',
+      icon: IconHelp
     },
     {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+      title: 'Search',
+      url: '#',
+      icon: IconSearch
+    }
   ],
   documents: [
     {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
+      name: 'Data Library',
+      url: '#',
+      icon: IconDatabase
     },
     {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
+      name: 'Reports',
+      url: '#',
+      icon: IconReport
     },
     {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
-}
+      name: 'Word Assistant',
+      url: '#',
+      icon: IconFileWord
+    }
+  ]
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className='data-[slot=sidebar-menu-button]:p-1.5!'
             >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+              <a href='#'>
+                <IconInnerShadowTop className='size-5!' />
+                <span className='text-base font-semibold'>Acme Inc.</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -171,11 +171,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary items={data.navSecondary} className='mt-auto' />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

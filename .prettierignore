@@ -46,3 +46,6 @@ node_modules
 build
 dist
 ico
+
+# Email templates
+/src/components/emails/*

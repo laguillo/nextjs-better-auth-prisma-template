@@ -47,6 +47,39 @@ export async function login(data: { email: string; password: string }) {
   }
 }
 
+export async function logout() {
+  try {
+    await auth.api.signOut({
+      headers: await headers()
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Logout failed:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Logout failed'
+    };
+  }
+}
+
+export async function forgotPassword(data: { email: string }) {
+  try {
+    const result = await auth.api.requestPasswordReset({
+      body: {
+        email: data.email,
+        redirectTo: 'https://example.com/reset-password'
+      }
+    });
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('Forgot password failed:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Forgot password failed'
+    };
+  }
+}
+
 export async function isAuthenticated() {
   return await auth.api.getSession({
     headers: await headers()

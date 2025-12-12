@@ -5,7 +5,7 @@ import { isAuthenticated } from '@/server/user';
 import { userType } from '@/types/user';
 import { unauthorized } from 'next/navigation';
 
-export default async function BlogLayout({
+export default async function AdminLayout({
   children
 }: {
   children: React.ReactNode;

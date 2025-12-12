@@ -3,7 +3,7 @@ import { SiteHeader } from '@/components/dashboard/layout/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { isAuthenticated } from '@/server/user';
 import { userType } from '@/types/user';
-import { notFound } from 'next/navigation';
+import { unauthorized } from 'next/navigation';
 
 export default async function BlogLayout({
   children
@@ -13,7 +13,7 @@ export default async function BlogLayout({
   const session = await isAuthenticated();
 
   if (!session) {
-    notFound();
+    unauthorized();
   }
 
   const user = session.user;

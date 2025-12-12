@@ -4,13 +4,13 @@ import * as React from 'react';
 import {
   IconChartBar,
   IconDashboard,
-  IconFolder,
   IconHelp,
   IconInnerShadowTop,
   IconListDetails,
+  IconLock,
+  IconMoodPuzzled,
   IconSearch,
-  IconSettings,
-  IconUsers
+  IconSettings
 } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/dashboard/layout/nav-main';
@@ -46,14 +46,14 @@ const data = {
       icon: IconChartBar
     },
     {
-      title: 'Projects',
-      url: '#',
-      icon: IconFolder
+      title: 'Unauthorized',
+      url: '/admin',
+      icon: IconLock
     },
     {
-      title: 'Team',
-      url: '#',
-      icon: IconUsers
+      title: 'Not Found',
+      url: '/non-existent-page',
+      icon: IconMoodPuzzled
     }
   ],
   navSecondary: [

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import { signUp } from '@/server/auth';
+import { signUp } from '@/server/user';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

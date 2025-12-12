@@ -24,7 +24,7 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { forgotPassword } from '@/server/auth';
+import { forgotPassword } from '@/server/user';
 import { Spinner } from '@/components/ui/spinner';
 
 const formSchema = z.object({

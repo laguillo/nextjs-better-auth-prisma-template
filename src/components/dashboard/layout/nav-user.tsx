@@ -25,9 +25,32 @@ import {
   useSidebar
 } from '@/components/ui/sidebar';
 import { userType } from '@/types/user';
+import { logout } from '@/server/user';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function NavUser({ user }: { user: userType }) {
+  const router = useRouter();
   const { isMobile } = useSidebar();
+
+  const handleLogout = async () => {
+    try {
+      const response = await logout();
+
+      if (response.success) {
+        router.refresh();
+      } else {
+        throw new Error(response.error || 'Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'An unexpected error occurred during logout.'
+      );
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -40,7 +63,13 @@ export function NavUser({ user }: { user: userType }) {
             >
               <Avatar className='h-8 w-8 rounded-lg grayscale'>
                 <AvatarImage src={user.image} alt={user.name} />
-                <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                <AvatarFallback className='rounded-lg'>
+                  {user.name
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('')
+                    .slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-medium'>{user.name}</span>
@@ -61,7 +90,13 @@ export function NavUser({ user }: { user: userType }) {
               <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
                 <Avatar className='h-8 w-8 rounded-lg'>
                   <AvatarImage src={user.image} alt={user.name} />
-                  <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                  <AvatarFallback className='rounded-lg'>
+                    {user.name
+                      .split(' ')
+                      .map((n) => n[0])
+                      .join('')
+                      .slice(0, 2)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-medium'>{user.name}</span>
@@ -87,7 +122,7 @@ export function NavUser({ user }: { user: userType }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

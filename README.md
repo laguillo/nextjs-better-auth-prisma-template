@@ -75,7 +75,7 @@ EMAIL_SENDER_ADDRESS="noreply@tuapp.com"
 Ejecuta las migraciones de Prisma para crear las tablas en tu base de datos:
 
 ```bash
-bun prisma migrate dev
+bunx prisma migrate dev
 # o
 npx prisma migrate dev
 ```

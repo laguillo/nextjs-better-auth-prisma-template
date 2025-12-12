@@ -1,10 +1,9 @@
-import { ChartAreaInteractive } from '@/components/dashboard/chart-area-interactive';
-import { DataTable } from '@/components/dashboard/data-table';
-import { SectionCards } from '@/components/dashboard/section-cards';
-
+import { SectionCards } from '@/components/admin/section-cards';
 import data from './data.json';
+import { ChartAreaInteractive } from '@/components/admin/chart-area-interactive';
+import { DataTable } from '@/components/admin/data-table';
 
-export default function DashboardPage() {
+export default function AdminDashboardPage() {
   return (
     <div className='flex flex-1 flex-col'>
       <div className='@container/main flex flex-1 flex-col gap-2'>

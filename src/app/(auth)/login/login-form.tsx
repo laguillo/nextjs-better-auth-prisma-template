@@ -55,17 +55,19 @@ export function LoginForm({
   });
 
   const signInWithGoogle = async () => {
-    await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashboard'
-    });
-  };
-
-  const signInWithGithub = async () => {
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/dashboard'
-    });
+    try {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/dashboard'
+      });
+    } catch (error) {
+      console.error('Google sign-in failed:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Google sign-in failed. Please try again.'
+      );
+    }
   };
 
   async function onSubmit(data: z.infer<typeof formSchema>) {

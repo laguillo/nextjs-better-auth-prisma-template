@@ -167,9 +167,7 @@ export function AppSidebar({
             >
               <Link href='/'>
                 <IconInnerShadowTop className='size-5!' />
-                <span className='text-base font-semibold'>
-                  Next.Js Template
-                </span>
+                <span className='text-base font-semibold'>Admin Panel</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

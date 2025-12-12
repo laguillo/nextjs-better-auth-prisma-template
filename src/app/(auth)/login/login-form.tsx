@@ -70,6 +70,29 @@ export function LoginForm({
     }
   };
 
+  const signInWithUserDemo = async (
+    callbackURL: string,
+    email: string,
+    password: string
+  ) => {
+    const data = {
+      email,
+      password
+    };
+    try {
+      await login(data);
+      toast.success('Logged in as user demo successfully!');
+      router.push(callbackURL);
+    } catch (error) {
+      console.error('Admin demo sign-in failed:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Admin demo sign-in failed. Please try again.'
+      );
+    }
+  };
+
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
@@ -176,6 +199,38 @@ export function LoginForm({
                   Don&apos;t have an account?{' '}
                   <Link href='/signup'>Sign up</Link>
                 </FieldDescription>
+              </Field>
+            </FieldGroup>
+            <FieldGroup className='mt-4 grid grid-cols-2 gap-4'>
+              <Field>
+                <Button
+                  variant='outline'
+                  type='button'
+                  onClick={() =>
+                    signInWithUserDemo(
+                      '/dashboard',
+                      'demouser@example.com',
+                      '12345678'
+                    )
+                  }
+                >
+                  Login user account
+                </Button>
+              </Field>
+              <Field>
+                <Button
+                  variant='outline'
+                  type='button'
+                  onClick={() =>
+                    signInWithUserDemo(
+                      '/admin',
+                      'demoadmin@example.com',
+                      '12345678'
+                    )
+                  }
+                >
+                  Login admin account
+                </Button>
               </Field>
             </FieldGroup>
           </form>

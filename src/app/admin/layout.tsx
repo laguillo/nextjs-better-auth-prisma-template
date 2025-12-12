@@ -12,7 +12,7 @@ export default async function BlogLayout({
 }) {
   const session = await isAuthenticated();
 
-  if (!session) {
+  if (!session || session.user.role !== 'admin') {
     unauthorized();
   }
 

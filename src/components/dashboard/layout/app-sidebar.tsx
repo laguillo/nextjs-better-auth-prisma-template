@@ -32,6 +32,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
 
 const data = {
   user: {
@@ -160,10 +161,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className='data-[slot=sidebar-menu-button]:p-1.5!'
             >
-              <a href='#'>
+              <Link href='/'>
                 <IconInnerShadowTop className='size-5!' />
-                <span className='text-base font-semibold'>Acme Inc.</span>
-              </a>
+                <span className='text-base font-semibold'>
+                  Next.Js Template
+                </span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

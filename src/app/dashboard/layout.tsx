@@ -19,14 +19,7 @@ export default async function DashboardLayout({
   const user = session.user;
 
   return (
-    <SidebarProvider
-      style={
-        {
-          '--sidebar-width': 'calc(var(--spacing) * 72)',
-          '--header-height': 'calc(var(--spacing) * 12)'
-        } as React.CSSProperties
-      }
-    >
+    <SidebarProvider>
       <AppSidebar variant='inset' user={user as userType} />
       <SidebarInset>
         <SiteHeader />

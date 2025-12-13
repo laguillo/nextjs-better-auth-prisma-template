@@ -40,6 +40,7 @@ export function ForgotPasswordForm({
 }: React.ComponentProps<'div'>) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,7 +52,7 @@ export function ForgotPasswordForm({
     setIsSubmitting(true);
     try {
       const result = await forgotPassword(data);
-      console.log('🚀 ~ onSubmit ~ result:', result);
+
       if (result.success) {
         toast.success('Password reset link sent to your email.');
         router.push('/login');

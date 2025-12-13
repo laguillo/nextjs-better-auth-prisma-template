@@ -67,7 +67,7 @@ export async function forgotPassword(data: { email: string }) {
     const result = await auth.api.requestPasswordReset({
       body: {
         email: data.email,
-        redirectTo: 'https://example.com/reset-password'
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`
       }
     });
     return { success: true, data: result };
@@ -76,6 +76,27 @@ export async function forgotPassword(data: { email: string }) {
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Forgot password failed'
+    };
+  }
+}
+
+export async function resetPassword(data: {
+  password: string;
+  token?: string;
+}) {
+  try {
+    const result = await auth.api.resetPassword({
+      body: {
+        password: data.password,
+        token: data.token
+      }
+    });
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('Reset password failed:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Reset password failed'
     };
   }
 }

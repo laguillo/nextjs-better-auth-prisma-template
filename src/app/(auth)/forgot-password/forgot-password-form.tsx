@@ -77,7 +77,8 @@ export function ForgotPasswordForm({
         <CardHeader className='text-center'>
           <CardTitle className='text-xl'>Forgot your password?</CardTitle>
           <CardDescription>
-            Enter your email to receive a password reset link
+            Please provide the email address associated with your account. We
+            will send you a link to reset your password.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -107,8 +108,7 @@ export function ForgotPasswordForm({
                   {isSubmitting ? <Spinner /> : 'Send reset link'}
                 </Button>
                 <FieldDescription className='text-center'>
-                  Don&apos;t have an account?{' '}
-                  <Link href='/signup'>Sign up</Link>
+                  Already have an account? <Link href='/login'>Login</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

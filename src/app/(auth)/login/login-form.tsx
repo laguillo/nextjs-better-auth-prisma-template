@@ -99,7 +99,7 @@ export function LoginForm({
       const result = await login(data);
       if (result.success) {
         toast.success('Logged in successfully!');
-        router.push('/dashboard');
+        router.push('/');
       } else {
         throw new Error(result.error);
       }
@@ -207,11 +207,7 @@ export function LoginForm({
                   variant='outline'
                   type='button'
                   onClick={() =>
-                    signInWithUserDemo(
-                      '/dashboard',
-                      'demouser@example.com',
-                      '12345678'
-                    )
+                    signInWithUserDemo('/', 'demouser@example.com', '12345678')
                   }
                 >
                   Login user account
@@ -222,11 +218,7 @@ export function LoginForm({
                   variant='outline'
                   type='button'
                   onClick={() =>
-                    signInWithUserDemo(
-                      '/admin',
-                      'demoadmin@example.com',
-                      '12345678'
-                    )
+                    signInWithUserDemo('/', 'demoadmin@example.com', '12345678')
                   }
                 >
                   Login admin account

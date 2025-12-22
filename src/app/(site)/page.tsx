@@ -14,6 +14,58 @@ import {
 export default function Home() {
   return (
     <div className='flex min-h-screen w-full flex-col'>
+      {/* Navbar */}
+      <header className='border-border bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur-md'>
+        <div className='mx-auto flex h-16 max-w-240 items-center justify-between px-4 sm:px-6 lg:px-8'>
+          <div className='flex items-center gap-2'>
+            <div className='bg-primary/20 text-primary flex size-8 items-center justify-center rounded-lg'>
+              <Rocket className='h-5 w-5' />
+            </div>
+            <span className='text-lg font-bold tracking-tight'>
+              Next.js Starter
+            </span>
+          </div>
+
+          <nav className='text-muted-foreground hidden items-center gap-8 text-sm font-medium md:flex'>
+            <a
+              href='#features'
+              className='hover:text-primary transition-colors'
+            >
+              Features
+            </a>
+            <a
+              href='#testimonials'
+              className='hover:text-primary transition-colors'
+            >
+              Testimonials
+            </a>
+            <Link
+              href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='hover:text-primary transition-colors'
+            >
+              Docs
+            </Link>
+          </nav>
+
+          <div className='flex items-center gap-3'>
+            <Link
+              href='/login'
+              className='text-muted-foreground hover:text-primary hidden text-sm font-medium transition-colors sm:inline-flex'
+            >
+              Log In
+            </Link>
+            <Link
+              href='/signup'
+              className='bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-primary inline-flex h-9 items-center justify-center rounded-lg px-4 py-2 text-sm font-bold shadow-sm transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
+            >
+              Sign Up
+            </Link>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className='relative px-4 pt-16 pb-20 lg:pt-24 lg:pb-32'>
         <div className='mx-auto max-w-240'>
@@ -109,7 +161,7 @@ export default function Home() {
       </section>
 
       {/* Features Headline */}
-      <section className='px-4'>
+      <section id='features' className='px-4'>
         <div className='mx-auto max-w-240 text-center'>
           <h2 className='mb-4 text-3xl font-bold tracking-tight sm:text-4xl'>
             Everything you need to ship
@@ -165,7 +217,10 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className='border-border/50 bg-muted/30 border-y px-4 py-20'>
+      <section
+        id='testimonials'
+        className='border-border/50 bg-muted/30 border-y px-4 py-20'
+      >
         <div className='mx-auto max-w-240'>
           <div className='mb-12 text-center'>
             <h2 className='mb-2 text-3xl font-bold tracking-tight'>

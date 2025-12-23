@@ -104,7 +104,7 @@ export function LoginForm({
 
   return (
     <div
-      className={cn('flex w-full max-w-[400px] flex-col gap-6', className)}
+      className={cn('flex w-full max-w-100 flex-col gap-6', className)}
       {...props}
     >
       {/* Header */}

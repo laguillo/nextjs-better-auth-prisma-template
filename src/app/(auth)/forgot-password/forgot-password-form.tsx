@@ -7,15 +7,7 @@ import * as z from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel
@@ -26,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { forgotPassword } from '@/server/user';
 import { Spinner } from '@/components/ui/spinner';
+import Image from 'next/image';
 
 const formSchema = z.object({
   email: z
@@ -72,49 +65,77 @@ export function ForgotPasswordForm({
   }
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
-        <CardHeader className='text-center'>
-          <CardTitle className='text-xl'>Forgot your password?</CardTitle>
-          <CardDescription>
-            Please provide the email address associated with your account. We
-            will send you a link to reset your password.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldGroup>
-              <Controller
-                name='email'
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel>Email address</FieldLabel>
-                    <Input
-                      {...field}
-                      aria-invalid={fieldState.invalid}
-                      type='email'
-                      placeholder='Email address'
-                      autoComplete='email'
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-              <Field>
-                <Button type='submit' disabled={isSubmitting}>
-                  {isSubmitting ? <Spinner /> : 'Send reset link'}
-                </Button>
-                <FieldDescription className='text-center'>
-                  Already have an account? <Link href='/login'>Login</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
+    <div
+      className={cn('flex w-full max-w-100 flex-col gap-6', className)}
+      {...props}
+    >
+      {/* Header */}
+      <div className='flex flex-col items-center gap-2 text-center'>
+        <div className='bg-primary/10 text-primary mb-2 flex h-12 w-12 items-center justify-center rounded-xl'>
+          <Image
+            src='/nextjs.svg'
+            alt='Logo'
+            width={50}
+            height={50}
+            className='size-12'
+            priority
+          />
+        </div>
+        <h1 className='text-2xl font-semibold tracking-tight'>
+          Forgot your password?
+        </h1>
+        <p className='text-muted-foreground text-sm'>
+          Please provide the email address associated with your account. We will
+          send you a link to reset your password.
+        </p>
+      </div>
+
+      {/* Main Form Area */}
+      <div className='grid gap-6'>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FieldGroup>
+            {/* Email Field */}
+            <Controller
+              name='email'
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor='email'>Email</FieldLabel>
+                  <Input
+                    {...field}
+                    id='email'
+                    type='email'
+                    placeholder='name@example.com'
+                    autoComplete='email'
+                    autoCapitalize='none'
+                    autoCorrect='off'
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            {/* Send Reset Link Button */}
+            <Button type='submit' disabled={isSubmitting} className='w-full'>
+              {isSubmitting ? <Spinner /> : 'Send reset link'}
+            </Button>
+          </FieldGroup>
+        </form>
+      </div>
+
+      {/* Footer Login Link */}
+      <p className='text-muted-foreground px-8 text-center text-sm'>
+        Remember your password?{' '}
+        <Link
+          href='/login'
+          className='text-primary hover:text-primary/80 font-medium underline-offset-4 hover:underline'
+        >
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default async function OptionsButton() {
     return (
       <Link
         href='/login'
-        className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
+        className='bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90'
       >
         Get Started
       </Link>
@@ -20,13 +20,13 @@ export default async function OptionsButton() {
       <div className='flex items-center gap-4'>
         <Link
           href='/dashboard'
-          className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
+          className='bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90'
         >
           Go to Dashboard
         </Link>
         <Link
           href='/admin'
-          className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
+          className='bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90'
         >
           Go to Admin
         </Link>
@@ -38,7 +38,7 @@ export default async function OptionsButton() {
     return (
       <Link
         href='/dashboard'
-        className='bg-primary text-primary-foreground rounded-lg px-6 py-3 font-medium transition-opacity hover:opacity-90'
+        className='bg-primary text-primary-foreground rounded-lg px-4 py-4 font-medium transition-opacity hover:opacity-90'
       >
         Go to Dashboard
       </Link>

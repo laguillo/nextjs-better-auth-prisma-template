@@ -49,20 +49,7 @@ export default function Home() {
             </Link>
           </nav>
 
-          <div className='flex items-center gap-3'>
-            <Link
-              href='/login'
-              className='text-muted-foreground hover:text-primary hidden text-sm font-medium transition-colors sm:inline-flex'
-            >
-              Log In
-            </Link>
-            <Link
-              href='/signup'
-              className='bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:outline-primary inline-flex h-9 items-center justify-center rounded-lg px-4 py-2 text-sm font-bold shadow-sm transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-            >
-              Sign Up
-            </Link>
-          </div>
+          <OptionsButton />
         </div>
       </header>
 
@@ -98,7 +85,7 @@ export default function Home() {
               </p>
 
               <div className='mt-4 flex flex-wrap items-center justify-center gap-3'>
-                <OptionsButton />
+                {/* <OptionsButton /> */}
                 <Link
                   href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
                   target='_blank'

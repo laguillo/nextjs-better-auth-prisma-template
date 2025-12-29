@@ -1,16 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter as FontSans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const fontSans = FontSans({
   subsets: ['latin']
 });
 
@@ -27,13 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${fontSans.className} antialiased`}>
         <ThemeProvider
           attribute='class'
-          defaultTheme='system'
-          enableSystem
+          defaultTheme='dark'
+          // enableSystem
           disableTransitionOnChange
         >
           <main>{children}</main>

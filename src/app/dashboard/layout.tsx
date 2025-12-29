@@ -3,7 +3,7 @@ import { SiteHeader } from '@/components/dashboard/layout/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { isAuthenticated } from '@/server/user';
 import { userType } from '@/types/user';
-import { unauthorized } from 'next/navigation';
+import { redirect, unauthorized } from 'next/navigation';
 
 export default async function DashboardLayout({
   children
@@ -13,7 +13,9 @@ export default async function DashboardLayout({
   const session = await isAuthenticated();
 
   if (!session) {
-    unauthorized();
+    redirect('/login');
+    // Alternatively, you can use:
+    // unauthorized();
   }
 
   const user = session.user;

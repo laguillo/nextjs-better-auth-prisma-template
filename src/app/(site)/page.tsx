@@ -10,6 +10,7 @@ import {
   Github,
   Twitter
 } from 'lucide-react';
+import { ModeToggle } from '@/components/shared/mode-toggle';
 
 export default function Home() {
   return (
@@ -18,27 +19,32 @@ export default function Home() {
       <header className='border-border bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur-md'>
         <div className='mx-auto flex h-16 max-w-240 items-center justify-between px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center gap-2'>
-            <div className='bg-primary/20 text-primary flex size-8 items-center justify-center rounded-lg'>
-              <Rocket className='h-5 w-5' />
-            </div>
+            <Image
+              src='/nextjs.svg'
+              alt='Logo'
+              width={32}
+              height={32}
+              className='size-8'
+              priority
+            />
             <span className='text-lg font-bold tracking-tight'>
               Next.js Starter
             </span>
           </div>
 
           <nav className='text-muted-foreground hidden items-center gap-8 text-sm font-medium md:flex'>
-            <a
+            <Link
               href='#features'
               className='hover:text-primary transition-colors'
             >
               Features
-            </a>
-            <a
+            </Link>
+            <Link
               href='#testimonials'
               className='hover:text-primary transition-colors'
             >
               Testimonials
-            </a>
+            </Link>
             <Link
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
               target='_blank'
@@ -49,7 +55,10 @@ export default function Home() {
             </Link>
           </nav>
 
-          <OptionsButton />
+          <div className='flex items-center gap-4'>
+            <OptionsButton />
+            <ModeToggle />
+          </div>
         </div>
       </header>
 

@@ -38,7 +38,7 @@ export default async function OptionsButton() {
     return (
       <Link
         href='/dashboard'
-        className='bg-primary text-primary-foreground rounded-lg px-4 py-4 font-medium transition-opacity hover:opacity-90'
+        className='bg-primary text-primary-foreground rounded-lg px-4 py-2 text-sm font-medium transition-opacity hover:opacity-90'
       >
         Go to Dashboard
       </Link>

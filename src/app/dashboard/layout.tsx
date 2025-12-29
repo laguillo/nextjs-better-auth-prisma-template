@@ -3,7 +3,7 @@ import { SiteHeader } from '@/components/dashboard/layout/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { isAuthenticated } from '@/server/user';
 import { userType } from '@/types/user';
-import { redirect, unauthorized } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout({
   children

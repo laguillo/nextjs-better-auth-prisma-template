@@ -1,18 +1,5 @@
 'use client';
 
-import * as React from 'react';
-import {
-  IconChartBar,
-  IconDashboard,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconLock,
-  IconMoodPuzzled,
-  IconSearch,
-  IconSettings
-} from '@tabler/icons-react';
-
 import { NavMain } from '@/components/dashboard/layout/nav-main';
 import { NavSecondary } from '@/components/dashboard/layout/nav-secondary';
 import { NavUser } from '@/components/dashboard/layout/nav-user';
@@ -27,36 +14,34 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { userType } from '@/types/user';
+import {
+  IconCreditCardFilled,
+  IconDashboard,
+  IconFolderOpen,
+  IconHelp,
+  IconLock,
+  IconMoodPuzzled,
+  IconSettings
+} from '@tabler/icons-react';
+import Image from 'next/image';
 
 const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '#',
+      url: '/dashboard',
       icon: IconDashboard
     },
     {
-      title: 'Lifecycle',
+      title: 'Projects',
       url: '#',
-      icon: IconListDetails
+      icon: IconFolderOpen
     },
     {
-      title: 'Analytics',
+      title: 'Billing',
       url: '#',
-      icon: IconChartBar
+      icon: IconCreditCardFilled
     },
-    {
-      title: 'Unauthorized',
-      url: '/admin',
-      icon: IconLock
-    },
-    {
-      title: 'Not Found',
-      url: '/non-existent-page',
-      icon: IconMoodPuzzled
-    }
-  ],
-  navSecondary: [
     {
       title: 'Settings',
       url: '#',
@@ -66,11 +51,18 @@ const data = {
       title: 'Get Help',
       url: '#',
       icon: IconHelp
+    }
+  ],
+  navSecondary: [
+    {
+      title: 'Unauthorized',
+      url: '/admin',
+      icon: IconLock
     },
     {
-      title: 'Search',
-      url: '#',
-      icon: IconSearch
+      title: 'Not Found',
+      url: '/non-existent-page',
+      icon: IconMoodPuzzled
     }
   ]
 };
@@ -89,7 +81,14 @@ export function AppSidebar({
               className='data-[slot=sidebar-menu-button]:p-1.5!'
             >
               <Link href='/'>
-                <IconInnerShadowTop className='size-5!' />
+                <Image
+                  src='/nextjs.svg'
+                  alt='Logo'
+                  width={32}
+                  height={32}
+                  className='size-8'
+                  priority
+                />
                 <span className='text-base font-semibold'>Dashboard</span>
               </Link>
             </SidebarMenuButton>

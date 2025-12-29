@@ -1,102 +1,90 @@
-import { IconTrendingDown, IconTrendingUp } from '@tabler/icons-react';
-
-import { Badge } from '@/components/ui/badge';
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { IconTrendingUp, IconAlertCircle } from '@tabler/icons-react';
+import { DollarSign, Users, Activity, Ticket } from 'lucide-react';
 
 export function SectionCards() {
   return (
-    <div className='*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4'>
-      <Card className='@container/card'>
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            $1,250.00
-          </CardTitle>
-          <CardAction>
-            <Badge variant='outline'>
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className='flex-col items-start gap-1.5 text-sm'>
-          <div className='line-clamp-1 flex gap-2 font-medium'>
-            Trending up this month <IconTrendingUp className='size-4' />
+    <div className='grid grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:grid-cols-4 lg:px-6'>
+      {/* Total Revenue */}
+      <div className='bg-card rounded-xl border p-5 shadow-sm'>
+        <div className='mb-4 flex items-start justify-between'>
+          <div>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Total Revenue
+            </p>
+            <h3 className='mt-1 text-2xl font-bold'>$12,340</h3>
           </div>
-          <div className='text-muted-foreground'>
-            Visitors for the last 6 months
+          <div className='bg-primary/10 text-primary rounded-lg p-2'>
+            <DollarSign className='h-6 w-6' />
           </div>
-        </CardFooter>
-      </Card>
-      <Card className='@container/card'>
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant='outline'>
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className='flex-col items-start gap-1.5 text-sm'>
-          <div className='line-clamp-1 flex gap-2 font-medium'>
-            Down 20% this period <IconTrendingDown className='size-4' />
+        </div>
+        <div className='flex items-center gap-1 text-sm font-medium text-emerald-500'>
+          <IconTrendingUp className='h-4 w-4' />
+          <span>+12%</span>
+          <span className='text-muted-foreground ml-1 font-normal'>
+            from last month
+          </span>
+        </div>
+      </div>
+
+      {/* Active Users */}
+      <div className='bg-card rounded-xl border p-5 shadow-sm'>
+        <div className='mb-4 flex items-start justify-between'>
+          <div>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Active Users
+            </p>
+            <h3 className='mt-1 text-2xl font-bold'>1,234</h3>
           </div>
-          <div className='text-muted-foreground'>
-            Acquisition needs attention
+          <div className='rounded-lg bg-purple-500/10 p-2 text-purple-500'>
+            <Users className='h-6 w-6' />
           </div>
-        </CardFooter>
-      </Card>
-      <Card className='@container/card'>
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant='outline'>
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className='flex-col items-start gap-1.5 text-sm'>
-          <div className='line-clamp-1 flex gap-2 font-medium'>
-            Strong user retention <IconTrendingUp className='size-4' />
+        </div>
+        <div className='flex items-center gap-1 text-sm font-medium text-emerald-500'>
+          <IconTrendingUp className='h-4 w-4' />
+          <span>+50</span>
+          <span className='text-muted-foreground ml-1 font-normal'>
+            new this week
+          </span>
+        </div>
+      </div>
+
+      {/* System Health */}
+      <div className='bg-card rounded-xl border p-5 shadow-sm'>
+        <div className='mb-4 flex items-start justify-between'>
+          <div>
+            <p className='text-muted-foreground text-sm font-medium'>
+              System Health
+            </p>
+            <h3 className='mt-1 text-2xl font-bold'>98.9%</h3>
           </div>
-          <div className='text-muted-foreground'>Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className='@container/card'>
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant='outline'>
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className='flex-col items-start gap-1.5 text-sm'>
-          <div className='line-clamp-1 flex gap-2 font-medium'>
-            Steady performance increase <IconTrendingUp className='size-4' />
+          <div className='rounded-lg bg-emerald-500/10 p-2 text-emerald-500'>
+            <Activity className='h-6 w-6' />
           </div>
-          <div className='text-muted-foreground'>Meets growth projections</div>
-        </CardFooter>
-      </Card>
+        </div>
+        <div className='text-muted-foreground flex items-center gap-1 text-sm font-medium'>
+          <div className='h-2 w-2 rounded-full bg-emerald-500'></div>
+          <span>All systems operational</span>
+        </div>
+      </div>
+
+      {/* Pending Tickets */}
+      <div className='bg-card rounded-xl border p-5 shadow-sm'>
+        <div className='mb-4 flex items-start justify-between'>
+          <div>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Pending Tickets
+            </p>
+            <h3 className='mt-1 text-2xl font-bold'>5</h3>
+          </div>
+          <div className='rounded-lg bg-orange-500/10 p-2 text-orange-500'>
+            <Ticket className='h-6 w-6' />
+          </div>
+        </div>
+        <div className='flex items-center gap-1 text-sm font-medium text-orange-500'>
+          <IconAlertCircle className='h-4 w-4' />
+          <span>2 high priority</span>
+        </div>
+      </div>
     </div>
   );
 }

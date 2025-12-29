@@ -87,7 +87,7 @@ export async function resetPassword(data: {
   try {
     const result = await auth.api.resetPassword({
       body: {
-        password: data.password,
+        newPassword: data.password,
         token: data.token
       }
     });

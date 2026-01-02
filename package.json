@@ -8,9 +8,9 @@
   "private": true,
   "scripts": {
     "dev": "bun run --bun next dev",
-    "build": "prisma generate && prisma migrate deploy && bun run --bun next build",
+    "build": "prisma generate && bun run --bun next build",
     "postinstall": "prisma generate",
-    "start": "bun run --bun next start",
+    "start": "prisma migrate deploy && bun run --bun next start",
     "lint": "eslint"
   },
   "dependencies": {

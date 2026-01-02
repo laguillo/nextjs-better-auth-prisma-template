@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "bun run --bun next dev",
     "build": "bun run --bun next build",
-    "postinstall": "prisma generate",
+    "postinstall": "bunx prisma generate",
     "start": "bun run --bun next start",
     "lint": "eslint"
   },

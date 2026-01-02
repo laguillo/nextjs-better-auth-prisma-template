@@ -1,35 +1,58 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-async function checkDatabaseWithRetry(maxRetries = 3, retryDelay = 1000) {
+// Evitar cacheo estático del healthcheck
+export const dynamic = 'force-dynamic';
+
+interface PrismaError extends Error {
+  code?: string;
+  clientVersion?: string;
+}
+
+async function checkDatabaseWithRetry(maxRetries = 5, retryDelay = 2000) {
+  let lastError: unknown;
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
+      // Timeout interno por intento para no bloquear indefinidamente
       await Promise.race([
         prisma.$queryRaw`SELECT 1`,
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Database timeout')), 10000)
+          setTimeout(() => reject(new Error('Database query timeout')), 5000)
         )
       ]);
       return { success: true, attempt };
-    } catch (error: unknown) {
-      // Si es un error de "database is starting up", reintentamos
-      if (
-        error.code === 'P2010' ||
-        error.code === 'ETIMEDOUT' ||
-        error.message?.includes('starting up')
-      ) {
-        if (attempt < maxRetries) {
-          console.log(
-            `Database starting up, retry ${attempt}/${maxRetries}...`
-          );
-          await new Promise((resolve) => setTimeout(resolve, retryDelay));
-          continue;
-        }
+    } catch (error) {
+      lastError = error;
+      const prismaError = error as PrismaError;
+
+      console.warn(
+        `Healthcheck attempt ${attempt}/${maxRetries} failed:`,
+        prismaError.message
+      );
+
+      // Códigos de error comunes durante el inicio o problemas de conexión
+      // P2010: Raw query failed. Code: `57P03`. Message: `the database system is starting up`
+      // ETIMEDOUT: Connection timed out
+      // P1001: Can't reach database server
+      const isRetryable =
+        prismaError.code === 'P2010' ||
+        prismaError.code === 'ETIMEDOUT' ||
+        prismaError.code === 'P1001' ||
+        prismaError.message?.includes('starting up') ||
+        prismaError.message?.includes('timeout');
+
+      if (isRetryable && attempt < maxRetries) {
+        // Esperar antes del siguiente intento
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+        continue;
       }
+
+      // Si no es reintentable o se acabaron los intentos, lanzar el error
       throw error;
     }
   }
-  throw new Error('Max retries reached');
+  throw lastError;
 }
 
 export async function GET() {
@@ -45,46 +68,27 @@ export async function GET() {
         timestamp: new Date().toISOString(),
         database: 'connected',
         responseTime: `${responseTime}ms`,
-        attempts: attempt
+        attempts: attempt,
+        env: process.env.NODE_ENV
       },
       { status: 200 }
     );
-  } catch (error: unknown) {
+  } catch (error) {
     const responseTime = Date.now() - startTime;
-    console.error('Health check failed:', error);
+    const prismaError = error as PrismaError;
 
-    // Determinar el tipo de error
-    const isStartingUp =
-      error.code === 'P2010' || error.message?.includes('starting up');
-
-    // const isTimeout =
-    //   error.code === 'ETIMEDOUT' || error.message?.includes('timeout');
-
-    // En producción, si la DB está iniciándose, retornar 503
-    // En desarrollo, ser más permisivo
-    const isProduction = process.env.NODE_ENV === 'production';
-
-    // Si la base de datos está iniciándose, considerarlo temporalmente no saludable
-    let statusCode = 503;
-    let status = 'unhealthy';
-
-    if (!isProduction) {
-      // En desarrollo, ser más tolerante
-      statusCode = 200;
-      status = 'degraded';
-    }
+    console.error('Health check critical failure:', prismaError);
 
     return NextResponse.json(
       {
-        status,
+        status: 'unhealthy',
         timestamp: new Date().toISOString(),
-        database: isStartingUp ? 'starting' : 'disconnected',
+        database: 'disconnected',
         responseTime: `${responseTime}ms`,
-        error: error.message || 'Unknown error',
-        errorCode: error.code,
-        env: process.env.NODE_ENV
+        error: prismaError.message || 'Unknown error',
+        code: prismaError.code
       },
-      { status: statusCode }
+      { status: 503 }
     );
   }
 }

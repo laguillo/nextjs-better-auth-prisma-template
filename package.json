@@ -8,8 +8,8 @@
   "private": true,
   "scripts": {
     "dev": "bun run --bun next dev",
-    "build": "bun run --bun next build",
-    "postinstall": "bunx prisma generate",
+    "build": "prisma generate && prisma migrate deploy && bun run --bun next build",
+    "postinstall": "prisma generate",
     "start": "bun run --bun next start",
     "lint": "eslint"
   },

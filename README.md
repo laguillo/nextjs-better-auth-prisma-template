@@ -1,170 +1,155 @@
 # Next.js Better Auth Prisma Template
 
-Este es un template robusto y moderno para aplicaciones Next.js, pre-configurado con autenticación avanzada, base de datos y componentes de UI listos para usar. Diseñado para acelerar el desarrollo de aplicaciones web seguras y escalables.
+This is a robust and modern template for Next.js applications, pre-configured with advanced authentication, database, and ready-to-use UI components. Designed to accelerate the development of secure and scalable web applications.
 
-## ✨ Características Principales
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-- **Autenticación Completa**: Sistema de autenticación robusto con [Better Auth](https://better-auth.com/)
+## ✨ Main Features
+
+- **Complete Authentication**: Robust authentication system with [Better Auth](https://better-auth.com/)
   - Email & Password
   - Social Login (Google)
-  - Verificación de Email
-  - Recuperación de Contraseña
-  - Gestión de Sesiones
-- **Roles y Permisos**: Sistema de roles (Admin, User) integrado con protección de rutas
-- **Base de Datos**: PostgreSQL con Prisma ORM y output personalizado en `src/generated/prisma`
-- **UI Moderna**: Componentes estilizados con Tailwind CSS 4 y Shadcn UI
-- **Emails Transaccionales**: Plantillas de email con React Email y envío mediante Resend
-- **Dashboards**: Layouts pre-construidos para paneles de administración y usuario
-- **Type-Safe**: Desarrollo seguro con TypeScript en todo el proyecto
+  - Email Verification
+  - Password Recovery
+  - Session Management
+- **Roles and Permissions**: Role system (Admin, User) integrated with route protection
+- **Database**: PostgreSQL with Prisma ORM and custom output in `src/generated/prisma`
+- **Modern UI**: Styled components with Tailwind CSS 4 and Shadcn UI
+- **Transactional Emails**: Email templates with React Email and sending via Resend
+- **Dashboards**: Pre-built layouts for admin and user panels
+- **Type-Safe**: Safe development with TypeScript throughout the project
 
-## 🚀 Tecnologías
+## 🚀 Technologies
 
-- **[Next.js 16.1](https://nextjs.org/)**: App Router, Server Components y Server Actions
-- **[React 19.2](https://react.dev/)**: Últimas características de React
-- **[Better Auth 1.4](https://better-auth.com/)**: Autenticación moderna y segura
-- **[Prisma 7.2](https://www.prisma.io/)**: ORM para interactuar con PostgreSQL
-- **[Tailwind CSS 4.1](https://tailwindcss.com/)**: Estilos rápidos y flexibles
-- **[Shadcn UI](https://ui.shadcn.com/)**: Componentes de UI accesibles y personalizables
-- **[Bun](https://bun.sh/)**: Runtime de JavaScript rápido (recomendado)
+- **[Next.js 16.1](https://nextjs.org/)**: App Router, Server Components and Server Actions
+- **[React 19.2](https://react.dev/)**: Latest React features
+- **[Better Auth 1.4](https://better-auth.com/)**: Modern and secure authentication
+- **[Prisma 7.2](https://www.prisma.io/)**: ORM for interacting with PostgreSQL
+- **[Tailwind CSS 4.1](https://tailwindcss.com/)**: Fast and flexible styling
+- **[Shadcn UI](https://ui.shadcn.com/)**: Accessible and customizable UI components
+- **[Bun](https://bun.sh/)**: Fast JavaScript runtime (recommended)
 
-## 🛠️ Instalación y Configuración
+## 🛠️ Installation and Setup
 
-Sigue estos pasos para levantar el proyecto en tu entorno local:
+Follow these steps to set up the project in your local environment:
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
-git clone <url-del-repositorio>
+git clone <repository-url>
 cd nextjs-better-auth-prisma-template
 ```
 
-### 2. Instalar dependencias
+### 2. Install dependencies
 
-Recomendamos usar **Bun** para una experiencia más rápida:
+We recommend using **Bun** for a faster experience:
 
 ```bash
 bun install
 ```
 
-### 3. Configurar Variables de Entorno
+### 3. Configure Environment Variables
 
-Crea un archivo `.env` en la raíz del proyecto y configura las siguientes variables:
+Create a `.env` file in the project root and configure the following variables:
 
 ```env
-# Base de Datos (PostgreSQL)
+# Database (PostgreSQL)
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 
 # Better Auth
-BETTER_AUTH_SECRET="tu_secreto_super_seguro" # Generar con: openssl rand -base64 32
+BETTER_AUTH_SECRET="your_super_secure_secret" # Generate with: openssl rand -base64 32
 BETTER_AUTH_URL="http://localhost:3000"
 
-# Proveedores OAuth (Google)
-GOOGLE_CLIENT_ID="tu_google_client_id"
-GOOGLE_CLIENT_SECRET="tu_google_client_secret"
+# OAuth Providers (Google)
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
 
 # Email (Resend)
 RESEND_API_KEY="re_123456789"
-EMAIL_SENDER_NAME="Tu App"
-EMAIL_SENDER_ADDRESS="noreply@tuapp.com"
+EMAIL_SENDER_NAME="Your App"
+EMAIL_SENDER_ADDRESS="noreply@yourapp.com"
 ```
 
-### 4. Configurar la Base de Datos
+### 4. Configure the Database
 
-Ejecuta las migraciones de Prisma para crear las tablas:
+Run Prisma migrations to create the tables:
 
 ```bash
 bunx prisma migrate dev
 ```
 
-Esto también generará el cliente de Prisma en `src/generated/prisma` automáticamente.
+This will also generate the Prisma client in `src/generated/prisma` automatically.
 
-### 5. Iniciar el Servidor de Desarrollo
+### 5. Start the Development Server
 
 ```bash
 bun dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📂 Estructura del Proyecto
+## 📂 Project Structure
 
 ```
 ├── prisma/
-│   ├── schema.prisma      # Esquema de base de datos
-│   └── migrations/        # Historial de migraciones
-├── public/                # Archivos estáticos
+│   ├── schema.prisma      # Database schema
+│   └── migrations/        # Migration history
+├── public/                # Static files
 ├── src/
-│   ├── app/               # Rutas de la aplicación (App Router)
-│   │   ├── (auth)/        # Rutas de autenticación
+│   ├── app/               # Application routes (App Router)
+│   │   ├── (auth)/        # Authentication routes
 │   │   │   ├── login/
 │   │   │   ├── signup/
 │   │   │   ├── forgot-password/
 │   │   │   └── reset-password/
-│   │   ├── (site)/        # Rutas públicas (landing page)
-│   │   ├── dashboard/     # Panel de usuario (protegido)
-│   │   ├── admin/         # Panel de administración (protegido)
+│   │   ├── (site)/        # Public routes (landing page)
+│   │   ├── dashboard/     # User panel (protected)
+│   │   ├── admin/         # Admin panel (protected)
 │   │   └── api/           # API Routes
-│   ├── components/        # Componentes de React
-│   │   ├── admin/         # Componentes del panel de admin
-│   │   ├── dashboard/     # Componentes del panel de usuario
-│   │   ├── emails/        # Plantillas de email (React Email)
-│   │   ├── shared/        # Componentes compartidos
-│   │   ├── site/          # Componentes del sitio público
-│   │   └── ui/            # Componentes base (Shadcn UI)
-│   ├── generated/         # Código generado
-│   │   └── prisma/        # Cliente de Prisma generado
-│   ├── hooks/             # React Hooks personalizados
-│   ├── lib/               # Utilidades y configuración
-│   │   ├── auth.ts        # Configuración de Better Auth
-│   │   ├── auth-client.ts # Cliente de Better Auth
-│   │   ├── prisma.ts      # Cliente de Prisma
-│   │   └── utils.ts       # Funciones auxiliares
-│   ├── server/            # Lógica del servidor
-│   └── types/             # Definiciones de tipos TypeScript
+│   ├── components/        # React components
+│   │   ├── admin/         # Admin panel components
+│   │   ├── dashboard/     # User panel components
+│   │   ├── emails/        # Email templates (React Email)
+│   │   ├── shared/        # Shared components
+│   │   ├── site/          # Public site components
+│   │   └── ui/            # Base components (Shadcn UI)
+│   ├── generated/         # Generated code
+│   │   └── prisma/        # Generated Prisma client
+│   ├── hooks/             # Custom React Hooks
+│   ├── lib/               # Utilities and configuration
+│   │   ├── auth.ts        # Better Auth configuration
+│   │   ├── auth-client.ts # Better Auth client
+│   │   ├── prisma.ts      # Prisma client
+│   │   └── utils.ts       # Helper functions
+│   ├── server/            # Server logic
+│   └── types/             # TypeScript type definitions
 ```
 
-## 📜 Scripts Disponibles
+## 📜 Available Scripts
 
-- `bun dev`: Inicia el servidor de desarrollo con Bun runtime
-- `bun build`: Construye la aplicación para producción
-- `bun start`: Inicia el servidor de producción
-- `bun lint`: Ejecuta el linter para verificar el código
-- `bunx prisma studio`: Abre Prisma Studio para gestionar la base de datos visualmente
-- `bunx prisma migrate dev`: Crea y aplica migraciones de base de datos
+- `bun dev`: Starts the development server with Bun runtime
+- `bun build`: Builds the application for production
+- `bun start`: Starts the production server
+- `bun lint`: Runs the linter to check the code
+- `bunx prisma studio`: Opens Prisma Studio to visually manage the database
+- `bunx prisma migrate dev`: Creates and applies database migrations
 
-## 🗄️ Modelos de Base de Datos
+## 🗄️ Database Models
 
-El proyecto incluye los siguientes modelos:
+The project includes the following models:
 
-- **User**: Información del usuario (id, name, email, role, banned, etc.)
-- **Session**: Gestión de sesiones con información de IP y userAgent
-- **Account**: Vinculación con proveedores OAuth y credenciales
-- **Verification**: Tokens para verificación de email y recuperación de contraseña
+- **User**: User information (id, name, email, role, banned, etc.)
+- **Session**: Session management with IP and userAgent information
+- **Account**: Linking with OAuth providers and credentials
+- **Verification**: Tokens for email verification and password recovery
 
-## 📚 Más Información
+## 📚 More Information
 
-- [Documentación de Next.js](https://nextjs.org/docs)
-- [Documentación de Better Auth](https://better-auth.com/docs)
-- [Documentación de Prisma](https://www.prisma.io/docs)
-- [Documentación de Shadcn UI](https://ui.shadcn.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Better Auth Documentation](https://better-auth.com/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Shadcn UI Documentation](https://ui.shadcn.com/docs)
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la licencia MIT.
-
-
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
-
-## 📜 Scripts Disponibles
-
-- `npm run dev`: Inicia el servidor de desarrollo.
-- `npm run build`: Construye la aplicación para producción.
-- `npm run start`: Inicia el servidor de producción.
-- `npm run lint`: Ejecuta el linter para verificar el código.
-- `npx prisma studio`: Abre una interfaz visual para gestionar tu base de datos.
-
-## 📚 Aprende Más
-
-- [Documentación de Next.js](https://nextjs.org/docs)
-- [Documentación de Better Auth](https://better-auth.com/docs)
-- [Documentación de Prisma](https://www.prisma.io/docs)
+This project is under the MIT license.

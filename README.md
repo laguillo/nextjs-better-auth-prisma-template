@@ -2,6 +2,8 @@
 
 Este es un template robusto y moderno para aplicaciones Next.js, pre-configurado con autenticación avanzada, base de datos y componentes de UI listos para usar. Diseñado para acelerar el desarrollo de aplicaciones web seguras y escalables.
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic)
+
 ## ✨ Características Principales
 
 - **Autenticación Completa**: Sistema de autenticación robusto con [Better Auth](https://better-auth.com/)

@@ -7,10 +7,10 @@
   },
   "private": true,
   "scripts": {
-    "dev": "bun run --bun next dev",
-    "build": "prisma generate && bun run --bun next build",
+    "dev": "next dev",
+    "build": "prisma generate && next build",
     "postinstall": "prisma generate",
-    "start": "prisma migrate deploy && bun run --bun next start",
+    "start": "prisma migrate deploy && next start",
     "lint": "eslint"
   },
   "dependencies": {

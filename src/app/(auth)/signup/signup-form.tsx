@@ -30,7 +30,7 @@ import Image from 'next/image';
 const formSchema = z.object({
   name: z
     .string()
-    .min(2, 'Name is  required.')
+    .min(2, 'Name is required.')
     .max(50, 'Name must be at most 50 characters.'),
   email: z
     .email('Please enter a valid email address.')
@@ -64,13 +64,13 @@ export function SignupForm({
     try {
       const result = await signUp(data);
       if (result.success) {
-        toast.success('Account created successfully!');
-        router.push('/dashboard');
+        toast.success('Account created! Please check your email to verify your account.');
+        router.push('/login');
       } else {
         throw new Error(result.error);
       }
     } catch (error) {
-      console.log('Error creating account' + error);
+      console.error('Error creating account', error);
       toast.error('There was an error creating your account.');
     } finally {
       setIsSubmitting(false);

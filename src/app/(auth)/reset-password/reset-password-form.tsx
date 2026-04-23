@@ -40,9 +40,10 @@ const formSchema = z
   });
 
 export function ResetPasswordForm({
+  token,
   className,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<'div'> & { token?: string }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -57,20 +58,20 @@ export function ResetPasswordForm({
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      const result = await resetPassword(data);
+      const result = await resetPassword({ password: data.password, token });
 
       if (result.success) {
-        toast.success('Password reset link sent to your email.');
+        toast.success('Password reset successfully. You can now log in.');
         router.push('/login');
       } else {
         throw new Error(result.error);
       }
     } catch (error) {
-      console.error(`Forgot password failed:`, error);
+      console.error('Reset password failed:', error);
       toast.error(
         error instanceof Error
           ? error.message
-          : 'Forgot password failed. Please try again.'
+          : 'Reset password failed. Please try again.'
       );
     } finally {
       setIsSubmitting(false);

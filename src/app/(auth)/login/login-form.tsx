@@ -70,29 +70,6 @@ export function LoginForm({
     }
   };
 
-  const signInWithUserDemo = async (
-    callbackURL: string,
-    email: string,
-    password: string
-  ) => {
-    const data = {
-      email,
-      password
-    };
-    try {
-      await login(data);
-      toast.success('Logged in as user demo successfully!');
-      router.push(callbackURL);
-    } catch (error) {
-      console.error('Admin demo sign-in failed:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Admin demo sign-in failed. Please try again.'
-      );
-    }
-  };
-
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
@@ -260,29 +237,7 @@ export function LoginForm({
           Sign in with Google
         </Button>
 
-        {/* Demo Accounts */}
-        <div className='grid grid-cols-2 gap-4'>
-          <Button
-            type='button'
-            variant='outline'
-            onClick={() =>
-              signInWithUserDemo('/', 'demouser@example.com', '12345678')
-            }
-            className='text-xs'
-          >
-            Demo User
-          </Button>
-          <Button
-            type='button'
-            variant='outline'
-            onClick={() =>
-              signInWithUserDemo('/', 'demoadmin@example.com', '12345678')
-            }
-            className='text-xs'
-          >
-            Demo Admin
-          </Button>
-        </div>
+
       </div>
 
       {/* Footer Sign Up */}

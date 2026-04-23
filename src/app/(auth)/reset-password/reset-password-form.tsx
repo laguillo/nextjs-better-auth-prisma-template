@@ -20,7 +20,7 @@ import {
   FieldGroup,
   FieldLabel
 } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -96,10 +96,9 @@ export function ResetPasswordForm({
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>New Password</FieldLabel>
-                    <Input
+                    <PasswordInput
                       {...field}
                       aria-invalid={fieldState.invalid}
-                      type='password'
                       placeholder='New password'
                       autoComplete='new-password'
                     />
@@ -115,10 +114,9 @@ export function ResetPasswordForm({
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel>Confirm New Password</FieldLabel>
-                    <Input
+                    <PasswordInput
                       {...field}
                       aria-invalid={fieldState.invalid}
-                      type='password'
                       placeholder='Confirm new password'
                       autoComplete='new-password'
                     />

@@ -12,19 +12,13 @@ import {
   FieldLabel
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { useState } from 'react';
 import { signUp } from '@/server/user';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Spinner } from '@/components/ui/spinner';
-import { Eye, EyeOff } from 'lucide-react';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput
-} from '@/components/ui/input-group';
 import Image from 'next/image';
 
 const formSchema = z.object({
@@ -48,7 +42,6 @@ export function SignupForm({
 }: React.ComponentProps<'div'>) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -158,39 +151,14 @@ export function SignupForm({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <div className='flex items-center justify-between'>
-                    <FieldLabel htmlFor='password'>Password</FieldLabel>
-                    <Link
-                      href='/forgot-password'
-                      className='text-primary hover:text-primary/80 text-sm font-medium hover:underline'
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-                  <InputGroup>
-                    <InputGroupInput
-                      {...field}
-                      id='password'
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder='••••••••'
-                      autoComplete='current-password'
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align='inline-end'>
-                      <InputGroupButton
-                        aria-label='Show Password'
-                        title='Show Password'
-                        size='icon-xs'
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className='size-4' />
-                        ) : (
-                          <Eye className='size-4' />
-                        )}
-                      </InputGroupButton>
-                    </InputGroupAddon>
-                  </InputGroup>
+                  <FieldLabel htmlFor='password'>Password</FieldLabel>
+                  <PasswordInput
+                    {...field}
+                    id='password'
+                    placeholder='••••••••'
+                    autoComplete='new-password'
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

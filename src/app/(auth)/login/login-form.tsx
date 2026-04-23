@@ -7,25 +7,19 @@ import * as z from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { login } from '@/server/user';
 import { Spinner } from '@/components/ui/spinner';
 import { authClient } from '@/lib/auth-client';
-import { Eye, EyeOff } from 'lucide-react';
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel
 } from '@/components/ui/field';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput
-} from '@/components/ui/input-group';
 import Image from 'next/image';
 
 const formSchema = z.object({
@@ -45,7 +39,6 @@ export function LoginForm({
 }: React.ComponentProps<'div'>) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -158,30 +151,13 @@ export function LoginForm({
                       Forgot password?
                     </Link>
                   </div>
-                  <InputGroup>
-                    <InputGroupInput
-                      {...field}
-                      id='password'
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder='••••••••'
-                      autoComplete='current-password'
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align='inline-end'>
-                      <InputGroupButton
-                        aria-label='Show Password'
-                        title='Show Password'
-                        size='icon-xs'
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className='size-4' />
-                        ) : (
-                          <Eye className='size-4' />
-                        )}
-                      </InputGroupButton>
-                    </InputGroupAddon>
-                  </InputGroup>
+                  <PasswordInput
+                    {...field}
+                    id='password'
+                    placeholder='••••••••'
+                    autoComplete='current-password'
+                    aria-invalid={fieldState.invalid}
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -236,8 +212,6 @@ export function LoginForm({
           </svg>
           Sign in with Google
         </Button>
-
-
       </div>
 
       {/* Footer Sign Up */}

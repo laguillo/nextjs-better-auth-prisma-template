@@ -1,10 +1,6 @@
 {
   "name": "nextjs-better-auth-prisma-template",
   "version": "0.1.0",
-  "author": {
-    "name": "Eduardo Lago",
-    "email": "laguillo@gmail.com"
-  },
   "private": true,
   "scripts": {
     "dev": "next dev",

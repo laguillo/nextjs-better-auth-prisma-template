@@ -76,7 +76,7 @@ export function LoginForm({
       const result = await login(data);
       if (result.success) {
         toast.success('Logged in successfully!');
-        router.push('/');
+        router.push('/dashboard');
       } else {
         throw new Error(result.error);
       }

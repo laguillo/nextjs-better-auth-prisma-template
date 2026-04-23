@@ -38,7 +38,7 @@ export function NavUser({ user }: { user: userType }) {
       const response = await logout();
 
       if (response.success) {
-        router.refresh();
+        router.push('/login');
       } else {
         throw new Error(response.error || 'Logout failed');
       }

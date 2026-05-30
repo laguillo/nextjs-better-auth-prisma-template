@@ -1,9 +1,4 @@
-[build]
-builder = "nixpacks"
-buildCommand = "bun --bun install && bun --bun run build"
-
 [deploy]
-startCommand = "bunx --bun prisma migrate deploy && bun --bun run start"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 90
 restartPolicyType = "on_failure"

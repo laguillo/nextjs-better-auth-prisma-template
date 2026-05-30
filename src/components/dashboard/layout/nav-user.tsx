@@ -25,7 +25,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar';
 import { userType } from '@/types/user';
-import { logout } from '@/server/user';
+import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -34,21 +34,11 @@ export function NavUser({ user }: { user: userType }) {
   const { isMobile } = useSidebar();
 
   const handleLogout = async () => {
-    try {
-      const response = await logout();
-
-      if (response.success) {
-        router.push('/login');
-      } else {
-        throw new Error(response.error || 'Logout failed');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred during logout.'
-      );
+    const { error } = await authClient.signOut();
+    if (error) {
+      toast.error(error.message ?? 'An unexpected error occurred during logout.');
+    } else {
+      router.push('/login');
     }
   };
 

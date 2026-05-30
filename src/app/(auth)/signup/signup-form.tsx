@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { useState } from 'react';
-import { signUp } from '@/server/user';
+import { authClient } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -54,22 +54,20 @@ export function SignupForm({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    try {
-      const result = await signUp(data);
-      if (result.success) {
-        toast.success(
-          'Account created! Please check your email to verify your account.'
-        );
-        router.push('/login');
-      } else {
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      console.error('Error creating account', error);
-      toast.error('There was an error creating your account.');
-    } finally {
-      setIsSubmitting(false);
+    const { error } = await authClient.signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password
+    });
+    if (error) {
+      toast.error(error.message ?? 'There was an error creating your account.');
+    } else {
+      toast.success(
+        'Account created! Please check your email to verify your account.'
+      );
+      router.push('/login');
     }
+    setIsSubmitting(false);
   }
 
   return (

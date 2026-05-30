@@ -1,6 +1,10 @@
 {
   "$schema": "https://schema.railpack.com",
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "bun --bun install && bunx --bun prisma generate && bun --bun run build"
+  },
   "deploy": {
-    "startCommand": "bunx --bun prisma generate && bunx --bun prisma migrate deploy && bun --bun run start"
+    "startCommand": " bunx --bun prisma migrate deploy && bun --bun run start"
   }
 }

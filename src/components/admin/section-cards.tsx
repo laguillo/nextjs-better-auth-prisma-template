@@ -1,4 +1,4 @@
-import { IconTrendingUp, IconAlertCircle } from '@tabler/icons-react';
+import { TrendingUp, AlertCircle } from 'lucide-react';
 import { DollarSign, Users, Activity, Ticket } from 'lucide-react';
 
 export function SectionCards() {
@@ -18,7 +18,7 @@ export function SectionCards() {
           </div>
         </div>
         <div className='flex items-center gap-1 text-sm font-medium text-emerald-500'>
-          <IconTrendingUp className='h-4 w-4' />
+          <TrendingUp className='h-4 w-4' />
           <span>+12%</span>
           <span className='text-muted-foreground ml-1 font-normal'>
             from last month
@@ -40,7 +40,7 @@ export function SectionCards() {
           </div>
         </div>
         <div className='flex items-center gap-1 text-sm font-medium text-emerald-500'>
-          <IconTrendingUp className='h-4 w-4' />
+          <TrendingUp className='h-4 w-4' />
           <span>+50</span>
           <span className='text-muted-foreground ml-1 font-normal'>
             new this week
@@ -81,7 +81,7 @@ export function SectionCards() {
           </div>
         </div>
         <div className='flex items-center gap-1 text-sm font-medium text-orange-500'>
-          <IconAlertCircle className='h-4 w-4' />
+          <AlertCircle className='h-4 w-4' />
           <span>2 high priority</span>
         </div>
       </div>

@@ -57,7 +57,9 @@ export function SignupForm({
     try {
       const result = await signUp(data);
       if (result.success) {
-        toast.success('Account created! Please check your email to verify your account.');
+        toast.success(
+          'Account created! Please check your email to verify your account.'
+        );
         router.push('/login');
       } else {
         throw new Error(result.error);

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { IconBell } from '@tabler/icons-react';
+import { Bell } from 'lucide-react';
 
 export function SiteHeader() {
   return (
@@ -18,7 +18,7 @@ export function SiteHeader() {
         <div className='ml-auto flex items-center gap-2'>
           <Input placeholder='Search resources...' className='max-w-sm' />
           <Button variant='outline' size={'icon'}>
-            <IconBell />
+            <Bell />
           </Button>
           <ModeToggle />
         </div>

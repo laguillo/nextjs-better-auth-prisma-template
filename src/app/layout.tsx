@@ -1,15 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Inter as FontSans } from 'next/font/google';
+import { fontSans } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
-
-const fontSans = FontSans({
-  subsets: ['latin']
-});
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 export const metadata: Metadata = {
-  title: 'Next.js + Better Auth + Prisma Template',
+  title: 'SaaS Starter Template',
   description:
     'A starter template for Next.js projects using Better Auth and Prisma.'
 };
@@ -24,11 +21,11 @@ export default function RootLayout({
       <body className={`${fontSans.className} antialiased`}>
         <ThemeProvider
           attribute='class'
-          defaultTheme='dark'
-          // enableSystem
+          defaultTheme='system'
+          enableSystem
           disableTransitionOnChange
         >
-          <main>{children}</main>
+          <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
         </ThemeProvider>
       </body>

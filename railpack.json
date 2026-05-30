@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.railpack.com",
   "deploy": {
-    "startCommand": "bunx --bun prisma migrate deploy && bun --bun run start"
+    "startCommand": "bunx --bun prisma generate &&bunx --bun prisma migrate deploy && bun --bun run start"
   }
 }

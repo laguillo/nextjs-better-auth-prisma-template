@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { fontSans } from '@/lib/fonts';
+import { fontSans, fontMono } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`${fontSans.className} antialiased`}>
+      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'

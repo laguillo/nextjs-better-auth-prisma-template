@@ -1,414 +1,607 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import OptionsButton from '@/components/site/options';
-import { Rocket, Lock, Database, LayoutDashboard, Star } from 'lucide-react';
-import { ModeToggle } from '@/components/shared/mode-toggle';
+import { LandingNav } from '@/components/landing/nav';
+import { CopyCommand } from '@/components/landing/copy-command';
+import { LandingFAQ } from '@/components/landing/faq';
 
+/* ─── Icons (Lucide-style inline SVGs for server component) ─── */
+
+function CheckIcon({ className = 'size-[13px]' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round' className={className}>
+      <path d='M20 6 9 17l-5-5' />
+    </svg>
+  );
+}
+function BoltIcon({ className = 'size-4' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={className}>
+      <path d='M13 2 3 14h8l-1 8 10-12h-8l1-8z' />
+    </svg>
+  );
+}
+function GithubIcon({ className = 'size-4' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='currentColor' className={className}>
+      <path d='M12 2C6.48 2 2 6.58 2 12.26c0 4.5 2.87 8.32 6.84 9.67.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.34 9.34 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z' />
+    </svg>
+  );
+}
+function StarIcon({ className = 'size-[15px]' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='currentColor' className={className}>
+      <path d='m12 2 2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17l-6 3.4 1.4-6.8L2.3 9l6.8-.7Z' />
+    </svg>
+  );
+}
+function FolderIcon({ className = 'size-[13px]' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={className}>
+      <path d='M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' />
+    </svg>
+  );
+}
+function FileIcon({ className = 'size-[13px]' }) {
+  return (
+    <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={className}>
+      <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z' />
+      <path d='M14 2v6h6' />
+    </svg>
+  );
+}
+
+/* ─── App window mock (hero) ─── */
+function AppMock() {
+  return (
+    <div className='relative mx-auto mt-14 max-w-[980px] px-6'>
+      {/* glow */}
+      <div className='absolute -inset-px -z-10 rounded-2xl bg-[radial-gradient(60%_80%_at_50%_0%,hsl(var(--foreground)/0.06),transparent_70%)]' />
+      <div className='border-border bg-card overflow-hidden rounded-[14px] border shadow-xl'>
+        {/* browser chrome */}
+        <div className='border-border bg-muted/40 flex h-[42px] items-center gap-2 border-b px-[14px]'>
+          <div className='flex gap-[7px]'>
+            <i className='border-border size-[11px] rounded-full border bg-transparent' />
+            <i className='border-border size-[11px] rounded-full border bg-transparent' />
+            <i className='border-border size-[11px] rounded-full border bg-transparent' />
+          </div>
+          <div className='border-border bg-background text-muted-foreground mx-auto flex h-6 items-center gap-1.5 rounded-full border px-3 font-mono text-[0.72rem]'>
+            <svg viewBox='0 0 24 24' width='11' height='11' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round'>
+              <rect x='3' y='11' width='18' height='11' rx='2' />
+              <path d='M7 11V7a5 5 0 0 1 10 0v4' />
+            </svg>
+            app.yoursaas.com/dashboard
+          </div>
+        </div>
+        {/* app grid */}
+        <div className='grid min-h-[380px] grid-cols-[208px_1fr] max-sm:grid-cols-1'>
+          {/* sidebar */}
+          <aside className='border-border bg-muted/25 hidden border-r p-[14px] sm:flex sm:flex-col sm:gap-1'>
+            <div className='mb-2 flex items-center gap-[0.55rem] px-2 py-[0.45rem]'>
+              <span className='bg-primary text-primary-foreground grid size-[26px] place-items-center rounded-[7px] text-[0.7rem] font-semibold'>N</span>
+              <b className='text-[0.82rem] font-[550]'>Acme Inc.</b>
+            </div>
+            {[
+              { label: 'Dashboard', active: true, icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='size-[15px]'><rect x='3' y='3' width='7' height='9' rx='1'/><rect x='14' y='3' width='7' height='5' rx='1'/><rect x='14' y='12' width='7' height='9' rx='1'/><rect x='3' y='16' width='7' height='5' rx='1'/></svg> },
+              { label: 'Members', active: false, icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='size-[15px]'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'/></svg> },
+              { label: 'Database', active: false, icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='size-[15px]'><ellipse cx='12' cy='5' rx='9' ry='3'/><path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/><path d='M3 12c0 1.66 4 3 9 3s9-1.34 9-3'/></svg> },
+              { label: 'Settings', active: false, icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className='size-[15px]'><path d='M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15H4.5a2 2 0 0 1 0-4H4.6a1.65 1.65 0 0 0 1.51-1z'/></svg> },
+            ].map(item => (
+              <div
+                key={item.label}
+                className={`flex items-center gap-[0.6rem] rounded-[7px] px-[0.55rem] py-2 text-[0.8rem] font-[450] ${
+                  item.active
+                    ? 'bg-background text-foreground font-[500] shadow-sm'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                {item.icon}
+                {item.label}
+              </div>
+            ))}
+            <div className='mt-auto flex items-center gap-2 px-[0.55rem] py-2'>
+              <span className='bg-muted text-muted-foreground grid size-[22px] place-items-center rounded-full text-[0.6rem] font-semibold'>JL</span>
+              <span className='text-[0.8rem] text-muted-foreground truncate'>jane@acme.co</span>
+            </div>
+          </aside>
+          {/* main */}
+          <main className='p-5'>
+            <div className='mb-4 flex items-center justify-between'>
+              <h3 className='text-[1.05rem] font-semibold tracking-[-0.02em]'>Dashboard</h3>
+              <span className='border-border text-muted-foreground h-8 cursor-default rounded-[calc(var(--radius)-2px)] border px-3 text-[0.78rem] inline-flex items-center'>+ Invite</span>
+            </div>
+            {/* stat row */}
+            <div className='mb-4 grid grid-cols-3 gap-3 max-sm:grid-cols-2'>
+              {[
+                { label: 'Users', value: '2,847', delta: '+12%' },
+                { label: 'MRR', value: '$8.2k', delta: '+4%' },
+                { label: 'Sessions', value: '19.4k', delta: null },
+              ].map(s => (
+                <div key={s.label} className='border-border bg-background rounded-[10px] border p-3'>
+                  <div className='text-muted-foreground text-[0.7rem] uppercase tracking-[0.04em]'>{s.label}</div>
+                  <div className='mt-1 text-[1.35rem] font-semibold tracking-[-0.03em]'>
+                    {s.value}
+                    {s.delta && <small className='ml-1 text-[0.7rem] font-medium text-green-500'>{s.delta}</small>}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* user table */}
+            <div className='border-border bg-background overflow-hidden rounded-[10px] border'>
+              <div className='text-muted-foreground border-border bg-muted/40 grid grid-cols-[1fr_90px_70px] items-center border-b px-[14px] py-[10px] text-[0.68rem] uppercase tracking-[0.04em]'>
+                <span>User</span><span>Role</span><span>Status</span>
+              </div>
+              {[
+                { initials: 'AC', name: 'Alex Chen', role: 'Owner' },
+                { initials: 'SJ', name: 'Sarah Jenkins', role: 'Admin' },
+                { initials: 'MR', name: 'Marco Rossi', role: 'Member' },
+              ].map(u => (
+                <div key={u.name} className='border-border grid grid-cols-[1fr_90px_70px] items-center border-t px-[14px] py-[10px] text-[0.78rem]'>
+                  <span className='flex items-center gap-2'>
+                    <span className='bg-muted text-muted-foreground grid size-[22px] place-items-center rounded-full text-[0.62rem] font-semibold'>{u.initials}</span>
+                    <span className='font-[450]'>{u.name}</span>
+                  </span>
+                  <span className='text-muted-foreground'>{u.role}</span>
+                  <span className='border-border inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[0.66rem] font-medium text-green-700 dark:text-green-400'>
+                    <i className='size-[5px] rounded-full bg-green-500 inline-block' />
+                    Active
+                  </span>
+                </div>
+              ))}
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Code window (what's inside section) ─── */
+function CodeWindow() {
+  return (
+    <div className='border-border bg-card overflow-hidden rounded-[14px] border shadow-lg'>
+      <div className='border-border bg-muted/40 flex h-[42px] items-center gap-2 border-b px-[14px]'>
+        <div className='flex gap-[7px]'>
+          <i className='border-border size-[11px] rounded-full border' />
+          <i className='border-border size-[11px] rounded-full border' />
+          <i className='border-border size-[11px] rounded-full border' />
+        </div>
+        <span className='border-border bg-background text-muted-foreground mx-auto flex h-6 items-center px-3 rounded-full border font-mono text-[0.7rem]'>auth.ts</span>
+      </div>
+      <div className='grid min-h-[340px] grid-cols-[170px_1fr] max-sm:grid-cols-1'>
+        {/* file tree */}
+        <div className='border-border bg-muted/25 hidden border-r p-[14px] font-mono text-[0.74rem] sm:block'>
+          {[
+            { indent: false, label: 'app', icon: <FolderIcon />, type: 'folder' },
+            { indent: true, label: '(auth)', icon: null, type: 'text' },
+            { indent: true, label: 'dashboard', icon: null, type: 'text' },
+            { indent: false, label: 'lib', icon: <FolderIcon />, type: 'folder' },
+            { indent: true, label: 'auth.ts', icon: <FileIcon />, type: 'file', selected: true },
+            { indent: true, label: 'prisma.ts', icon: null, type: 'text' },
+            { indent: false, label: 'prisma', icon: <FolderIcon />, type: 'folder' },
+            { indent: true, label: 'schema.prisma', icon: null, type: 'text' },
+            { indent: false, label: '.env', icon: <FileIcon />, type: 'file' },
+          ].map((row, i) => (
+            <div
+              key={i}
+              className={`flex items-center gap-[0.4rem] rounded-[5px] px-1 py-[0.2rem] whitespace-nowrap ${
+                row.indent ? 'pl-4' : ''
+              } ${
+                row.selected
+                  ? 'bg-background text-foreground shadow-sm'
+                  : row.icon
+                  ? 'text-foreground'
+                  : 'text-muted-foreground'
+              }`}
+            >
+              {row.icon && <span className='flex-none'>{row.icon}</span>}
+              {row.label}
+            </div>
+          ))}
+        </div>
+        {/* code */}
+        <div className='overflow-auto p-4 font-mono text-[0.78rem] leading-[1.7]'>
+          {[
+            [<span key='k' className='text-[#c026d3] dark:text-[#e879f9]'>import</span>, ' { betterAuth } ', <span key='k2' className='text-[#c026d3] dark:text-[#e879f9]'>from</span>, ' ', <span key='s' className='text-[#16a34a] dark:text-[#4ade80]'>&quot;better-auth&quot;</span>, ';'],
+            [<span key='k' className='text-[#c026d3] dark:text-[#e879f9]'>import</span>, ' { prisma } ', <span key='k2' className='text-[#c026d3] dark:text-[#e879f9]'>from</span>, ' ', <span key='s' className='text-[#16a34a] dark:text-[#4ade80]'>&quot;@/lib/prisma&quot;</span>, ';'],
+            [' '],
+            [<span key='k' className='text-[#c026d3] dark:text-[#e879f9]'>export</span>, ' ', <span key='k2' className='text-[#c026d3] dark:text-[#e879f9]'>const</span>, ' ', <span key='fn' className='text-[#2563eb] dark:text-[#60a5fa]'>auth</span>, ' = ', <span key='fn2' className='text-[#2563eb] dark:text-[#60a5fa]'>betterAuth</span>, '({'],
+            ['  database: ', <span key='fn' className='text-[#2563eb] dark:text-[#60a5fa]'>prismaAdapter</span>, '(prisma),'],
+            ['  emailAndPassword: { enabled: ', <span key='k' className='text-[#c026d3] dark:text-[#e879f9]'>true</span>, ' },'],
+            ['  socialProviders: {'],
+            ['    github: { clientId: process.env.', <span key='fn' className='text-[#2563eb] dark:text-[#60a5fa]'>GH_ID</span>, '! },'],
+            ['  },'],
+            ['});'],
+            [' '],
+            [<span key='cm' className='text-muted-foreground'>// → fully typed session, ready to use</span>],
+          ].map((line, i) => (
+            <div key={i} className='flex gap-5'>
+              <span className='text-muted-foreground/60 w-5 flex-none select-none text-right'>{i + 1}</span>
+              <span>{line}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main page ─── */
 export default function Home() {
   return (
-    <div className='flex min-h-screen w-full flex-col'>
-      {/* Navbar */}
-      <header className='border-border bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur-md'>
-        <div className='mx-auto flex h-16 max-w-240 items-center justify-between px-4 sm:px-6 lg:px-8'>
-          <div className='flex items-center gap-2'>
-            <Image
-              src='/nextjs.svg'
-              alt='Logo'
-              width={32}
-              height={32}
-              className='size-8'
-              priority
-            />
-            <span className='text-lg font-bold tracking-tight'>
-              Next.js Starter
-            </span>
-          </div>
+    <div className='flex min-h-screen flex-col'>
+      <LandingNav />
 
-          <nav className='text-muted-foreground hidden items-center gap-8 text-sm font-medium md:flex'>
+      {/* ── Hero ── */}
+      <section className='relative overflow-hidden pb-6 pt-[88px]'>
+        <div className='landing-grid-bg' />
+        <div className='relative z-10 mx-auto max-w-[840px] px-6 text-center'>
+          {/* Badge */}
+          <span className='border-border bg-muted/50 text-muted-foreground inline-flex h-[1.6rem] items-center gap-[0.45rem] rounded-full border px-[0.7rem] text-[0.75rem] font-medium'>
+            <span className='size-[6px] rounded-full bg-green-500 shadow-[0_0_0_3px_#22c55e22]' />
+            Production-ready · Open source
+          </span>
+
+          <h1 className='mt-[22px] text-balance text-[clamp(2.6rem,6.4vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.04em]'>
+            Build your Next.js SaaS
+            <br />
+            <span className='text-muted-foreground'>in minutes, not weeks.</span>
+          </h1>
+
+          <p className='text-muted-foreground mx-auto mt-[22px] max-w-[600px] text-[1.075rem] [text-wrap:pretty]'>
+            A batteries-included starter pre-configured with Prisma, Better&nbsp;Auth
+            and shadcn/ui. Clone it, push the button, and ship features instead of
+            boilerplate.
+          </p>
+
+          {/* CTA row */}
+          <div className='mt-[30px] flex flex-wrap justify-center gap-[0.7rem]'>
             <Link
-              href='#features'
-              className='hover:text-primary transition-colors'
+              href='#deploy'
+              className='bg-primary text-primary-foreground hover:opacity-90 inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px'
             >
-              Features
+              <BoltIcon />
+              Deploy on Railway
             </Link>
-            <Link
-              href='#testimonials'
-              className='hover:text-primary transition-colors'
-            >
-              Testimonials
-            </Link>
-            <Link
+            <a
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
               target='_blank'
               rel='noopener noreferrer'
-              className='hover:text-primary transition-colors'
+              className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
             >
-              Docs
-            </Link>
-          </nav>
-
-          <div className='flex items-center gap-4'>
-            <OptionsButton />
-            <ModeToggle />
+              <GithubIcon />
+              Star on GitHub
+            </a>
           </div>
+
+          <CopyCommand />
         </div>
-      </header>
 
-      {/* Hero Section */}
-      <section className='relative px-4 pt-16 pb-20 lg:pt-24 lg:pb-32'>
-        <div className='mx-auto max-w-240'>
-          <div className='border-border bg-card relative overflow-hidden rounded-2xl border p-8 text-center md:p-12 lg:p-16'>
-            {/* Abstract Background Pattern */}
-            <div
-              className='absolute inset-0 z-0 opacity-20'
-              style={{
-                backgroundImage:
-                  'radial-gradient(hsl(var(--primary)) 1px, transparent 1px)',
-                backgroundSize: '32px 32px'
-              }}
-            />
-            <div className='via-background/80 to-background absolute inset-0 z-0 bg-linear-to-b from-transparent' />
-
-            <div className='relative z-10 mx-auto flex max-w-2xl flex-col items-center gap-6'>
-              <div className='border-border bg-background/50 text-primary inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium backdrop-blur-sm'>
-                <span className='bg-primary me-2 flex size-2 animate-pulse rounded-full' />
-                Production Ready Template
-              </div>
-
-              <h1 className='text-4xl leading-[1.1] font-black tracking-tight md:text-5xl lg:text-6xl'>
-                Build your Next.js SaaS in{' '}
-                <span className='text-primary'>minutes</span>.
-              </h1>
-
-              <p className='text-muted-foreground max-w-xl text-lg leading-relaxed'>
-                The ultimate starter template. Pre-configured with Prisma,
-                Better Auth, and Shadcn UI components so you can ship faster.
-              </p>
-
-              <div className='mt-4 flex flex-wrap items-center justify-center gap-3'>
-                {/* <OptionsButton /> */}
-                <Link
-                  href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='border-border bg-card hover:bg-accent flex h-12 items-center gap-2 rounded-lg border px-8 font-bold transition-all'
-                >
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 -0.5 25 25'
-                    className='size-5'
-                  >
-                    <path d='M12.301 0h.093c2.242 0 4.34.613 6.137 1.68l-.055-.031a12.35 12.35 0 0 1 4.449 4.422l.031.058a12.2 12.2 0 0 1 1.654 6.166c0 5.406-3.483 10-8.327 11.658l-.087.026a.72.72 0 0 1-.642-.113l.002.001a.62.62 0 0 1-.208-.466v-.014.001l.008-1.226q.008-1.178.008-2.154a2.84 2.84 0 0 0-.833-2.274 11 11 0 0 0 1.718-.305l-.076.017a6.5 6.5 0 0 0 1.537-.642l-.031.017a4.5 4.5 0 0 0 1.292-1.058l.006-.007a4.9 4.9 0 0 0 .84-1.645l.009-.035a7.9 7.9 0 0 0 .329-2.281l-.001-.136v.007l.001-.072a4.73 4.73 0 0 0-1.269-3.23l.003.003c.168-.44.265-.948.265-1.479a4.25 4.25 0 0 0-.404-1.814l.011.026a2.1 2.1 0 0 0-1.31.181l.012-.005a8.6 8.6 0 0 0-1.512.726l.038-.022-.609.384c-.922-.264-1.981-.416-3.075-.416s-2.153.152-3.157.436l.081-.02q-.256-.176-.681-.433a9 9 0 0 0-1.272-.595l-.066-.022A2.17 2.17 0 0 0 5.837 5.1l.013-.002a4.2 4.2 0 0 0-.393 1.788c0 .531.097 1.04.275 1.509l-.01-.029a4.72 4.72 0 0 0-1.265 3.303v-.004l-.001.13c0 .809.12 1.591.344 2.327l-.015-.057c.189.643.476 1.202.85 1.693l-.009-.013a4.4 4.4 0 0 0 1.267 1.062l.022.011c.432.252.933.465 1.46.614l.046.011c.466.125 1.024.227 1.595.284l.046.004c-.431.428-.718 1-.784 1.638l-.001.012a3 3 0 0 1-.699.236l-.021.004c-.256.051-.549.08-.85.08h-.066.003a1.9 1.9 0 0 1-1.055-.348l.006.004a2.84 2.84 0 0 1-.881-.986l-.007-.015a2.6 2.6 0 0 0-.768-.827l-.009-.006a2.3 2.3 0 0 0-.776-.38l-.016-.004-.32-.048-.077-.003q-.211.002-.394.077l.007-.003q-.128.072-.08.184.058.128.145.225l-.001-.001q.092.108.205.19l.003.002.112.08c.283.148.516.354.693.603l.004.006c.191.237.359.505.494.792l.01.024.16.368c.135.402.38.738.7.981l.005.004c.3.234.662.402 1.057.478l.016.002c.33.064.714.104 1.106.112h.007q.069.003.15.002.392 0 .767-.062l-.027.004.368-.064q0 .609.008 1.418t.008.873v.014c0 .185-.08.351-.208.466h-.001a.72.72 0 0 1-.645.111l.005.001C3.486 22.286.006 17.692.006 12.285c0-2.268.612-4.393 1.681-6.219l-.032.058a12.35 12.35 0 0 1 4.422-4.449l.058-.031a11.9 11.9 0 0 1 6.073-1.645h.098zm-7.64 17.666q.048-.112-.112-.192-.16-.048-.208.032-.048.112.112.192.144.096.208-.032m.497.545q.112-.08-.032-.256-.16-.144-.256-.048-.112.08.032.256.159.157.256.047zm.48.72q.144-.112 0-.304-.128-.208-.272-.096-.144.08 0 .288t.272.112m.672.673q.128-.128-.064-.304-.192-.192-.32-.048-.144.128.064.304.192.192.32.044zm.913.4q.048-.176-.208-.256-.24-.064-.304.112t.208.24q.24.097.304-.096m1.009.08q0-.208-.272-.176-.256 0-.256.176 0 .208.272.176.256.001.256-.175zm.929-.16q-.032-.176-.288-.144-.256.048-.224.24t.288.128.225-.224z' />
-                  </svg>
-                  View on GitHub
-                </Link>
-              </div>
-
-              <div className='border-border mt-8 flex w-full flex-col items-center gap-4 border-t pt-8'>
-                <p className='text-muted-foreground text-sm font-medium tracking-wider uppercase'>
-                  Powered by modern stack
-                </p>
-                <div className='flex flex-wrap justify-center gap-8 opacity-60 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0'>
-                  <div className='flex items-center gap-2'>
-                    <Image
-                      src='/nextjs.svg'
-                      alt='Next.js'
-                      width={24}
-                      height={24}
-                    />
-                    <span className='text-lg font-bold'>Next.js</span>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <Image
-                      src='/prisma.svg'
-                      alt='Prisma'
-                      width={24}
-                      height={24}
-                      className='dark:invert'
-                    />
-                    <span className='text-lg font-bold'>Prisma</span>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <Image
-                      src='/better-auth.svg'
-                      alt='Better Auth'
-                      width={24}
-                      height={24}
-                    />
-                    <span className='text-lg font-bold'>Better Auth</span>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <Image
-                      src='/shadcn-ui.svg'
-                      alt='Shadcn/UI'
-                      width={24}
-                      height={24}
-                      className='dark:invert'
-                    />
-                    <span className='text-lg font-bold'>Shadcn</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AppMock />
       </section>
 
-      {/* Features Headline */}
-      <section id='features' className='px-4'>
-        <div className='mx-auto max-w-240 text-center'>
-          <h2 className='mb-4 text-3xl font-bold tracking-tight sm:text-4xl'>
-            Everything you need to ship
-          </h2>
-          <p className='text-muted-foreground mx-auto max-w-2xl'>
-            Don&apos;t waste time configuring ESLint, setting up authentication,
-            or wrestling with database connections.
+      {/* ── Logo cloud ── */}
+      <section id='stack' className='py-10'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <p className='text-muted-foreground mb-[22px] text-center text-[0.78rem] font-[450]'>
+            A modern, type-safe stack — wired together and ready to extend
           </p>
-        </div>
-      </section>
-
-      {/* Feature Grid */}
-      <section className='px-4 py-12'>
-        <div className='mx-auto max-w-240'>
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
-            {/* Card 1 */}
-            <div className='group border-border bg-card hover:border-primary/50 rounded-xl border p-6 transition-colors'>
-              <div className='bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground mb-4 inline-flex size-12 items-center justify-center rounded-lg transition-colors'>
-                <Lock className='h-6 w-6' />
-              </div>
-              <h3 className='mb-2 text-lg font-bold'>Authentication Ready</h3>
-              <p className='text-muted-foreground text-sm leading-relaxed'>
-                Secure, instant auth setup with Better Auth pre-configured.
-                Social logins, email magic links, and more ready to go.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className='group border-border bg-card hover:border-primary/50 rounded-xl border p-6 transition-colors'>
-              <div className='bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground mb-4 inline-flex size-12 items-center justify-center rounded-lg transition-colors'>
-                <Database className='h-6 w-6' />
-              </div>
-              <h3 className='mb-2 text-lg font-bold'>Database Optimized</h3>
-              <p className='text-muted-foreground text-sm leading-relaxed'>
-                Prisma ORM connected and optimized for PostgreSQL. Type-safe
-                database queries out of the box.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className='group border-border bg-card hover:border-primary/50 rounded-xl border p-6 transition-colors'>
-              <div className='bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground mb-4 inline-flex size-12 items-center justify-center rounded-lg transition-colors'>
-                <LayoutDashboard className='h-6 w-6' />
-              </div>
-              <h3 className='mb-2 text-lg font-bold'>Shadcn UI Library</h3>
-              <p className='text-muted-foreground text-sm leading-relaxed'>
-                Beautiful, accessible components built with Shadcn UI and
-                Tailwind CSS. Dark mode support included by default.
-              </p>
-            </div>
+          <div className='flex flex-wrap items-center justify-center gap-y-[14px] gap-x-10'>
+            {[
+              { name: 'Next.js', icon: <svg viewBox='0 0 24 24' fill='currentColor' className='size-5'><circle cx='12' cy='12' r='11' fill='none' stroke='currentColor' strokeWidth='1.4'/><path d='M9 8v8M9 8l6.5 8.5M15 8v6.2' stroke='currentColor' strokeWidth='1.6' fill='none' strokeLinecap='round'/></svg> },
+              { name: 'Prisma', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.6' strokeLinejoin='round' className='size-5'><path d='M5 16.5 11 3.2c.3-.7 1.3-.6 1.5.1l4.3 15c.2.6-.4 1.2-1 1L5.7 17.8a.9.9 0 0 1-.7-1.3Z'/></svg> },
+              { name: 'Better Auth', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.7' strokeLinecap='round' strokeLinejoin='round' className='size-5'><path d='M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z'/><path d='m9 12 2 2 4-4'/></svg> },
+              { name: 'shadcn/ui', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.6' className='size-5'><circle cx='8.5' cy='8.5' r='5.5'/><circle cx='15.5' cy='15.5' r='5.5'/></svg> },
+              { name: 'Tailwind', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.7' strokeLinecap='round' strokeLinejoin='round' className='size-5'><path d='M6 11c1.5-4 4-5 7.5-3 2.3 1.3 3 .3 4.5-1-1.5 4-4 5-7.5 3-2.3-1.3-3-.3-4.5 1Z'/><path d='M2 16c1.5-4 4-5 7.5-3 2.3 1.3 3 .3 4.5-1' opacity='.5'/></svg> },
+              { name: 'PostgreSQL', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.5' className='size-5'><path d='M12 21c-4 0-7-3-7-9 0-5 2.5-7 5-7 1.5 0 2 .8 2 2.2'/><path d='M12 21c4 0 6.5-3 6.5-8.5C18.5 7 16.5 5 14 5'/><path d='M11 9c.5-1 1.5-1.5 2.5-1.2'/></svg> },
+              { name: 'TypeScript', icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.7' className='size-5'><rect x='3' y='3' width='18' height='18' rx='3'/><path d='M8 10h5M10.5 10v7' strokeLinecap='round'/></svg> },
+            ].map(tech => (
+              <span key={tech.name} className='text-muted-foreground hover:text-foreground flex items-center gap-[0.55rem] text-[0.98rem] font-[550] tracking-[-0.02em] opacity-85 transition-all hover:opacity-100'>
+                <span className='grid size-[22px] place-items-center'>{tech.icon}</span>
+                {tech.name}
+              </span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section
-        id='testimonials'
-        className='border-border/50 bg-muted/30 border-y px-4 py-20'
-      >
-        <div className='mx-auto max-w-240'>
-          <div className='mb-12 text-center'>
-            <h2 className='mb-2 text-3xl font-bold tracking-tight'>
-              Trusted by Developers
-            </h2>
-            <p className='text-muted-foreground'>
-              Join thousands of developers shipping faster.
+      <div className='border-border mx-auto max-w-[1120px] h-px w-full bg-border' />
+
+      {/* ── Features ── */}
+      <section id='features' className='py-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div>
+            <span className='text-muted-foreground font-mono text-[0.72rem] uppercase tracking-[0.12em]'>// what&apos;s inside</span>
+            <h2 className='mt-[0.6rem] text-balance text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em]'>Everything you need to ship.</h2>
+            <p className='text-muted-foreground mt-[0.9rem] max-w-[560px] text-[1.02rem] [text-wrap:pretty]'>
+              Stop configuring ESLint, wrestling with auth flows, and debugging database
+              connections. It&apos;s already done — the right way.
             </p>
           </div>
-
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-            {/* Testimonial 1 */}
-            <div className='border-border bg-card flex flex-col gap-4 rounded-xl border p-6'>
-              <div className='text-primary flex gap-1'>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className='h-5 w-5 fill-current' />
-                ))}
-              </div>
-              <p className='leading-relaxed font-medium'>
-                &quot;This template saved me at least 40 hours of setup time. I
-                had my SaaS MVP deployed within an hour of cloning the repo. The
-                code quality is top notch.&quot;
-              </p>
-              <div className='border-border/50 mt-auto flex items-center gap-3 border-t pt-4'>
-                <div className='bg-muted size-10 overflow-hidden rounded-full'>
-                  <div className='flex h-full w-full items-center justify-center text-sm font-bold'>
-                    AC
-                  </div>
-                </div>
-                <div>
-                  <div className='text-sm font-bold'>Alex Chen</div>
-                  <div className='text-muted-foreground text-xs'>
-                    Senior Frontend Dev
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Testimonial 2 */}
-            <div className='border-border bg-card flex flex-col gap-4 rounded-xl border p-6'>
-              <div className='text-primary flex gap-1'>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className='h-5 w-5 fill-current' />
-                ))}
-              </div>
-              <p className='leading-relaxed font-medium'>
-                &quot;The integration with Prisma and Better Auth is seamless. I
-                didn&apos;t have to worry about session management or database
-                types. It just works.&quot;
-              </p>
-              <div className='border-border/50 mt-auto flex items-center gap-3 border-t pt-4'>
-                <div className='bg-muted size-10 overflow-hidden rounded-full'>
-                  <div className='flex h-full w-full items-center justify-center text-sm font-bold'>
-                    SJ
-                  </div>
-                </div>
-                <div>
-                  <div className='text-sm font-bold'>Sarah Jenkins</div>
-                  <div className='text-muted-foreground text-xs'>
-                    Indie Hacker
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className='border-border bg-card border-t px-4 py-12'>
-        <div className='mx-auto flex max-w-240 flex-col justify-between gap-10 md:flex-row'>
-          <div className='flex max-w-xs flex-col gap-4'>
-            <div className='flex items-center gap-2'>
-              <Rocket className='text-primary h-6 w-6' />
-              <span className='text-lg font-bold'>Next.js Starter</span>
-            </div>
-            <p className='text-muted-foreground text-sm'>
-              The best way to build modern SaaS applications. Open source and
-              free to use.
-            </p>
-            <div className='mt-2 flex gap-4'>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-foreground transition-colors'
+          <div className='mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+            {[
+              {
+                icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' className='size-5'><path d='M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z'/><path d='m9 12 2 2 4-4'/></svg>,
+                title: 'Authentication ready',
+                body: 'Secure sessions out of the box with Better Auth. Social logins, email magic links, and role-based access — all pre-wired.',
+                tags: ['OAuth', 'Magic links', 'Sessions'],
+              },
+              {
+                icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' className='size-5'><ellipse cx='12' cy='5' rx='9' ry='3'/><path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/><path d='M3 12c0 1.66 4 3 9 3s9-1.34 9-3'/></svg>,
+                title: 'Database optimized',
+                body: 'Prisma ORM connected to PostgreSQL with type-safe queries, migrations, and a seeded schema you can extend in minutes.',
+                tags: ['Prisma', 'PostgreSQL', 'Type-safe'],
+              },
+              {
+                icon: <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' strokeLinecap='round' strokeLinejoin='round' className='size-5'><path d='M12 2 2 7l10 5 10-5-10-5z'/><path d='m2 17 10 5 10-5'/><path d='m2 12 10 5 10-5'/></svg>,
+                title: 'Beautiful UI library',
+                body: 'Accessible components built on shadcn/ui and Tailwind. Dark mode, theming, and a polished design system included by default.',
+                tags: ['shadcn/ui', 'Tailwind', 'Dark mode'],
+              },
+            ].map(card => (
+              <div
+                key={card.title}
+                className='border-border bg-card hover:border-ring/50 relative overflow-hidden rounded-[14px] border p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg'
               >
-                <span className='sr-only'>Twitter</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='size-5 invert dark:invert-0'
-                  fill='none'
-                  viewBox='0 0 1200 1227'
-                >
-                  <path
-                    fill='#fff'
-                    d='M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284zM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854z'
-                  />
-                </svg>
+                <div className='border-border bg-muted/50 mb-4 grid size-[42px] place-items-center rounded-[11px] border'>
+                  {card.icon}
+                </div>
+                <h3 className='text-[1.05rem] font-semibold tracking-[-0.02em]'>{card.title}</h3>
+                <p className='text-muted-foreground mt-2 text-[0.9rem] [text-wrap:pretty]'>{card.body}</p>
+                <div className='mt-3.5 flex flex-wrap gap-1.5'>
+                  {card.tags.map(t => (
+                    <span key={t} className='bg-muted/60 text-muted-foreground rounded-[6px] px-2 py-[0.18rem] font-mono text-[0.68rem]'>{t}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Deploy steps ── */}
+      <section id='deploy' className='border-border bg-muted/35 border-y py-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div>
+            <span className='text-muted-foreground font-mono text-[0.72rem] uppercase tracking-[0.12em]'>// from zero to live</span>
+            <h2 className='mt-[0.6rem] text-balance text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em]'>Deploy to Railway in one click.</h2>
+            <p className='text-muted-foreground mt-[0.9rem] max-w-[560px] text-[1.02rem] [text-wrap:pretty]'>
+              No Dockerfiles, no CI pipelines to babysit. Railway provisions the Postgres
+              database, injects the env vars, and builds your app automatically.
+            </p>
+          </div>
+          <div className='mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3'>
+            {[
+              { n: '1', title: 'Click deploy', body: 'Hit the Railway button and pick your GitHub repo. The template ships with a ready-to-go config.' },
+              { n: '2', title: 'Provision & connect', body: 'Railway spins up PostgreSQL and wires the DATABASE_URL for you. Add your auth secret and you\'re set.' },
+              { n: '3', title: 'Ship it', body: 'Your SaaS is live on a public URL with HTTPS. Push to main and Railway redeploys automatically.' },
+            ].map((step, i, arr) => (
+              <div key={step.n} className='relative'>
+                <div className='border-border bg-background font-mono text-[0.78rem] grid size-[30px] place-items-center rounded-[8px] border font-medium'>
+                  {step.n}
+                </div>
+                {i < arr.length - 1 && (
+                  <div className='border-border absolute top-[15px] left-[42px] right-[-12px] h-px border-t' />
+                )}
+                <h3 className='mt-4 text-[1.05rem] font-semibold tracking-[-0.02em]'>{step.title}</h3>
+                <p className='text-muted-foreground mt-2 text-[0.9rem] [text-wrap:pretty]'>{step.body}</p>
+              </div>
+            ))}
+          </div>
+          <div className='mt-10 flex flex-wrap items-center gap-[0.7rem]'>
+            <a
+              href='https://railway.app'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='bg-primary text-primary-foreground hover:opacity-90 inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px'
+            >
+              <BoltIcon />
+              Deploy on Railway
+            </a>
+            <Link href='#faq' className='hover:bg-muted inline-flex h-[2.875rem] items-center px-[1.4rem] text-[0.95rem] font-medium rounded-[var(--radius)] transition-colors'>
+              Read the docs →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── What's inside ── */}
+      <section className='py-[84px]'>
+        <div className='mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-[1fr_1.15fr]'>
+          <div>
+            <span className='text-muted-foreground font-mono text-[0.72rem] uppercase tracking-[0.12em]'>// developer experience</span>
+            <h2 className='mt-[0.6rem] text-balance text-[clamp(1.7rem,3.2vw,2.3rem)] font-semibold tracking-[-0.035em]'>
+              Sensible structure, zero surprises.
+            </h2>
+            <p className='text-muted-foreground mt-[0.9rem] max-w-[560px] text-[1.02rem] [text-wrap:pretty]'>
+              A clean App Router layout with conventions you already know. Open the repo
+              and everything is exactly where you&apos;d expect it.
+            </p>
+            <div className='mt-7 flex flex-col gap-3.5'>
+              {[
+                {
+                  title: 'Typed end-to-end',
+                  body: 'TypeScript + Prisma client give you autocomplete from the database to the UI.',
+                },
+                {
+                  title: 'Auth helpers included',
+                  body: 'Drop-in isAuthenticated() and protected route patterns ready to copy.',
+                },
+                {
+                  title: 'Lint & format preset',
+                  body: 'ESLint, Prettier and a tuned tsconfig so commits stay clean.',
+                },
+              ].map(item => (
+                <div key={item.title} className='flex items-start gap-3'>
+                  <span className='bg-primary text-primary-foreground mt-[1px] grid size-[22px] flex-none place-items-center rounded-[6px]'>
+                    <CheckIcon />
+                  </span>
+                  <div>
+                    <b className='text-[0.95rem] font-[550]'>{item.title}</b>
+                    <span className='text-muted-foreground mt-0.5 block text-[0.86rem]'>{item.body}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <CodeWindow />
+        </div>
+      </section>
+
+      {/* ── Testimonials ── */}
+      <section className='pb-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div className='text-center'>
+            <span className='text-muted-foreground font-mono text-[0.72rem] uppercase tracking-[0.12em]'>// trusted by builders</span>
+            <h2 className='mt-[0.6rem] text-balance text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em]'>
+              Shipped by developers who hate boilerplate.
+            </h2>
+          </div>
+          <div className='mt-12 grid grid-cols-1 gap-5 md:grid-cols-2'>
+            {[
+              {
+                initials: 'AC',
+                name: 'Alex Chen',
+                role: 'Senior Frontend Dev',
+                body: '"This template saved me at least 40 hours of setup. I had my MVP deployed within an hour of cloning the repo — the code quality is genuinely top notch."',
+              },
+              {
+                initials: 'SJ',
+                name: 'Sarah Jenkins',
+                role: 'Indie Hacker',
+                body: '"The Prisma and Better Auth integration is seamless. I didn\'t have to think about session management or database types — it just works."',
+              },
+            ].map(q => (
+              <div key={q.name} className='border-border bg-card rounded-[14px] border p-[26px]'>
+                <div className='text-foreground mb-3.5 flex gap-0.5'>
+                  {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+                </div>
+                <p className='text-[1rem] tracking-[-0.01em] [text-wrap:pretty]'>{q.body}</p>
+                <div className='mt-5 flex items-center gap-3'>
+                  <span className='bg-muted text-muted-foreground grid size-[38px] place-items-center rounded-full text-[0.78rem] font-semibold'>{q.initials}</span>
+                  <div>
+                    <b className='block text-[0.88rem] font-[550]'>{q.name}</b>
+                    <span className='text-muted-foreground text-[0.78rem]'>{q.role}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section id='faq' className='pb-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div className='text-center'>
+            <span className='text-muted-foreground font-mono text-[0.72rem] uppercase tracking-[0.12em]'>// questions</span>
+            <h2 className='mt-[0.6rem] text-balance text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em]'>Frequently asked.</h2>
+          </div>
+          <LandingFAQ />
+        </div>
+      </section>
+
+      {/* ── Final CTA ── */}
+      <section className='pb-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div className='border-border bg-card relative overflow-hidden rounded-[18px] border px-8 py-14 text-center shadow-lg'>
+            <div className='landing-grid-bg opacity-50' style={{ maskImage: 'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)' }} />
+            <h2 className='relative text-balance text-[clamp(1.9rem,3.6vw,2.6rem)] font-semibold tracking-[-0.035em]'>
+              Your SaaS is one click away.
+            </h2>
+            <p className='text-muted-foreground relative mx-auto mt-3.5 max-w-[480px]'>
+              Skip the boilerplate. Deploy the starter to Railway and start building the
+              features that actually matter.
+            </p>
+            <div className='relative mt-7 flex flex-wrap justify-center gap-[0.7rem]'>
+              <a
+                href='https://railway.app'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='bg-primary text-primary-foreground hover:opacity-90 inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px'
+              >
+                <BoltIcon />
+                Deploy on Railway
               </a>
               <a
                 href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-muted-foreground hover:text-foreground transition-colors'
+                className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
               >
-                <span className='sr-only'>GitHub</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='size-5'
-                  viewBox='0 -0.5 25 25'
-                >
-                  <path d='M12.301 0h.093c2.242 0 4.34.613 6.137 1.68l-.055-.031a12.35 12.35 0 0 1 4.449 4.422l.031.058a12.2 12.2 0 0 1 1.654 6.166c0 5.406-3.483 10-8.327 11.658l-.087.026a.72.72 0 0 1-.642-.113l.002.001a.62.62 0 0 1-.208-.466v-.014.001l.008-1.226q.008-1.178.008-2.154a2.84 2.84 0 0 0-.833-2.274 11 11 0 0 0 1.718-.305l-.076.017a6.5 6.5 0 0 0 1.537-.642l-.031.017a4.5 4.5 0 0 0 1.292-1.058l.006-.007a4.9 4.9 0 0 0 .84-1.645l.009-.035a7.9 7.9 0 0 0 .329-2.281l-.001-.136v.007l.001-.072a4.73 4.73 0 0 0-1.269-3.23l.003.003c.168-.44.265-.948.265-1.479a4.25 4.25 0 0 0-.404-1.814l.011.026a2.1 2.1 0 0 0-1.31.181l.012-.005a8.6 8.6 0 0 0-1.512.726l.038-.022-.609.384c-.922-.264-1.981-.416-3.075-.416s-2.153.152-3.157.436l.081-.02q-.256-.176-.681-.433a9 9 0 0 0-1.272-.595l-.066-.022A2.17 2.17 0 0 0 5.837 5.1l.013-.002a4.2 4.2 0 0 0-.393 1.788c0 .531.097 1.04.275 1.509l-.01-.029a4.72 4.72 0 0 0-1.265 3.303v-.004l-.001.13c0 .809.12 1.591.344 2.327l-.015-.057c.189.643.476 1.202.85 1.693l-.009-.013a4.4 4.4 0 0 0 1.267 1.062l.022.011c.432.252.933.465 1.46.614l.046.011c.466.125 1.024.227 1.595.284l.046.004c-.431.428-.718 1-.784 1.638l-.001.012a3 3 0 0 1-.699.236l-.021.004c-.256.051-.549.08-.85.08h-.066.003a1.9 1.9 0 0 1-1.055-.348l.006.004a2.84 2.84 0 0 1-.881-.986l-.007-.015a2.6 2.6 0 0 0-.768-.827l-.009-.006a2.3 2.3 0 0 0-.776-.38l-.016-.004-.32-.048-.077-.003q-.211.002-.394.077l.007-.003q-.128.072-.08.184.058.128.145.225l-.001-.001q.092.108.205.19l.003.002.112.08c.283.148.516.354.693.603l.004.006c.191.237.359.505.494.792l.01.024.16.368c.135.402.38.738.7.981l.005.004c.3.234.662.402 1.057.478l.016.002c.33.064.714.104 1.106.112h.007q.069.003.15.002.392 0 .767-.062l-.027.004.368-.064q0 .609.008 1.418t.008.873v.014c0 .185-.08.351-.208.466h-.001a.72.72 0 0 1-.645.111l.005.001C3.486 22.286.006 17.692.006 12.285c0-2.268.612-4.393 1.681-6.219l-.032.058a12.35 12.35 0 0 1 4.422-4.449l.058-.031a11.9 11.9 0 0 1 6.073-1.645h.098zm-7.64 17.666q.048-.112-.112-.192-.16-.048-.208.032-.048.112.112.192.144.096.208-.032m.497.545q.112-.08-.032-.256-.16-.144-.256-.048-.112.08.032.256.159.157.256.047zm.48.72q.144-.112 0-.304-.128-.208-.272-.096-.144.08 0 .288t.272.112m.672.673q.128-.128-.064-.304-.192-.192-.32-.048-.144.128.064.304.192.192.32.044zm.913.4q.048-.176-.208-.256-.24-.064-.304.112t.208.24q.24.097.304-.096m1.009.08q0-.208-.272-.176-.256 0-.256.176 0 .208.272.176.256.001.256-.175zm.929-.16q-.032-.176-.288-.144-.256.048-.224.24t.288.128.225-.224z' />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div className='grid grid-cols-2 gap-12 sm:grid-cols-3'>
-            <div className='flex flex-col gap-3'>
-              <h4 className='text-sm font-bold'>Product</h4>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Features
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Pricing
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Documentation
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Changelog
-              </a>
-            </div>
-            <div className='flex flex-col gap-3'>
-              <h4 className='text-sm font-bold'>Resources</h4>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Community
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Help Center
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Partners
-              </a>
-            </div>
-            <div className='flex flex-col gap-3'>
-              <h4 className='text-sm font-bold'>Company</h4>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                About
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Blog
-              </a>
-              <a
-                href='#'
-                className='text-muted-foreground hover:text-primary text-sm transition-colors'
-              >
-                Careers
+                View on GitHub
               </a>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className='border-border mx-auto mt-12 max-w-240 border-t pt-8 text-center sm:text-left'>
-          <p className='text-muted-foreground text-xs'>
-            © {new Date().getFullYear()} Next.js Starter Template. All rights
-            reserved.
-          </p>
+      {/* ── Footer ── */}
+      <footer className='border-border border-t pb-10 pt-14 mt-[84px]'>
+        <div className='mx-auto max-w-[1120px] px-6'>
+          <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]'>
+            {/* Brand col */}
+            <div>
+              <Link href='/' className='flex items-center gap-2.5 text-[0.95rem] font-semibold tracking-[-0.02em]'>
+                <span className='bg-primary text-primary-foreground grid size-[30px] place-items-center rounded-[8px]'>
+                  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.2' strokeLinecap='round' strokeLinejoin='round' className='size-[17px]'>
+                    <path d='m4 17 6-6-6-6' /><path d='M12 19h8' />
+                  </svg>
+                </span>
+                Next.js Starter
+              </Link>
+              <p className='text-muted-foreground mt-3.5 max-w-[260px] text-[0.88rem] [text-wrap:pretty]'>
+                The fastest way to build modern SaaS applications. Open source and free to use.
+              </p>
+              <div className='mt-4.5 flex gap-2'>
+                <a href='#' className='border-border bg-background text-foreground hover:bg-muted grid size-9 place-items-center rounded-[calc(var(--radius)-2px)] border transition-colors' aria-label='Twitter'>
+                  <svg viewBox='0 0 24 24' fill='currentColor' className='size-[18px]'>
+                    <path d='M18.244 2H21.5l-7.5 8.57L22.5 22h-6.9l-5.4-7.06L4.02 22H.76l8.02-9.17L1.5 2h7.07l4.88 6.45L18.244 2Zm-1.2 18h1.83L7.04 3.9H5.07L17.044 20Z' />
+                  </svg>
+                </a>
+                <a href='https://github.com/laguillo/nextjs-better-auth-prisma-template' target='_blank' rel='noopener noreferrer' className='border-border bg-background text-foreground hover:bg-muted grid size-9 place-items-center rounded-[calc(var(--radius)-2px)] border transition-colors' aria-label='GitHub'>
+                  <GithubIcon className='size-[18px]' />
+                </a>
+              </div>
+            </div>
+            {/* Product */}
+            <div>
+              <h4 className='mb-3.5 text-[0.8rem] font-semibold'>Product</h4>
+              {[
+                { href: '#features', label: 'Features' },
+                { href: '#stack', label: 'Stack' },
+                { href: '#deploy', label: 'Deploy' },
+                { href: '#faq', label: 'FAQ' },
+              ].map(l => (
+                <Link key={l.label} href={l.href} className='text-muted-foreground hover:text-foreground block py-[0.3rem] text-[0.86rem] transition-colors'>{l.label}</Link>
+              ))}
+            </div>
+            {/* Resources */}
+            <div>
+              <h4 className='mb-3.5 text-[0.8rem] font-semibold'>Resources</h4>
+              {[
+                { href: 'https://github.com/laguillo/nextjs-better-auth-prisma-template', label: 'Documentation', external: true },
+                { href: '#', label: 'Changelog', external: false },
+                { href: '#', label: 'Community', external: false },
+              ].map(l => (
+                <a key={l.label} href={l.href} target={l.external ? '_blank' : undefined} rel={l.external ? 'noopener noreferrer' : undefined} className='text-muted-foreground hover:text-foreground block py-[0.3rem] text-[0.86rem] transition-colors'>{l.label}</a>
+              ))}
+            </div>
+            {/* Stack */}
+            <div>
+              <h4 className='mb-3.5 text-[0.8rem] font-semibold'>Stack</h4>
+              {[
+                { href: 'https://nextjs.org', label: 'Next.js' },
+                { href: 'https://www.prisma.io', label: 'Prisma' },
+                { href: 'https://www.better-auth.com', label: 'Better Auth' },
+                { href: 'https://ui.shadcn.com', label: 'shadcn/ui' },
+              ].map(l => (
+                <a key={l.label} href={l.href} target='_blank' rel='noopener noreferrer' className='text-muted-foreground hover:text-foreground block py-[0.3rem] text-[0.86rem] transition-colors'>{l.label}</a>
+              ))}
+            </div>
+          </div>
+          <div className='border-border mt-12 flex flex-wrap items-center justify-between gap-3 border-t pt-6'>
+            <p className='text-muted-foreground text-[0.82rem]'>© 2026 Next.js Starter Template. MIT Licensed.</p>
+            <p className='text-muted-foreground font-mono text-[0.78rem]'>Built with Next.js · Prisma · Better Auth</p>
+          </div>
         </div>
       </footer>
     </div>

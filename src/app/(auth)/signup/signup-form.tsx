@@ -14,18 +14,24 @@ import {
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { useState } from 'react';
-import { signUp } from '@/server/user';
+import { authClient } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
+import { Alert } from '@/components/ui/alert';
+import { AlertTriangleIcon } from 'lucide-react';
 
-const formSchema = z.object({
+const signUpSchema = z.object({
   name: z
     .string()
     .min(2, 'Name is required.')
     .max(50, 'Name must be at most 50 characters.'),
+  lastName: z
+    .string()
+    .min(2, 'Last name is required.')
+    .max(50, 'Last name must be at most 50 characters.'),
   email: z
     .email('Please enter a valid email address.')
     .min(5, 'Email is too short.')
@@ -41,32 +47,48 @@ export function SignupForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  type FormValues = z.infer<typeof signUpSchema>;
+
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: '',
+      lastName: '',
       email: '',
       password: ''
     }
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+  async function onSubmit(values: FormValues) {
     try {
-      const result = await signUp(data);
-      if (result.success) {
-        toast.success('Account created! Please check your email to verify your account.');
-        router.push('/login');
-      } else {
-        throw new Error(result.error);
+      setIsLoading(true);
+      setError(null);
+      const { error } = await authClient.signUp.email({
+        name: `${values.name} ${values.lastName}`,
+        email: values.email,
+        password: values.password,
+        callbackURL: '/dashboard'
+      });
+
+      if (error) {
+        setError(error.message ?? 'Something went wrong. Please try again.');
+        return;
       }
+
+      toast.success('Account created. Check your email to verify it.');
+      form.reset();
+      router.push('/login');
     } catch (error) {
-      console.error('Error creating account', error);
-      toast.error('There was an error creating your account.');
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong. Please try again.'
+      );
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   }
 
@@ -93,33 +115,61 @@ export function SignupForm({
         <p className='text-muted-foreground text-sm'>
           Enter your details below to create your account
         </p>
+
+        {error && (
+          <Alert variant='destructive' className='mt-4 w-full'>
+            <AlertTriangleIcon className='mr-2 h-4 w-4' />
+            {error}
+          </Alert>
+        )}
       </div>
 
       {/* Main Form Area */}
       <div className='grid gap-6'>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup>
-            {/* Name Field */}
-            <Controller
-              name='name'
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor='name'>Name</FieldLabel>
-                  <Input
-                    {...field}
-                    id='name'
-                    type='text'
-                    placeholder='Your name'
-                    autoComplete='name'
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
+            <FieldGroup className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <Controller
+                name='name'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>First Name</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type='text'
+                      placeholder='Enter your first name'
+                      autoComplete='name'
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name='lastName'
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Last Name</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type='text'
+                      placeholder='Enter your last name'
+                      autoComplete='family-name'
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
 
             {/* Email Field */}
             <Controller
@@ -158,6 +208,7 @@ export function SignupForm({
                     placeholder='••••••••'
                     autoComplete='new-password'
                     aria-invalid={fieldState.invalid}
+                    className='rounded-l-lg'
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

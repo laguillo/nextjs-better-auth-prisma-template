@@ -2,14 +2,14 @@
 
 import * as React from 'react';
 import {
-  IconChartBar,
-  IconCreditCardFilled,
-  IconDashboard,
-  IconInnerShadowTop,
-  IconNews,
-  IconSettings,
-  IconUsers
-} from '@tabler/icons-react';
+  BarChart,
+  CreditCard,
+  LayoutDashboard,
+  Layers,
+  Newspaper,
+  Settings,
+  Users
+} from 'lucide-react';
 
 import { NavMain } from '@/components/admin/layout/nav-main';
 import { NavSecondary } from '@/components/admin/layout/nav-secondary';
@@ -31,34 +31,34 @@ const data = {
     {
       title: 'Dashboard',
       url: '/admin',
-      icon: IconDashboard
+      icon: LayoutDashboard
     },
     {
       title: 'Users',
       url: '#',
-      icon: IconUsers
+      icon: Users
     },
     {
       title: 'Suscriptions',
       url: '#',
-      icon: IconCreditCardFilled
+      icon: CreditCard
     },
     {
       title: 'Documents',
       url: '#',
-      icon: IconNews
+      icon: Newspaper
     }
   ],
   navSecondary: [
     {
       title: 'Analytics',
       url: '#',
-      icon: IconChartBar
+      icon: BarChart
     },
     {
       title: 'Settings',
       url: '#',
-      icon: IconSettings
+      icon: Settings
     }
   ]
 };
@@ -77,7 +77,7 @@ export function AppSidebar({
               className='data-[slot=sidebar-menu-button]:p-1.5!'
             >
               <Link href='/'>
-                <IconInnerShadowTop className='size-5!' />
+                <Layers className='size-5!' />
                 <span className='text-base font-semibold'>Admin Panel</span>
               </Link>
             </SidebarMenuButton>

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Zap, Menu, X, Terminal } from 'lucide-react';
-import { ModeToggle } from '../shared/mode-toggle';
 
 function GithubIcon() {
   return (
@@ -91,7 +90,7 @@ export function LandingNav() {
                 <Sun className='size-4.5' />
               )}
             </button>
-            <ModeToggle />
+            {/* <ModeToggle /> */}
 
             {/* Deploy CTA — hidden on mobile */}
             <Link

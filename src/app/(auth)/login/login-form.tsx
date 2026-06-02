@@ -11,7 +11,6 @@ import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { login } from '@/server/user';
 import { Spinner } from '@/components/ui/spinner';
 import { authClient } from '@/lib/auth-client';
 import {
@@ -21,8 +20,11 @@ import {
   FieldLabel
 } from '@/components/ui/field';
 import Image from 'next/image';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertTriangleIcon } from 'lucide-react';
+import { Alert } from '@/components/ui/alert';
 
-const formSchema = z.object({
+const signInSchema = z.object({
   email: z
     .email('Please enter a valid email address.')
     .min(1, 'Email is required.')
@@ -30,7 +32,8 @@ const formSchema = z.object({
   password: z
     .string()
     .min(1, 'Password is required.')
-    .max(100, 'Password must be at most 100 characters.')
+    .max(100, 'Password must be at most 100 characters.'),
+  rememberMe: z.boolean().optional()
 });
 
 export function LoginForm({
@@ -38,12 +41,17 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setLoading] = useState(false);
+
+  type SignInValues = z.infer<typeof signInSchema>;
+
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      rememberMe: false
     }
   });
 
@@ -63,25 +71,38 @@ export function LoginForm({
     }
   };
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+  async function onSubmit({ email, password, rememberMe }: SignInValues) {
+    setError(null);
+    setLoading(true);
+
     try {
-      const result = await login(data);
-      if (result.success) {
-        toast.success('Logged in successfully!');
-        router.push('/dashboard');
-      } else {
-        throw new Error(result.error);
+      const { error, data } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe
+      });
+
+      if (!data) {
+        setError(error?.message || 'Login failed. Please try again.');
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error(`Login failed:`, error);
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : 'Login failed. Please try again.'
+
+      if (data.user.role === 'admin') {
+        form.reset();
+        toast.success('Welcome back, admin!');
+        router.push('/admin');
+      } else {
+        form.reset();
+        toast.success('Welcome back!');
+        router.push('/dashboard');
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Login failed. Please try again.'
       );
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   }
 
@@ -106,6 +127,13 @@ export function LoginForm({
         <p className='text-muted-foreground text-sm'>
           Enter your email below to login to your account
         </p>
+
+        {error && (
+          <Alert variant='destructive' className='mt-4 w-full'>
+            <AlertTriangleIcon className='mr-2 h-4 w-4' />
+            {error}
+          </Alert>
+        )}
       </div>
 
       {/* Main Form Area */}
@@ -161,6 +189,21 @@ export function LoginForm({
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name='rememberMe'
+              control={form.control}
+              render={({ field }) => (
+                <Field orientation='horizontal'>
+                  <Checkbox
+                    id='rememberMe'
+                    checked={field.value ?? false}
+                    onCheckedChange={field.onChange}
+                  />
+                  <FieldLabel htmlFor='rememberMe'>Remember me</FieldLabel>
                 </Field>
               )}
             />

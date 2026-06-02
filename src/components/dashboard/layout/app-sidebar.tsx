@@ -15,14 +15,14 @@ import {
 import Link from 'next/link';
 import { userType } from '@/types/user';
 import {
-  IconCreditCardFilled,
-  IconDashboard,
-  IconFolderOpen,
-  IconHelp,
-  IconLock,
-  IconMoodPuzzled,
-  IconSettings
-} from '@tabler/icons-react';
+  CreditCard,
+  LayoutDashboard,
+  FolderOpen,
+  HelpCircle,
+  Lock,
+  Meh,
+  Settings
+} from 'lucide-react';
 import Image from 'next/image';
 
 const data = {
@@ -30,39 +30,39 @@ const data = {
     {
       title: 'Dashboard',
       url: '/dashboard',
-      icon: IconDashboard
+      icon: LayoutDashboard
     },
     {
       title: 'Projects',
       url: '#',
-      icon: IconFolderOpen
+      icon: FolderOpen
     },
     {
       title: 'Billing',
       url: '#',
-      icon: IconCreditCardFilled
+      icon: CreditCard
     },
     {
       title: 'Settings',
       url: '#',
-      icon: IconSettings
+      icon: Settings
     },
     {
       title: 'Get Help',
       url: '#',
-      icon: IconHelp
+      icon: HelpCircle
     }
   ],
   navSecondary: [
     {
       title: 'Unauthorized',
       url: '/admin',
-      icon: IconLock
+      icon: Lock
     },
     {
       title: 'Not Found',
       url: '/non-existent-page',
-      icon: IconMoodPuzzled
+      icon: Meh
     }
   ]
 };

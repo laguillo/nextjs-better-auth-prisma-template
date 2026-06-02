@@ -1,6 +1,6 @@
 'use client';
 
-import { IconDotsVertical } from '@tabler/icons-react';
+import { MoreVertical } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
@@ -140,7 +140,7 @@ export function DataTable() {
                     size='icon'
                     className='text-muted-foreground hover:text-foreground'
                   >
-                    <IconDotsVertical className='h-5 w-5' />
+                    <MoreVertical className='h-5 w-5' />
                   </Button>
                 </td>
               </tr>

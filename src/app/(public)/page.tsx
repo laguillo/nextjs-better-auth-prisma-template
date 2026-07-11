@@ -1,7 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Check,
-  Zap,
   Star,
   Folder,
   File,
@@ -360,20 +360,25 @@ export default function Home() {
 
           {/* CTA row */}
           <div className='mt-7.5 flex flex-wrap justify-center gap-[0.7rem]'>
-            <Link
+            <a
               href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
-              className='bg-primary text-primary-foreground inline-flex h-11 items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
             >
-              <Zap className='size-4' />
-              Deploy on Railway
-            </Link>
+              <img
+                src='https://railway.com/button.svg'
+                alt='Deploy on Railway'
+                className='h-11 w-auto'
+              />
+            </a>
             <a
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
               target='_blank'
               rel='noopener noreferrer'
               className='border-border bg-background hover:bg-muted inline-flex h-11 items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
             >
-              <GithubIcon />
+              <GithubIcon className='size-4' />
               Star on GitHub
             </a>
           </div>
@@ -395,112 +400,83 @@ export default function Home() {
               {
                 name: 'Next.js',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='size-5'
-                  >
-                    <circle
-                      cx='12'
-                      cy='12'
-                      r='11'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.4'
-                    />
-                    <path
-                      d='M9 8v8M9 8l6.5 8.5M15 8v6.2'
-                      stroke='currentColor'
-                      strokeWidth='1.6'
-                      fill='none'
-                      strokeLinecap='round'
-                    />
-                  </svg>
+                  <Image
+                    src='/next-js-logo.svg'
+                    alt='Next.js'
+                    width={20}
+                    height={20}
+                    className='dark:invert'
+                  />
                 )
               },
               {
                 name: 'Prisma',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.6'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <path d='M5 16.5 11 3.2c.3-.7 1.3-.6 1.5.1l4.3 15c.2.6-.4 1.2-1 1L5.7 17.8a.9.9 0 0 1-.7-1.3Z' />
-                  </svg>
+                  <Image
+                    src='/prisma-logo.svg'
+                    alt='Prisma'
+                    width={20}
+                    height={20}
+                    className='dark:invert'
+                  />
                 )
               },
               {
                 name: 'Better Auth',
-                icon: <ShieldCheck className='size-5' />
+                icon: (
+                  <Image
+                    src='/better-auth-logo.svg'
+                    alt='Better Auth'
+                    width={20}
+                    height={20}
+                    className='dark:invert'
+                  />
+                )
               },
               {
                 name: 'shadcn/ui',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.6'
-                    className='size-5'
-                  >
-                    <circle cx='8.5' cy='8.5' r='5.5' />
-                    <circle cx='15.5' cy='15.5' r='5.5' />
-                  </svg>
+                  <Image
+                    src='/shadcn-ui-logo.svg'
+                    alt='shadcn/ui'
+                    width={20}
+                    height={20}
+                    className='dark:invert'
+                  />
                 )
               },
               {
                 name: 'Tailwind',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.7'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <path d='M6 11c1.5-4 4-5 7.5-3 2.3 1.3 3 .3 4.5-1-1.5 4-4 5-7.5 3-2.3-1.3-3-.3-4.5 1Z' />
-                    <path
-                      d='M2 16c1.5-4 4-5 7.5-3 2.3 1.3 3 .3 4.5-1'
-                      opacity='.5'
-                    />
-                  </svg>
+                  <Image
+                    src='/tailwind-logo.svg'
+                    alt='Tailwind CSS'
+                    width={20}
+                    height={20}
+                    className='dark:invert'
+                  />
                 )
               },
               {
                 name: 'PostgreSQL',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.5'
-                    className='size-5'
-                  >
-                    <path d='M12 21c-4 0-7-3-7-9 0-5 2.5-7 5-7 1.5 0 2 .8 2 2.2' />
-                    <path d='M12 21c4 0 6.5-3 6.5-8.5C18.5 7 16.5 5 14 5' />
-                    <path d='M11 9c.5-1 1.5-1.5 2.5-1.2' />
-                  </svg>
+                  <Image
+                    src='/postgresql-logo.svg'
+                    alt='PostgreSQL'
+                    width={20}
+                    height={20}
+                  />
                 )
               },
               {
                 name: 'TypeScript',
                 icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.7'
-                    className='size-5'
-                  >
-                    <rect x='3' y='3' width='18' height='18' rx='3' />
-                    <path d='M8 10h5M10.5 10v7' strokeLinecap='round' />
-                  </svg>
+                  <Image
+                    src='/typescript-logo.svg'
+                    alt='TypeScript'
+                    width={20}
+                    height={20}
+                  />
                 )
               }
             ].map((tech) => (
@@ -640,10 +616,13 @@ export default function Home() {
               href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
               target='_blank'
               rel='noopener noreferrer'
-              className='bg-primary text-primary-foreground inline-flex h-11 items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+              className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
             >
-              <Zap className='size-4' />
-              Deploy on Railway
+              <img
+                src='https://railway.com/button.svg'
+                alt='Deploy on Railway'
+                className='h-11 w-auto'
+              />
             </a>
             <Link
               href='#faq'
@@ -703,7 +682,7 @@ export default function Home() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section className='pb-21'>
+      {/* <section className='pb-21'>
         <div className='mx-auto max-w-6xl px-6'>
           <div className='text-center'>
             <span className='text-muted-foreground font-mono text-[0.72rem] tracking-[0.12em] uppercase'>
@@ -755,7 +734,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── FAQ ── */}
       <section id='faq' className='pb-21'>
@@ -797,10 +776,13 @@ export default function Home() {
                 href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='bg-primary text-primary-foreground inline-flex h-11 items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+                className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
               >
-                <Zap className='size-4' />
-                Deploy on Railway
+                <img
+                  src='https://railway.com/button.svg'
+                  alt='Deploy on Railway'
+                  className='h-11 w-auto'
+                />
               </a>
               <a
                 href='https://github.com/laguillo/nextjs-better-auth-prisma-template'

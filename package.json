@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "bun --bun next dev",
-    "build": "bunx --bun prisma generate && bun --bun next build",
-    "start": "bunx --bun prisma migrate deploy && bun --bun next start",
+    "dev": "next dev",
+    "build": "bunx --bun prisma generate && next build",
+    "start": "bunx --bun prisma migrate deploy && next start",
     "lint": "eslint"
   },
   "dependencies": {

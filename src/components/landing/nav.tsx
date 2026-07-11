@@ -7,9 +7,22 @@ import { GithubIcon } from '@/components/shared/icons';
 import { ModeToggle } from '@/components/shared/mode-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { authClient } from '@/lib/auth-client';
 
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session, isPending } = authClient.useSession();
+
+  const authHref = session
+    ? session.user.role === 'admin'
+      ? '/admin'
+      : '/dashboard'
+    : '/login';
+  const authLabel = session
+    ? session.user.role === 'admin'
+      ? 'Admin'
+      : 'Dashboard'
+    : 'Login';
 
   const navLinks = [
     { href: '#features', label: 'Features' },
@@ -48,15 +61,17 @@ export function LandingNav() {
 
           {/* Actions */}
           <div className='flex items-center gap-2'>
-            <Link
-              href='/login'
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'lg' }),
-                'hidden rounded-lg md:inline-flex'
-              )}
-            >
-              Login
-            </Link>
+            {!isPending && (
+              <Link
+                href={authHref}
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'lg' }),
+                  'hidden rounded-lg md:inline-flex'
+                )}
+              >
+                {authLabel}
+              </Link>
+            )}
             {/* GitHub */}
             <a
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'

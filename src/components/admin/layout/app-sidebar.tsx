@@ -74,7 +74,6 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton className='data-[slot=sidebar-menu-button]:p-1.5!'>
               <Link href='/'>
-                <Layers className='size-5!' />
                 <span className='text-base font-semibold'>Admin Panel</span>
               </Link>
             </SidebarMenuButton>

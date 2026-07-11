@@ -78,14 +78,6 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton className='data-[slot=sidebar-menu-button]:p-1.5!'>
               <Link href='/'>
-                <Image
-                  src='/nextjs.svg'
-                  alt='Logo'
-                  width={32}
-                  height={32}
-                  className='size-8'
-                  priority
-                />
                 <span className='text-base font-semibold'>Dashboard</span>
               </Link>
             </SidebarMenuButton>

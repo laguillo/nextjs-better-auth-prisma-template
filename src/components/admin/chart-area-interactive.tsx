@@ -52,7 +52,12 @@ export function ChartAreaInteractive() {
             Monthly revenue vs churn rate
           </p>
         </div>
-        <Select value={timeRange} onValueChange={setTimeRange}>
+        <Select
+          value={timeRange}
+          onValueChange={(value) => {
+            if (value) setTimeRange(value);
+          }}
+        >
           <SelectTrigger className='w-45'>
             <SelectValue placeholder='Select range' />
           </SelectTrigger>

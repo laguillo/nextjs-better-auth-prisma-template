@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, Terminal } from 'lucide-react';
-import { GithubIcon } from '../shared/icons';
-import { ModeToggle } from '../shared/mode-toggle';
-import { Button } from '../ui/button';
+import { GithubIcon } from '@/components/shared/icons';
+import { ModeToggle } from '@/components/shared/mode-toggle';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -47,13 +48,15 @@ export function LandingNav() {
 
           {/* Actions */}
           <div className='flex items-center gap-2'>
-            <Button
-              className='hidden rounded-lg md:inline-flex'
-              variant='outline'
-              size='lg'
+            <Link
+              href='/login'
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'lg' }),
+                'hidden rounded-lg md:inline-flex'
+              )}
             >
-              <Link href='/login'>Login</Link>
-            </Button>
+              Login
+            </Link>
             {/* GitHub */}
             <a
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'

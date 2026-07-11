@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 export default function UnauthorizedPage() {
   return (
@@ -16,12 +16,12 @@ export default function UnauthorizedPage() {
         </div>
 
         <div className='flex flex-col justify-center gap-3 pt-4 sm:flex-row'>
-          <Button>
-            <Link href='/login'>Sign In</Link>
-          </Button>
-          <Button variant='outline'>
-            <Link href='/'>Go Home</Link>
-          </Button>
+          <Link href='/login' className={buttonVariants()}>
+            SignIn
+          </Link>
+          <Link href='/' className={buttonVariants({ variant: 'outline' })}>
+            Go Home
+          </Link>
         </div>
       </div>
     </main>

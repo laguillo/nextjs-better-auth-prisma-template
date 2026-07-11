@@ -16,10 +16,10 @@ export default function UnauthorizedPage() {
         </div>
 
         <div className='flex flex-col justify-center gap-3 pt-4 sm:flex-row'>
-          <Button asChild>
+          <Button>
             <Link href='/login'>Sign In</Link>
           </Button>
-          <Button variant='outline' asChild>
+          <Button variant='outline'>
             <Link href='/'>Go Home</Link>
           </Button>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 
 const ITEMS = [
@@ -48,17 +49,7 @@ export function LandingFAQ() {
               className='text-muted-foreground flex-none transition-transform duration-200'
               style={{ transform: open === i ? 'rotate(45deg)' : 'none' }}
             >
-              <svg
-                viewBox='0 0 24 24'
-                width='18'
-                height='18'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-              >
-                <path d='M12 5v14M5 12h14' />
-              </svg>
+              <PlusIcon className='size-4' />
             </span>
           </button>
           {open === i && (

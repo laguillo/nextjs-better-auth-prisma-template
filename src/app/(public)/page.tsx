@@ -1,40 +1,25 @@
 import Link from 'next/link';
+import {
+  Check,
+  Zap,
+  Star,
+  Folder,
+  File,
+  Lock,
+  LayoutDashboard,
+  Users,
+  Database,
+  Settings,
+  ShieldCheck,
+  Layers,
+  Terminal
+} from 'lucide-react';
 import { LandingNav } from '@/components/landing/nav';
 import { CopyCommand } from '@/components/landing/copy-command';
 import { LandingFAQ } from '@/components/landing/faq';
 
-/* ─── Icons (Lucide-style inline SVGs for server component) ─── */
+/* ─── Brand logos (no Lucide equivalents — kept as inline SVGs) ─── */
 
-function CheckIcon({ className = 'size-[13px]' }) {
-  return (
-    <svg
-      fill='none'
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth='3'
-      className={className}
-      viewBox='0 0 24 24'
-    >
-      <path d='M20 6 9 17l-5-5' />
-    </svg>
-  );
-}
-function BoltIcon({ className = 'size-4' }) {
-  return (
-    <svg
-      fill='none'
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth='2'
-      className={className}
-      viewBox='0 0 24 24'
-    >
-      <path d='M13 2 3 14h8l-1 8 10-12h-8z' />
-    </svg>
-  );
-}
 function GithubIcon({ className = 'size-4' }) {
   return (
     <svg fill='currentColor' className={className} viewBox='0 0 24 24'>
@@ -42,45 +27,6 @@ function GithubIcon({ className = 'size-4' }) {
     </svg>
   );
 }
-function StarIcon({ className = 'size-[15px]' }) {
-  return (
-    <svg fill='currentColor' className={className} viewBox='0 0 24 24'>
-      <path d='m12 2 2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17l-6 3.4 1.4-6.8L2.3 9l6.8-.7Z' />
-    </svg>
-  );
-}
-function FolderIcon({ className = 'size-[13px]' }) {
-  return (
-    <svg
-      fill='none'
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth='2'
-      className={className}
-      viewBox='0 0 24 24'
-    >
-      <path d='M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z' />
-    </svg>
-  );
-}
-function FileIcon({ className = 'size-[13px]' }) {
-  return (
-    <svg
-      fill='none'
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth='2'
-      className={className}
-      viewBox='0 0 24 24'
-    >
-      <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z' />
-      <path d='M14 2v6h6' />
-    </svg>
-  );
-}
-
 /* ─── App window mock (hero) ─── */
 function AppMock() {
   return (
@@ -96,18 +42,7 @@ function AppMock() {
             <i className='border-border size-[11px] rounded-full border bg-transparent' />
           </div>
           <div className='border-border bg-background text-muted-foreground mx-auto flex h-6 items-center gap-1.5 rounded-full border px-3 font-mono text-[0.72rem]'>
-            <svg
-              viewBox='0 0 24 24'
-              width='11'
-              height='11'
-              fill='none'
-              stroke='currentColor'
-              strokeWidth='2'
-              strokeLinecap='round'
-            >
-              <rect x='3' y='11' width='18' height='11' rx='2' />
-              <path d='M7 11V7a5 5 0 0 1 10 0v4' />
-            </svg>
+            <Lock className='size-[11px]' />
             app.yoursaas.com/dashboard
           </div>
         </div>
@@ -125,78 +60,22 @@ function AppMock() {
               {
                 label: 'Dashboard',
                 active: true,
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-[15px]'
-                  >
-                    <rect x='3' y='3' width='7' height='9' rx='1' />
-                    <rect x='14' y='3' width='7' height='5' rx='1' />
-                    <rect x='14' y='12' width='7' height='9' rx='1' />
-                    <rect x='3' y='16' width='7' height='5' rx='1' />
-                  </svg>
-                )
+                icon: <LayoutDashboard className='size-[15px]' />
               },
               {
                 label: 'Members',
                 active: false,
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-[15px]'
-                  >
-                    <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' />
-                    <circle cx='9' cy='7' r='4' />
-                    <path d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
-                  </svg>
-                )
+                icon: <Users className='size-[15px]' />
               },
               {
                 label: 'Database',
                 active: false,
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-[15px]'
-                  >
-                    <ellipse cx='12' cy='5' rx='9' ry='3' />
-                    <path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5' />
-                    <path d='M3 12c0 1.66 4 3 9 3s9-1.34 9-3' />
-                  </svg>
-                )
+                icon: <Database className='size-[15px]' />
               },
               {
                 label: 'Settings',
                 active: false,
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-[15px]'
-                  >
-                    <path d='M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z' />
-                    <path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15H4.5a2 2 0 0 1 0-4H4.6a1.65 1.65 0 0 0 1.51-1z' />
-                  </svg>
-                )
+                icon: <Settings className='size-[15px]' />
               }
             ].map((item) => (
               <div
@@ -313,7 +192,7 @@ function CodeWindow() {
             {
               indent: false,
               label: 'app',
-              icon: <FolderIcon />,
+              icon: <Folder className='size-[13px]' />,
               type: 'folder'
             },
             { indent: true, label: '(auth)', icon: null, type: 'text' },
@@ -321,13 +200,13 @@ function CodeWindow() {
             {
               indent: false,
               label: 'lib',
-              icon: <FolderIcon />,
+              icon: <Folder className='size-[13px]' />,
               type: 'folder'
             },
             {
               indent: true,
               label: 'auth.ts',
-              icon: <FileIcon />,
+              icon: <File className='size-[13px]' />,
               type: 'file',
               selected: true
             },
@@ -335,11 +214,16 @@ function CodeWindow() {
             {
               indent: false,
               label: 'prisma',
-              icon: <FolderIcon />,
+              icon: <Folder className='size-[13px]' />,
               type: 'folder'
             },
             { indent: true, label: 'schema.prisma', icon: null, type: 'text' },
-            { indent: false, label: '.env', icon: <FileIcon />, type: 'file' }
+            {
+              indent: false,
+              label: '.env',
+              icon: <File className='size-[13px]' />,
+              type: 'file'
+            }
           ].map((row, i) => (
             <div
               key={i}
@@ -486,16 +370,16 @@ export default function Home() {
           <div className='mt-[30px] flex flex-wrap justify-center gap-[0.7rem]'>
             <Link
               href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
-              className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+              className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
             >
-              <BoltIcon />
+              <Zap className='size-4' />
               Deploy on Railway
             </Link>
             <a
               href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
               target='_blank'
               rel='noopener noreferrer'
-              className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
+              className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
             >
               <GithubIcon />
               Star on GitHub
@@ -559,20 +443,7 @@ export default function Home() {
               },
               {
                 name: 'Better Auth',
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.7'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <path d='M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z' />
-                    <path d='m9 12 2 2 4-4' />
-                  </svg>
-                )
+                icon: <ShieldCheck className='size-5' />
               },
               {
                 name: 'shadcn/ui',
@@ -675,60 +546,19 @@ export default function Home() {
           <div className='mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
             {[
               {
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.8'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <path d='M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z' />
-                    <path d='m9 12 2 2 4-4' />
-                  </svg>
-                ),
+                icon: <ShieldCheck className='size-5' />,
                 title: 'Authentication ready',
                 body: 'Secure sessions out of the box with Better Auth. Social logins, email magic links, and role-based access — all pre-wired.',
                 tags: ['OAuth', 'Magic links', 'Sessions']
               },
               {
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.8'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <ellipse cx='12' cy='5' rx='9' ry='3' />
-                    <path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5' />
-                    <path d='M3 12c0 1.66 4 3 9 3s9-1.34 9-3' />
-                  </svg>
-                ),
+                icon: <Database className='size-5' />,
                 title: 'Database optimized',
                 body: 'Prisma ORM connected to PostgreSQL with type-safe queries, migrations, and a seeded schema you can extend in minutes.',
                 tags: ['Prisma', 'PostgreSQL', 'Type-safe']
               },
               {
-                icon: (
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='1.8'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-5'
-                  >
-                    <path d='M12 2 2 7l10 5 10-5-10-5z' />
-                    <path d='m2 17 10 5 10-5' />
-                    <path d='m2 12 10 5 10-5' />
-                  </svg>
-                ),
+                icon: <Layers className='size-5' />,
                 title: 'Beautiful UI library',
                 body: 'Accessible components built on shadcn/ui and Tailwind. Dark mode, theming, and a polished design system included by default.',
                 tags: ['shadcn/ui', 'Tailwind', 'Dark mode']
@@ -821,14 +651,14 @@ export default function Home() {
               href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
               target='_blank'
               rel='noopener noreferrer'
-              className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+              className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
             >
-              <BoltIcon />
+              <Zap className='size-4' />
               Deploy on Railway
             </a>
             <Link
               href='#faq'
-              className='hover:bg-muted inline-flex h-[2.875rem] items-center rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium transition-colors'
+              className='hover:bg-muted inline-flex h-[2.875rem] items-center rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium transition-colors'
             >
               Read the docs →
             </Link>
@@ -867,7 +697,7 @@ export default function Home() {
               ].map((item) => (
                 <div key={item.title} className='flex items-start gap-3'>
                   <span className='bg-primary text-primary-foreground mt-[1px] grid size-[22px] flex-none place-items-center rounded-[6px]'>
-                    <CheckIcon />
+                    <Check className='size-[13px]' />
                   </span>
                   <div>
                     <b className='text-[0.95rem] font-[550]'>{item.title}</b>
@@ -915,7 +745,7 @@ export default function Home() {
               >
                 <div className='text-foreground mb-3.5 flex gap-0.5'>
                   {[...Array(5)].map((_, i) => (
-                    <StarIcon key={i} />
+                    <Star key={i} className='size-[15px]' />
                   ))}
                 </div>
                 <p className='text-[1rem] tracking-[-0.01em] [text-wrap:pretty]'>
@@ -978,16 +808,16 @@ export default function Home() {
                 href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
+                className='bg-primary text-primary-foreground inline-flex h-[2.875rem] items-center gap-2 rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium shadow-sm transition-all hover:-translate-y-px hover:opacity-90'
               >
-                <BoltIcon />
+                <Zap className='size-4' />
                 Deploy on Railway
               </a>
               <a
                 href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-[var(--radius)] border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
+                className='border-border bg-background hover:bg-muted inline-flex h-[2.875rem] items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
               >
                 View on GitHub
               </a>
@@ -1007,18 +837,7 @@ export default function Home() {
                 className='flex items-center gap-2.5 text-[0.95rem] font-semibold tracking-[-0.02em]'
               >
                 <span className='bg-primary text-primary-foreground grid size-[30px] place-items-center rounded-[8px]'>
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2.2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='size-[17px]'
-                  >
-                    <path d='m4 17 6-6-6-6' />
-                    <path d='M12 19h8' />
-                  </svg>
+                  <Terminal className='size-[17px]' />
                 </span>
                 Next.js Starter
               </Link>

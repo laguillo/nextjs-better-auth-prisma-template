@@ -20,6 +20,8 @@ bunx prisma generate         # Regenerate Prisma client after schema changes
 
 There are no tests in this project.
 
+`bun lint` currently fails in this environment with `TypeError: Class extends value undefined is not a constructor or null` from `@typescript-eslint/utils` — a pre-existing dependency-version mismatch, not something broken by your changes. Use `bunx tsc --noEmit` to type-check instead.
+
 ## Environment Variables
 
 Required in `.env`:
@@ -50,7 +52,7 @@ EMAIL_SENDER_ADDRESS="noreply@yourapp.com"
 Auth is split across two files:
 
 - **`src/lib/auth.ts`** — server-side Better Auth config. Configures email/password, Google OAuth, email verification, password reset (via Resend), and the `admin` plugin. Uses `prismaAdapter` for persistence. Import this only in server contexts.
-- **`src/lib/auth-client.ts`** — client-side `authClient` with `adminClient` plugin. Use this in Client Components for session state and auth actions.
+- **`src/lib/auth-client.ts`** — client-side `authClient` with `adminClient` plugin. Use this in Client Components for session state and auth actions. Must import `createAuthClient` from **`better-auth/react`**, not `better-auth/client` — the latter is the framework-agnostic vanilla client where `useSession` is a raw nanostore atom rather than a React hook, and it fails to type-check as callable.
 
 The Better Auth API route is at `src/app/api/auth/[...all]/route.ts` and delegates entirely to `toNextJsHandler(auth)`.
 
@@ -78,11 +80,21 @@ Protection is enforced at the **layout level**, not in middleware:
 
 After changing `prisma/schema.prisma`, always run `bunx prisma migrate dev` (dev) or `bunx prisma generate` (client-only) before building.
 
-### UI Components
+### UI Components (Base UI, not Radix)
 
-Shadcn UI components live in `src/components/ui/`. Add new Shadcn components with `bunx shadcn@latest add <component>`. Components are configured via `components.json`.
+Shadcn UI components live in `src/components/ui/`. Add new Shadcn components with `bunx shadcn@latest add <component>`. Components are configured via `components.json`, which sets `"style": "base-rhea"` — this project uses the **Base UI** shadcn style, not the default Radix-based one. Components import from `@base-ui/react/*`, not `@radix-ui/react-*` or `vaul`. Training-data assumptions about shadcn/Radix prop APIs do not apply here — check `node_modules/@base-ui/react/<component>/**/*.d.ts` before assuming a prop exists or has a particular shape. Recurring gotchas hit in this codebase:
 
-Tailwind CSS 4 is used — configuration is in `postcss.config.mjs` and `src/app/globals.css` (no `tailwind.config.*` file).
+- **Never nest a Trigger around a component that itself renders a native element** (e.g. `DropdownMenuTrigger` wrapping `<Button>` or `<SidebarMenuButton>`). The trigger already renders a `<button>`, so wrapping another button-rendering component inside it produces `<button><button>` and a hydration error. Compose them with the `render` prop instead: `<DropdownMenuTrigger render={<Button variant="outline">...</Button>} />`. This works because Base UI clones the `render` element and merges the trigger's props onto it, rather than wrapping it.
+- **Never do `<Button render={<Link href="..." />}>` for a "button that navigates."** Base UI's `Button` always sets `role="button"`, which overrides the anchor's link semantics. Use `buttonVariants({ variant, size })` (exported from `ui/button.tsx`) on a plain `<Link>`/`<a>` instead.
+- **`DropdownMenuLabel` (`Menu.GroupLabel`) requires a `<DropdownMenuGroup>` (`Menu.Group`) ancestor** — using it as a direct child of `DropdownMenuContent` throws "MenuGroupContext is missing" at runtime.
+- **`Checkbox`**: `checked` only accepts `boolean`; there is no `'indeterminate'` string value. Pass a separate `indeterminate` boolean prop.
+- **`Drawer`**: no `direction` prop; use `swipeDirection` with values `'up' | 'down' | 'left' | 'right'` (not vaul's `'top' | 'bottom'`).
+- **`Select` / `ToggleGroup` `onValueChange`**: signature is `(value, eventDetails) => void`, not a plain `Dispatch<SetStateAction<...>>` — passing a raw `useState` setter fails to type-check. `Select`'s value can be `null`; guard before forwarding to a string setter. `ToggleGroup` has no `type="single"` prop (unlike the old Radix version) — it always takes an array `value`/`onValueChange`, even when used for single-selection (multi-select is opted into via `multiple`).
+- **Anchor-width CSS var**: use `w-(--anchor-width)` (Base UI), not `w-(--radix-dropdown-menu-trigger-width)` (a Radix leftover that silently resolves to nothing).
+
+Tailwind CSS 4 is used — configuration is in `postcss.config.mjs` and `src/app/globals.css` (no `tailwind.config.*` file). CSS-variable utilities use the v4 parens shorthand (`rounded-(--radius)`), not the v3 bracket form (`rounded-[var(--radius)]`); `calc()` expressions still need brackets (`rounded-[calc(var(--radius)-2px)]`).
+
+`lucide-react` is pinned to an unusual version (`^1.24.0`, per `package.json`); it has no brand/logo icons (GitHub, X/Twitter, framework/tool logos). Those are either custom inline SVGs (`src/components/shared/icons.tsx`) or files under `public/*.svg`, loaded via `next/image` (apply `dark:invert` for monochrome-black logo files so they stay visible in dark mode; skip it for logos that already carry their own brand color).
 
 Admin and dashboard panel components are mirrored under `src/components/admin/` and `src/components/dashboard/` respectively, each with a `layout/` subfolder containing sidebar, nav, and header components.
 

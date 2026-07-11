@@ -36,7 +36,9 @@ export function NavUser({ user }: { user: userType }) {
   const handleLogout = async () => {
     const { error } = await authClient.signOut();
     if (error) {
-      toast.error(error.message ?? 'An unexpected error occurred during logout.');
+      toast.error(
+        error.message ?? 'An unexpected error occurred during logout.'
+      );
     } else {
       router.push('/login');
     }
@@ -46,7 +48,7 @@ export function NavUser({ user }: { user: userType }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <SidebarMenuButton
               size='lg'
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'

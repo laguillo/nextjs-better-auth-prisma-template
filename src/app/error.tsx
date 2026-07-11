@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 export default function Error({
   error,
@@ -30,9 +30,9 @@ export default function Error({
 
         <div className='flex flex-col justify-center gap-3 pt-4 sm:flex-row'>
           <Button onClick={() => reset()}>Try Again</Button>
-          <Button variant='outline' asChild>
-            <Link href='/'>Go Home</Link>
-          </Button>
+          <Link href='/' className={buttonVariants()}>
+            Go Home
+          </Link>
         </div>
       </div>
     </main>

@@ -76,10 +76,7 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className='data-[slot=sidebar-menu-button]:p-1.5!'
-            >
+            <SidebarMenuButton className='data-[slot=sidebar-menu-button]:p-1.5!'>
               <Link href='/'>
                 <Image
                   src='/nextjs.svg'

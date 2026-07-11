@@ -71,16 +71,6 @@ export function ForgotPasswordForm({
     >
       {/* Header */}
       <div className='flex flex-col items-center gap-2 text-center'>
-        <div className='bg-primary/10 text-primary mb-2 flex h-12 w-12 items-center justify-center rounded-xl'>
-          <Image
-            src='/nextjs.svg'
-            alt='Logo'
-            width={50}
-            height={50}
-            className='size-12'
-            priority
-          />
-        </div>
         <h1 className='text-2xl font-semibold tracking-tight'>
           Forgot your password?
         </h1>

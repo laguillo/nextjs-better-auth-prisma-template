@@ -94,7 +94,7 @@ Shadcn UI components live in `src/components/ui/`. Add new Shadcn components wit
 
 Tailwind CSS 4 is used — configuration is in `postcss.config.mjs` and `src/app/globals.css` (no `tailwind.config.*` file). CSS-variable utilities use the v4 parens shorthand (`rounded-(--radius)`), not the v3 bracket form (`rounded-[var(--radius)]`); `calc()` expressions still need brackets (`rounded-[calc(var(--radius)-2px)]`).
 
-`lucide-react` is pinned to an unusual version (`^1.24.0`, per `package.json`); it has no brand/logo icons (GitHub, X/Twitter, framework/tool logos). Those are either custom inline SVGs (`src/components/shared/icons.tsx`) or files under `public/*.svg`, loaded via `next/image` (apply `dark:invert` for monochrome-black logo files so they stay visible in dark mode; skip it for logos that already carry their own brand color).
+`lucide-react` is pinned to an unusual major version (`^1.46.0`, per `package.json`); it has no brand/logo icons (GitHub, X/Twitter, framework/tool logos). Those are either custom inline SVGs (`src/components/shared/icons.tsx`) or files under `public/*.svg`, loaded via `next/image` (apply `dark:invert` for monochrome-black logo files so they stay visible in dark mode; skip it for logos that already carry their own brand color).
 
 Admin and dashboard panel components are mirrored under `src/components/admin/` and `src/components/dashboard/` respectively, each with a `layout/` subfolder containing sidebar, nav, and header components.
 
@@ -111,3 +111,7 @@ Email templates are React Email components in `src/components/emails/`. Sending 
 ### Role System
 
 Users have a `role` field (`"user"` | `"admin"`) on the `User` model, managed by the Better Auth `admin` plugin. Role checks are done against `session.user.role`.
+
+### Deployment
+
+`railway.toml` configures Railway's healthcheck against `src/app/api/health/route.ts`, which runs `SELECT 1` through the Prisma singleton to verify database connectivity.

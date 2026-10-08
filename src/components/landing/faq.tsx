@@ -14,7 +14,15 @@ const ITEMS = [
   },
   {
     q: 'Which authentication methods are supported?',
-    a: 'Better Auth ships with email & password, social OAuth providers (GitHub, Google, and more), and email magic links. Everything is pre-configured — just add your provider keys.'
+    a: 'Email & password with email verification and password reset, plus Google OAuth, all pre-configured. Better Auth supports many more providers and plugins — adding one is a few lines in auth.ts.'
+  },
+  {
+    q: 'How much does it cost to run on Railway?',
+    a: 'Railway bills by actual usage (CPU, memory and storage) rather than a flat server fee, so a small app with a Postgres database is typically inexpensive. Check railway.com/pricing for current plans and free credits.'
+  },
+  {
+    q: 'What do I get after clicking deploy?',
+    a: 'A running Next.js app plus a PostgreSQL database, with migrations applied on start, a /api/health healthcheck, and a public HTTPS URL. You only need to set your Resend and Google OAuth keys to enable emails and social login.'
   },
   {
     q: 'Can I swap PostgreSQL for another database?',

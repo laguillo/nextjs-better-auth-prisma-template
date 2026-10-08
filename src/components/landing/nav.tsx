@@ -8,6 +8,7 @@ import { ModeToggle } from '@/components/shared/mode-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { authClient } from '@/lib/auth-client';
+import { GITHUB_URL, railwayDeployUrl } from '@/lib/constants';
 
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,7 +75,7 @@ export function LandingNav() {
             )}
             {/* GitHub */}
             <a
-              href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+              href={GITHUB_URL}
               target='_blank'
               rel='noopener noreferrer'
               className='border-border bg-background text-foreground hover:bg-muted inline-flex size-9 items-center justify-center rounded-[calc(var(--radius)-2px)] border transition-colors'
@@ -87,8 +88,10 @@ export function LandingNav() {
             <ModeToggle />
 
             {/* Deploy CTA — hidden on mobile */}
-            <Link
-              href='#deploy'
+            <a
+              href={railwayDeployUrl('nav')}
+              target='_blank'
+              rel='noopener noreferrer'
               className='hidden h-10 items-center transition-all hover:-translate-y-px md:inline-flex'
             >
               <img
@@ -96,7 +99,7 @@ export function LandingNav() {
                 alt='Deploy on Railway'
                 className='h-10 w-auto'
               />
-            </Link>
+            </a>
 
             {/* Mobile menu button */}
             <button
@@ -128,7 +131,7 @@ export function LandingNav() {
             </Link>
           ))}
           <a
-            href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+            href={GITHUB_URL}
             target='_blank'
             rel='noopener noreferrer'
             onClick={() => setMenuOpen(false)}
@@ -136,8 +139,10 @@ export function LandingNav() {
           >
             GitHub ↗
           </a>
-          <Link
-            href='#deploy'
+          <a
+            href={railwayDeployUrl('nav-mobile')}
+            target='_blank'
+            rel='noopener noreferrer'
             onClick={() => setMenuOpen(false)}
             className='mt-4 flex h-11 items-center justify-center transition-opacity hover:opacity-90'
           >
@@ -146,7 +151,7 @@ export function LandingNav() {
               alt='Deploy on Railway'
               className='h-11 w-auto'
             />
-          </Link>
+          </a>
         </div>
       )}
     </>

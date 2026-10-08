@@ -18,6 +18,7 @@ import { LandingNav } from '@/components/landing/nav';
 import { CopyCommand } from '@/components/landing/copy-command';
 import { LandingFAQ } from '@/components/landing/faq';
 import { GithubIcon } from '@/components/shared/icons';
+import { GITHUB_URL, railwayDeployUrl } from '@/lib/constants';
 
 /* ─── App window mock (hero) ─── */
 function AppMock() {
@@ -300,9 +301,9 @@ function CodeWindow() {
             ],
             ['  socialProviders: {'],
             [
-              '    github: { clientId: process.env.',
+              '    google: { clientId: process.env.',
               <span key='fn' className='text-[#2563eb] dark:text-[#60a5fa]'>
-                GH_ID
+                GOOGLE_CLIENT_ID
               </span>,
               '! },'
             ],
@@ -353,15 +354,16 @@ export default function Home() {
           </h1>
 
           <p className='text-muted-foreground mx-auto mt-5.5 max-w-150 text-[1.075rem] text-pretty'>
-            A batteries-included starter pre-configured with Prisma,
-            Better&nbsp;Auth and shadcn/ui. Clone it, push the button, and ship
-            features instead of boilerplate.
+            Auth, PostgreSQL, admin panel, user dashboard and transactional
+            emails — already wired with Prisma, Better&nbsp;Auth and shadcn/ui.
+            Click deploy, get a live URL, and ship features instead of
+            boilerplate.
           </p>
 
           {/* CTA row */}
           <div className='mt-7.5 flex flex-wrap justify-center gap-[0.7rem]'>
             <a
-              href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
+              href={railwayDeployUrl('hero')}
               target='_blank'
               rel='noopener noreferrer'
               className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
@@ -373,7 +375,7 @@ export default function Home() {
               />
             </a>
             <a
-              href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+              href={GITHUB_URL}
               target='_blank'
               rel='noopener noreferrer'
               className='border-border bg-background hover:bg-muted inline-flex h-11 items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
@@ -382,6 +384,25 @@ export default function Home() {
               Star on GitHub
             </a>
           </div>
+
+          <div className='text-muted-foreground mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[0.8rem]'>
+            <span>✓ Postgres provisioned for you</span>
+            <span>✓ Live on HTTPS in minutes</span>
+            <span>✓ MIT licensed</span>
+          </div>
+
+          <a
+            href={GITHUB_URL}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='mt-5 inline-flex'
+          >
+            <img
+              src='https://img.shields.io/github/stars/laguillo/nextjs-better-auth-prisma-template?style=flat&logo=github'
+              alt='GitHub stars'
+              className='h-5 w-auto'
+            />
+          </a>
 
           <CopyCommand />
         </div>
@@ -516,13 +537,13 @@ export default function Home() {
               {
                 icon: <ShieldCheck className='size-5' />,
                 title: 'Authentication ready',
-                body: 'Secure sessions out of the box with Better Auth. Social logins, email magic links, and role-based access — all pre-wired.',
-                tags: ['OAuth', 'Magic links', 'Sessions']
+                body: 'Secure sessions out of the box with Better Auth. Email & password, Google login, email verification, password reset and role-based access — all pre-wired.',
+                tags: ['Google OAuth', 'Email verification', 'Roles']
               },
               {
                 icon: <Database className='size-5' />,
                 title: 'Database optimized',
-                body: 'Prisma ORM connected to PostgreSQL with type-safe queries, migrations, and a seeded schema you can extend in minutes.',
+                body: 'Prisma ORM connected to PostgreSQL with type-safe queries, versioned migrations and a ready-made auth schema you can extend in minutes.',
                 tags: ['Prisma', 'PostgreSQL', 'Type-safe']
               },
               {
@@ -613,7 +634,7 @@ export default function Home() {
           </div>
           <div className='mt-10 flex flex-wrap items-center gap-[0.7rem]'>
             <a
-              href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
+              href={railwayDeployUrl('steps')}
               target='_blank'
               rel='noopener noreferrer'
               className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
@@ -773,7 +794,7 @@ export default function Home() {
             </p>
             <div className='relative mt-7 flex flex-wrap justify-center gap-[0.7rem]'>
               <a
-                href='https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic'
+                href={railwayDeployUrl('final-cta')}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
@@ -785,7 +806,7 @@ export default function Home() {
                 />
               </a>
               <a
-                href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+                href={GITHUB_URL}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='border-border bg-background hover:bg-muted inline-flex h-11 items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
@@ -818,20 +839,7 @@ export default function Home() {
               </p>
               <div className='mt-4.5 flex gap-2'>
                 <a
-                  href='#'
-                  className='border-border bg-background text-foreground hover:bg-muted grid size-9 place-items-center rounded-[calc(var(--radius)-2px)] border transition-colors'
-                  aria-label='Twitter'
-                >
-                  <svg
-                    viewBox='0 0 24 24'
-                    fill='currentColor'
-                    className='size-4.5'
-                  >
-                    <path d='M18.244 2H21.5l-7.5 8.57L22.5 22h-6.9l-5.4-7.06L4.02 22H.76l8.02-9.17L1.5 2h7.07l4.88 6.45L18.244 2Zm-1.2 18h1.83L7.04 3.9H5.07L17.044 20Z' />
-                  </svg>
-                </a>
-                <a
-                  href='https://github.com/laguillo/nextjs-better-auth-prisma-template'
+                  href={GITHUB_URL}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='border-border bg-background text-foreground hover:bg-muted grid size-9 place-items-center rounded-[calc(var(--radius)-2px)] border transition-colors'
@@ -848,7 +856,7 @@ export default function Home() {
                 { href: '#features', label: 'Features' },
                 { href: '#stack', label: 'Stack' },
                 {
-                  href: 'https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic',
+                  href: railwayDeployUrl('footer'),
                   label: 'Deploy'
                 },
                 { href: '#faq', label: 'FAQ' }
@@ -867,12 +875,15 @@ export default function Home() {
               <h4 className='mb-3.5 text-[0.8rem] font-semibold'>Resources</h4>
               {[
                 {
-                  href: 'https://github.com/laguillo/nextjs-better-auth-prisma-template',
+                  href: GITHUB_URL,
                   label: 'Documentation',
                   external: true
                 },
-                { href: '#', label: 'Changelog', external: false },
-                { href: '#', label: 'Community', external: false }
+                {
+                  href: `${GITHUB_URL}/issues`,
+                  label: 'Issues & support',
+                  external: true
+                }
               ].map((l) => (
                 <a
                   key={l.label}

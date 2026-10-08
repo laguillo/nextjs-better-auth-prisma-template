@@ -2,7 +2,11 @@
 
 This is a robust and modern template for Next.js applications, pre-configured with advanced authentication, database, and ready-to-use UI components. Designed to accelerate the development of secure and scalable web applications.
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/nextjs-better-auth-prisma-template?referralCode=HKQvZr&utm_medium=integration&utm_source=template&utm_campaign=generic&utm_content=readme)
+
+![GitHub stars](https://img.shields.io/github/stars/laguillo/nextjs-better-auth-prisma-template?style=flat&logo=github) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
+> **One click → live app.** The Railway button provisions PostgreSQL, wires `DATABASE_URL`, applies migrations and gives you a public HTTPS URL. Only `RESEND_API_KEY` and Google OAuth keys are needed afterwards to enable emails and social login.
 
 ## ✨ Main Features
 
@@ -21,11 +25,11 @@ This is a robust and modern template for Next.js applications, pre-configured wi
 
 ## 🚀 Technologies
 
-- **[Next.js 16.2](https://nextjs.org/)**: App Router, Server Components and Server Actions
-- **[React 19.2](https://react.dev/)**: Latest React features
-- **[Better Auth 1.6](https://better-auth.com/)**: Modern and secure authentication
-- **[Prisma 7.8](https://www.prisma.io/)**: ORM for interacting with PostgreSQL, using the `@prisma/adapter-pg` driver adapter
-- **[Tailwind CSS 4.3](https://tailwindcss.com/)**: Fast and flexible styling
+- **[Next.js 16](https://nextjs.org/)**: App Router, Server Components and Server Actions
+- **[React 19](https://react.dev/)**: Latest React features
+- **[Better Auth 1.7](https://better-auth.com/)**: Modern and secure authentication
+- **[Prisma 7](https://www.prisma.io/)**: ORM for interacting with PostgreSQL, using the `@prisma/adapter-pg` driver adapter
+- **[Tailwind CSS 4](https://tailwindcss.com/)**: Fast and flexible styling
 - **[Shadcn UI](https://ui.shadcn.com/)** on **[Base UI](https://base-ui.com/)**: Accessible and customizable UI components
 - **[Bun](https://bun.sh/)**: Fast JavaScript runtime (recommended)
 
@@ -59,7 +63,7 @@ DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 # Better Auth
 BETTER_AUTH_SECRET="your_super_secure_secret" # Generate with: openssl rand -base64 32
 BETTER_AUTH_URL="http://localhost:3000"
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000" # In production: your public domain (also used for OG image, sitemap and robots URLs)
 
 # OAuth Providers (Google)
 GOOGLE_CLIENT_ID="your_google_client_id"
@@ -107,7 +111,10 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   │   ├── (protected)/    # Routes requiring a session
 │   │   │   ├── dashboard/  # User panel
 │   │   │   └── admin/      # Admin panel (requires role === "admin")
-│   │   └── api/            # API Routes (Better Auth handler, health check)
+│   │   ├── api/            # API Routes (Better Auth handler, health check)
+│   │   ├── opengraph-image.tsx  # Generated social preview image
+│   │   ├── robots.ts       # robots.txt
+│   │   └── sitemap.ts      # sitemap.xml
 │   ├── components/         # React components
 │   │   ├── admin/          # Admin panel components (+ layout/ subfolder)
 │   │   ├── dashboard/      # User panel components (+ layout/ subfolder)
@@ -121,6 +128,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   ├── lib/                # Utilities and configuration
 │   │   ├── auth.ts         # Better Auth configuration (server-only)
 │   │   ├── auth-client.ts  # Better Auth client (Client Components)
+│   │   ├── constants.ts    # Site name/URL and tracked Railway deploy link
 │   │   ├── prisma.ts       # Prisma client singleton
 │   │   └── utils.ts        # Helper functions
 │   ├── server/             # Server Actions

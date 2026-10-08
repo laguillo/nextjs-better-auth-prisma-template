@@ -1,14 +1,12 @@
 export const SITE_NAME = 'Next.js SaaS Starter';
 export const SITE_TAGLINE =
   'Next.js + Better Auth + Prisma + shadcn/ui. Deploy to Railway in one click.';
-// Resolved at build time. Falls back to Railway's public domain so a fresh
-// deploy gets correct OG/sitemap/robots URLs without extra configuration.
+// Resolved at build time. BETTER_AUTH_URL is already required, so it backs up
+// NEXT_PUBLIC_BASE_URL and a fresh deploy gets correct OG/sitemap/robots URLs.
 export const SITE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ??
   process.env.BETTER_AUTH_URL ??
-  (process.env.RAILWAY_PUBLIC_DOMAIN
-    ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
-    : 'http://localhost:3000');
+  'http://localhost:3000';
 
 export const GITHUB_URL =
   'https://github.com/laguillo/nextjs-better-auth-prisma-template';

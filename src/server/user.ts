@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+import { SITE_URL } from '@/lib/constants';
 import { headers } from 'next/headers';
 
 export async function forgotPassword(data: { email: string }) {
@@ -8,7 +9,7 @@ export async function forgotPassword(data: { email: string }) {
     const result = await auth.api.requestPasswordReset({
       body: {
         email: data.email,
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`
+        redirectTo: `${SITE_URL}/reset-password`
       }
     });
     return { success: true, data: result };

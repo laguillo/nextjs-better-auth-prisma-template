@@ -8,7 +8,8 @@ import { ModeToggle } from '@/components/shared/mode-toggle';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { authClient } from '@/lib/auth-client';
-import { GITHUB_URL, railwayDeployUrl } from '@/lib/constants';
+import { DeployButton } from '@/components/landing/deploy-button';
+import { GITHUB_URL } from '@/lib/constants';
 
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -87,19 +88,12 @@ export function LandingNav() {
             {/* Theme toggle */}
             <ModeToggle />
 
-            {/* Deploy CTA — hidden on mobile */}
-            <a
-              href={railwayDeployUrl('nav')}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='hidden h-10 items-center transition-all hover:-translate-y-px md:inline-flex'
-            >
-              <img
-                src='https://railway.com/button.svg'
-                alt='Deploy on Railway'
-                className='h-10 w-auto'
-              />
-            </a>
+            {/* Deploy CTA — hidden on mobile (see StickyDeployBar) */}
+            <DeployButton
+              placement='nav'
+              size='md'
+              className='hidden md:inline-flex'
+            />
 
             {/* Mobile menu button */}
             <button
@@ -139,19 +133,11 @@ export function LandingNav() {
           >
             GitHub ↗
           </a>
-          <a
-            href={railwayDeployUrl('nav-mobile')}
-            target='_blank'
-            rel='noopener noreferrer'
-            onClick={() => setMenuOpen(false)}
-            className='mt-4 flex h-11 items-center justify-center transition-opacity hover:opacity-90'
-          >
-            <img
-              src='https://railway.com/button.svg'
-              alt='Deploy on Railway'
-              className='h-11 w-auto'
-            />
-          </a>
+          <DeployButton
+            placement='nav-mobile'
+            size='lg'
+            className='mt-4 self-center'
+          />
         </div>
       )}
     </>

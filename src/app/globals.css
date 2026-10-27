@@ -138,8 +138,16 @@
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      var(--grid-line, var(--color-border)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--grid-line, var(--color-border)) 1px,
+      transparent 1px
+    );
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(
     ellipse 80% 60% at 50% 0%,
@@ -152,4 +160,134 @@
     transparent 80%
   );
   opacity: 0.7;
+}
+
+/* ── Landing: accent, aurora and motion ── */
+.landing-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.landing-aurora::before,
+.landing-aurora::after {
+  content: '';
+  position: absolute;
+  top: -14rem;
+  width: 44rem;
+  height: 30rem;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.32;
+}
+
+.landing-aurora::before {
+  left: calc(50% - 38rem);
+  background: radial-gradient(closest-side, #7c3aed, transparent);
+}
+
+.landing-aurora::after {
+  right: calc(50% - 38rem);
+  background: radial-gradient(closest-side, #d946ef, transparent);
+}
+
+.dark .landing-aurora::before,
+.dark .landing-aurora::after {
+  opacity: 0.22;
+}
+
+.landing-text-gradient {
+  background-image: linear-gradient(
+    90deg,
+    #6d28d9 0%,
+    #c026d3 55%,
+    #0284c7 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.dark .landing-text-gradient {
+  background-image: linear-gradient(
+    90deg,
+    #a78bfa 0%,
+    #e879f9 55%,
+    #7dd3fc 100%
+  );
+}
+
+/* Animated glow behind the Railway deploy button */
+.deploy-cta {
+  position: relative;
+  isolation: isolate;
+}
+
+.deploy-cta::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, #7c3aed, #d946ef, #38bdf8, #7c3aed);
+  background-size: 300% 100%;
+  filter: blur(12px);
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+  animation: landing-glow 6s linear infinite;
+}
+
+.deploy-cta:hover::before {
+  opacity: 0.85;
+}
+
+@keyframes landing-glow {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+/* Deploy log: lines reveal one after another once the card is in view */
+.deploy-log-line {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.deploy-log[data-play='true'] .deploy-log-line {
+  animation: landing-log-in 400ms ease-out forwards;
+  animation-delay: calc(var(--i) * 650ms + 300ms);
+}
+
+@keyframes landing-log-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes landing-ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.landing-ping {
+  animation: landing-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deploy-cta::before,
+  .landing-ping {
+    animation: none;
+  }
+
+  .deploy-log .deploy-log-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }

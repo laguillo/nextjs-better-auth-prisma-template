@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar';
+import { Skeleton } from '@/components/ui/skeleton';
 import { userType } from '@/types/user';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
@@ -124,6 +125,22 @@ export function NavUser({ user }: { user: userType }) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+
+export function NavUserSkeleton() {
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <div className='flex h-12 items-center gap-2 p-2'>
+          <Skeleton className='h-8 w-8 rounded-lg' />
+          <div className='grid flex-1 gap-1.5'>
+            <Skeleton className='h-3 w-24' />
+            <Skeleton className='h-3 w-32' />
+          </div>
+        </div>
       </SidebarMenuItem>
     </SidebarMenu>
   );

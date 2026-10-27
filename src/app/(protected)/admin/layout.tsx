@@ -3,28 +3,33 @@ import { SiteHeader } from '@/components/admin/layout/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { isAuthenticated } from '@/server/user';
 import { userType } from '@/types/user';
-import { unauthorized } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default async function AdminLayout({
+export default function AdminLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const session = await isAuthenticated();
-
-  if (!session || session.user.role !== 'admin') {
-    unauthorized();
-  }
-
-  const user = session.user;
-
   return (
     <SidebarProvider>
-      <AppSidebar variant='inset' user={user as userType} />
+      <Suspense fallback={<AppSidebar variant='inset' user={null} />}>
+        <SidebarWithUser />
+      </Suspense>
       <SidebarInset>
         <SiteHeader />
         {children}
       </SidebarInset>
     </SidebarProvider>
+  );
+}
+
+async function SidebarWithUser() {
+  const session = await isAuthenticated();
+
+  return (
+    <AppSidebar
+      variant='inset'
+      user={session ? (session.user as userType) : null}
+    />
   );
 }

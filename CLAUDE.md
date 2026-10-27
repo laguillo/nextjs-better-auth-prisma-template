@@ -58,18 +58,30 @@ The Better Auth API route is at `src/app/api/auth/[...all]/route.ts` and delegat
 
 ### Server Actions
 
-`src/server/user.ts` contains all auth-related Server Actions (`forgotPassword`, `resetPassword`, `isAuthenticated`). These call `auth.api.*` directly with `headers()` from `next/headers`. `isAuthenticated()` is the canonical way to get the current session in Server Components and layouts.
+`src/server/user.ts` contains all auth-related Server Actions (`forgotPassword`, `resetPassword`, `isAuthenticated`). These call `auth.api.*` directly with `headers()` from `next/headers`. `isAuthenticated()` is the canonical way to get the current session in Server Components and layouts. It is memoized per request with React `cache()`, so calling it from the layout, sidebar and page costs a single session lookup.
 
 Sign-up and login are called directly from Client Components via `authClient` (no Server Action wrapper).
 
 ### Route Protection
 
-Protection is enforced at the **layout level**, not in middleware:
+Protection has two layers:
 
-- `src/app/(protected)/dashboard/layout.tsx` — calls `isAuthenticated()`, redirects to `/login` if no session.
-- `src/app/(protected)/admin/layout.tsx` — calls `isAuthenticated()`, calls `unauthorized()` if no session or `role !== 'admin'`. The `unauthorized()` function is enabled by `experimental.authInterrupts: true` in `next.config.ts`.
+- **`src/proxy.ts`** (active — Next 16's replacement for `middleware.ts`, matching `/dashboard/*` and `/admin/*`) — optimistic only: redirects to `/login` when there is no session _cookie_ (`getSessionCookie`). It does not validate the session, so it is not a security boundary.
+- **Gate components inside each page** — the real check, which validates the session against the database:
+  - `src/components/dashboard/auth-gate.tsx` — `<DashboardGate>` redirects to `/login` if no session.
+  - `src/components/admin/auth-gate.tsx` — `<AdminGate>` calls `unauthorized()` if no session or `role !== 'admin'`. `unauthorized()` is enabled by `experimental.authInterrupts: true` in `next.config.ts`.
 
-`src/proxy.ts` exists but is **not** wired as `middleware.ts`. It's an optional optimistic redirect helper, explicitly marked as not secure — actual auth checks happen in layouts.
+**Every page under `(protected)` must wrap its content in its panel's gate.** A layout cannot protect its pages: Next renders route segments independently of the layout and a page's output can still reach the client in the RSC payload even when the layout swaps it for an error UI (see `node_modules/next/dist/docs/01-app/02-guides/authentication.md`, "Partial Rendering"). The layouts only render the static chrome plus the sidebar's user.
+
+### Cache Components
+
+`cacheComponents` and `partialPrefetching` are enabled in `next.config.ts`, so every route must be prerenderable: reading `cookies()`, `headers()`, `await params` or `await searchParams` outside a `<Suspense>` boundary fails `bun build` ("Next.js encountered uncached or runtime data during prerendering"). Patterns used here:
+
+- Push the request-time read into a small async Server Component inside `<Suspense>`, with a skeleton fallback that matches the final layout. Forward `searchParams`/`params` as promises and `await` them in that child, never at the top of the page (`reset-password/page.tsx`).
+- Never `await` the session at the top of a layout. Layouts render static chrome and put the user lookup behind `<Suspense>` (`SidebarWithUser` in the protected layouts, with `AppSidebar user={null}` as the fallback).
+- Pages with a "redirect if already signed in" rule render the form in the static shell and stream `<RedirectIfAuthenticated />` (`src/components/shared/`) behind `<Suspense>`. The redirect therefore happens after the shell, not as an HTTP 307.
+- Routes that reach `unauthorized()`/`redirect()` while streaming answer `200` and the redirect/401 UI is applied client-side; the proxy's cookie check provides the HTTP-level redirect for anonymous users.
+- `Date.now()`/`new Date()`/`Math.random()` before a request-time read in a render path is a build error. Route Handlers such as `/api/health` stay dynamic because the database query comes first.
 
 ### Database (Prisma)
 

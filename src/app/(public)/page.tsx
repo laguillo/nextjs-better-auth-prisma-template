@@ -1,173 +1,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  Check,
-  Star,
-  Folder,
-  File,
-  Lock,
-  LayoutDashboard,
-  Users,
-  Database,
-  Settings,
-  ShieldCheck,
-  Layers,
-  Terminal
-} from 'lucide-react';
+import { ArrowRight, Check, Folder, File, Terminal } from 'lucide-react';
 import { LandingNav } from '@/components/landing/nav';
-import { CopyCommand } from '@/components/landing/copy-command';
+import { AppMock } from '@/components/landing/app-mock';
+import { DeployButton } from '@/components/landing/deploy-button';
+import { DeployLog } from '@/components/landing/deploy-log';
+import { DeploySteps } from '@/components/landing/deploy-steps';
+import { Features } from '@/components/landing/features';
 import { LandingFAQ } from '@/components/landing/faq';
+import { StickyDeployBar } from '@/components/landing/sticky-deploy-bar';
 import { GithubIcon } from '@/components/shared/icons';
 import { GITHUB_URL, railwayDeployUrl } from '@/lib/constants';
-
-/* ─── App window mock (hero) ─── */
-function AppMock() {
-  return (
-    <div className='relative mx-auto mt-14 max-w-245 px-6'>
-      {/* glow */}
-      <div className='absolute -inset-px -z-10 rounded-2xl bg-[radial-gradient(60%_80%_at_50%_0%,hsl(var(--foreground)/0.06),transparent_70%)]' />
-      <div className='border-border bg-card rounded-3.5 overflow-hidden border shadow-xl'>
-        {/* browser chrome */}
-        <div className='border-border bg-muted/40 flex h-10 items-center gap-2 border-b px-3.5'>
-          <div className='flex gap-2'>
-            <i className='border-border size-3 rounded-full border bg-transparent' />
-            <i className='border-border size-3 rounded-full border bg-transparent' />
-            <i className='border-border size-3 rounded-full border bg-transparent' />
-          </div>
-          <div className='border-border bg-background text-muted-foreground mx-auto flex h-6 items-center gap-1.5 rounded-full border px-3 font-mono text-[0.72rem]'>
-            <Lock className='size-3' />
-            app.yoursaas.com/dashboard
-          </div>
-        </div>
-        {/* app grid */}
-        <div className='grid min-h-95 grid-cols-[208px_1fr] max-sm:grid-cols-1'>
-          {/* sidebar */}
-          <aside className='border-border bg-muted/25 hidden border-r p-3.5 sm:flex sm:flex-col sm:gap-1'>
-            <div className='mb-2 flex items-center gap-[0.55rem] px-2 py-[0.45rem]'>
-              <span className='bg-primary text-primary-foreground rounded-2 grid size-6.5 place-items-center text-[0.7rem] font-semibold'>
-                N
-              </span>
-              <b className='text-[0.82rem] font-[550]'>Acme Inc.</b>
-            </div>
-            {[
-              {
-                label: 'Dashboard',
-                active: true,
-                icon: <LayoutDashboard className='size-4' />
-              },
-              {
-                label: 'Members',
-                active: false,
-                icon: <Users className='size-4' />
-              },
-              {
-                label: 'Database',
-                active: false,
-                icon: <Database className='size-4' />
-              },
-              {
-                label: 'Settings',
-                active: false,
-                icon: <Settings className='size-4' />
-              }
-            ].map((item) => (
-              <div
-                key={item.label}
-                className={`rounded-2 flex items-center gap-[0.6rem] px-[0.55rem] py-2 text-[0.8rem] font-[450] ${
-                  item.active
-                    ? 'bg-background text-foreground font-medium shadow-sm'
-                    : 'text-muted-foreground'
-                }`}
-              >
-                {item.icon}
-                {item.label}
-              </div>
-            ))}
-            <div className='mt-auto flex items-center gap-2 px-[0.55rem] py-2'>
-              <span className='bg-muted text-muted-foreground grid size-5.5 place-items-center rounded-full text-[0.6rem] font-semibold'>
-                JL
-              </span>
-              <span className='text-muted-foreground truncate text-[0.8rem]'>
-                jane@acme.co
-              </span>
-            </div>
-          </aside>
-          {/* main */}
-          <main className='p-5'>
-            <div className='mb-4 flex items-center justify-between'>
-              <h3 className='text-[1.05rem] font-semibold tracking-[-0.02em]'>
-                Dashboard
-              </h3>
-              <span className='border-border text-muted-foreground inline-flex h-8 cursor-default items-center rounded-[calc(var(--radius)-2px)] border px-3 text-[0.78rem]'>
-                + Invite
-              </span>
-            </div>
-            {/* stat row */}
-            <div className='mb-4 grid grid-cols-3 gap-3 max-sm:grid-cols-2'>
-              {[
-                { label: 'Users', value: '2,847', delta: '+12%' },
-                { label: 'MRR', value: '$8.2k', delta: '+4%' },
-                { label: 'Sessions', value: '19.4k', delta: null }
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className='border-border bg-background rounded-2.5 border p-3'
-                >
-                  <div className='text-muted-foreground text-[0.7rem] tracking-[0.04em] uppercase'>
-                    {s.label}
-                  </div>
-                  <div className='mt-1 text-[1.35rem] font-semibold tracking-[-0.03em]'>
-                    {s.value}
-                    {s.delta && (
-                      <small className='ml-1 text-[0.7rem] font-medium text-green-500'>
-                        {s.delta}
-                      </small>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            {/* user table */}
-            <div className='border-border bg-background rounded-2.5 overflow-hidden border'>
-              <div className='text-muted-foreground border-border bg-muted/40 grid grid-cols-[1fr_90px_70px] items-center border-b px-3.5 py-2.5 text-[0.68rem] tracking-[0.04em] uppercase'>
-                <span>User</span>
-                <span>Role</span>
-                <span>Status</span>
-              </div>
-              {[
-                { initials: 'AC', name: 'Alex Chen', role: 'Owner' },
-                { initials: 'SJ', name: 'Sarah Jenkins', role: 'Admin' },
-                { initials: 'MR', name: 'Marco Rossi', role: 'Member' }
-              ].map((u) => (
-                <div
-                  key={u.name}
-                  className='border-border grid grid-cols-[1fr_90px_70px] items-center border-t px-3.5 py-2.5 text-[0.78rem]'
-                >
-                  <span className='flex items-center gap-2'>
-                    <span className='bg-muted text-muted-foreground grid size-5.5 place-items-center rounded-full text-[0.62rem] font-semibold'>
-                      {u.initials}
-                    </span>
-                    <span className='font-[450]'>{u.name}</span>
-                  </span>
-                  <span className='text-muted-foreground'>{u.role}</span>
-                  <span className='border-border inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[0.66rem] font-medium text-green-700 dark:text-green-400'>
-                    <i className='inline-block size-1.25 rounded-full bg-green-500' />
-                    Active
-                  </span>
-                </div>
-              ))}
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ─── Code window (what's inside section) ─── */
 function CodeWindow() {
   return (
-    <div className='border-border bg-card rounded-3.5 overflow-hidden border shadow-lg'>
+    <div className='border-border bg-card overflow-hidden rounded-2xl border shadow-lg'>
       <div className='border-border bg-muted/40 flex h-10 items-center gap-2 border-b px-3.5'>
         <div className='flex gap-2'>
           <i className='border-border size-3 rounded-full border' />
@@ -336,78 +184,64 @@ export default function Home() {
       <LandingNav />
 
       {/* ── Hero ── */}
-      <section className='relative overflow-hidden pt-22 pb-6'>
+      <section className='relative overflow-hidden pt-20 pb-16 sm:pt-24'>
+        <div className='landing-aurora' />
         <div className='landing-grid-bg' />
-        <div className='relative z-10 mx-auto max-w-210 px-6 text-center'>
-          {/* Badge */}
-          <span className='border-border bg-muted/50 text-muted-foreground inline-flex h-[1.6rem] items-center gap-[0.45rem] rounded-full border px-[0.7rem] text-[0.75rem] font-medium'>
-            <span className='size-1.5 rounded-full bg-green-500 shadow-[0_0_0_3px_#22c55e22]' />
-            Production-ready · Open source
+        <div className='relative z-10 mx-auto max-w-240 px-6 text-center'>
+          <span className='border-border bg-background/70 text-muted-foreground inline-flex h-7 items-center gap-2 rounded-full border px-3 text-[0.75rem] font-medium backdrop-blur'>
+            <span className='size-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_3px_#10b98133]' />
+            Open source · Postgres included
           </span>
 
-          <h1 className='mt-5.5 text-[clamp(2.6rem,6.4vw,4.4rem)] leading-[1.02] font-semibold tracking-[-0.04em] text-balance'>
-            Build your Next.js SaaS
+          <h1 className='mt-6 text-[clamp(2.6rem,6.4vw,4.4rem)] leading-[1.02] font-semibold tracking-[-0.04em] text-balance'>
+            Launch your Next.js SaaS
             <br />
-            <span className='text-muted-foreground'>
+            <span className='landing-text-gradient'>
               in minutes, not weeks.
             </span>
           </h1>
 
-          <p className='text-muted-foreground mx-auto mt-5.5 max-w-150 text-[1.075rem] text-pretty'>
-            Auth, PostgreSQL, admin panel, user dashboard and transactional
-            emails — already wired with Prisma, Better&nbsp;Auth and shadcn/ui.
-            Click deploy, get a live URL, and ship features instead of
-            boilerplate.
+          <p className='text-muted-foreground mx-auto mt-6 max-w-152 text-[1.075rem] text-pretty'>
+            Auth, PostgreSQL, an admin panel, a user dashboard and transactional
+            emails, already wired with Prisma, Better&nbsp;Auth and shadcn/ui.
+            One click on Railway gives you a live app with its own database.
           </p>
 
-          {/* CTA row */}
-          <div className='mt-7.5 flex flex-wrap justify-center gap-[0.7rem]'>
-            <a
-              href={railwayDeployUrl('hero')}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
-            >
-              <img
-                src='https://railway.com/button.svg'
-                alt='Deploy on Railway'
-                className='h-11 w-auto'
-              />
-            </a>
+          <div className='mt-9 flex flex-wrap items-center justify-center gap-3.5'>
+            <DeployButton placement='hero' size='lg' glow />
             <a
               href={GITHUB_URL}
               target='_blank'
               rel='noopener noreferrer'
-              className='border-border bg-background hover:bg-muted inline-flex h-11 items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
+              className='border-border bg-background/70 hover:bg-muted inline-flex h-12 items-center gap-2 rounded-lg border px-6 text-[0.95rem] font-medium backdrop-blur transition-colors sm:h-14'
             >
               <GithubIcon className='size-4' />
               Star on GitHub
             </a>
           </div>
 
-          <div className='text-muted-foreground mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[0.8rem]'>
-            <span>✓ Postgres provisioned for you</span>
-            <span>✓ Live on HTTPS in minutes</span>
-            <span>✓ MIT licensed</span>
-          </div>
-
-          <a
-            href={GITHUB_URL}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='mt-5 inline-flex'
-          >
-            <img
-              src='https://img.shields.io/github/stars/laguillo/nextjs-better-auth-prisma-template?style=flat&logo=github'
-              alt='GitHub stars'
-              className='h-5 w-auto'
-            />
-          </a>
-
-          <CopyCommand />
+          <ul className='text-muted-foreground mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[0.82rem]'>
+            {[
+              'Postgres provisioned for you',
+              'Migrations run on deploy',
+              'Live on HTTPS in minutes'
+            ].map((t) => (
+              <li key={t} className='flex items-center gap-1.5'>
+                <Check className='size-3.5 text-emerald-500' />
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <AppMock />
+        {/* click → live app */}
+        <div className='relative z-10 mx-auto mt-16 grid max-w-6xl items-center gap-5 px-6 lg:grid-cols-[minmax(0,0.78fr)_auto_minmax(0,1.5fr)] lg:gap-6'>
+          <DeployLog />
+          <div className='mx-auto grid size-10 place-items-center rounded-full bg-linear-to-br from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30 max-lg:rotate-90'>
+            <ArrowRight className='size-5' />
+          </div>
+          <AppMock />
+        </div>
       </section>
 
       {/* ── Logo cloud ── */}
@@ -517,143 +351,9 @@ export default function Home() {
 
       <div className='border-border bg-border mx-auto h-px w-full max-w-6xl' />
 
-      {/* ── Features ── */}
-      <section id='features' className='py-21'>
-        <div className='mx-auto max-w-6xl px-6'>
-          <div>
-            <span className='text-muted-foreground font-mono text-[0.72rem] tracking-[0.12em] uppercase'>
-              // what&apos;s inside
-            </span>
-            <h2 className='mt-[0.6rem] text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em] text-balance'>
-              Everything you need to ship.
-            </h2>
-            <p className='text-muted-foreground mt-[0.9rem] max-w-140 text-[1.02rem] text-pretty'>
-              Stop configuring ESLint, wrestling with auth flows, and debugging
-              database connections. It&apos;s already done — the right way.
-            </p>
-          </div>
-          <div className='mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'>
-            {[
-              {
-                icon: <ShieldCheck className='size-5' />,
-                title: 'Authentication ready',
-                body: 'Secure sessions out of the box with Better Auth. Email & password, Google login, email verification, password reset and role-based access — all pre-wired.',
-                tags: ['Google OAuth', 'Email verification', 'Roles']
-              },
-              {
-                icon: <Database className='size-5' />,
-                title: 'Database optimized',
-                body: 'Prisma ORM connected to PostgreSQL with type-safe queries, versioned migrations and a ready-made auth schema you can extend in minutes.',
-                tags: ['Prisma', 'PostgreSQL', 'Type-safe']
-              },
-              {
-                icon: <Layers className='size-5' />,
-                title: 'Beautiful UI library',
-                body: 'Accessible components built on shadcn/ui and Tailwind. Dark mode, theming, and a polished design system included by default.',
-                tags: ['shadcn/ui', 'Tailwind', 'Dark mode']
-              }
-            ].map((card) => (
-              <div
-                key={card.title}
-                className='border-border bg-card hover:border-ring/50 rounded-3.5 relative overflow-hidden border p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg'
-              >
-                <div className='border-border bg-muted/50 rounded-3 mb-4 grid size-10 place-items-center border'>
-                  {card.icon}
-                </div>
-                <h3 className='text-[1.05rem] font-semibold tracking-[-0.02em]'>
-                  {card.title}
-                </h3>
-                <p className='text-muted-foreground mt-2 text-[0.9rem] text-pretty'>
-                  {card.body}
-                </p>
-                <div className='mt-3.5 flex flex-wrap gap-1.5'>
-                  {card.tags.map((t) => (
-                    <span
-                      key={t}
-                      className='bg-muted/60 text-muted-foreground rounded-1.5 px-2 py-[0.18rem] font-mono text-[0.68rem]'
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Features />
 
-      {/* ── Deploy steps ── */}
-      <section id='deploy' className='border-border bg-muted/35 border-y py-21'>
-        <div className='mx-auto max-w-6xl px-6'>
-          <div>
-            <span className='text-muted-foreground font-mono text-[0.72rem] tracking-[0.12em] uppercase'>
-              // from zero to live
-            </span>
-            <h2 className='mt-[0.6rem] text-[clamp(1.8rem,3.6vw,2.5rem)] font-semibold tracking-[-0.035em] text-balance'>
-              Deploy to Railway in one click.
-            </h2>
-            <p className='text-muted-foreground mt-[0.9rem] max-w-140 text-[1.02rem] text-pretty'>
-              No Dockerfiles, no CI pipelines to babysit. Railway provisions the
-              Postgres database, injects the env vars, and builds your app
-              automatically.
-            </p>
-          </div>
-          <div className='mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3'>
-            {[
-              {
-                n: '1',
-                title: 'Click deploy',
-                body: 'Hit the Railway button and pick your GitHub repo. The template ships with a ready-to-go config.'
-              },
-              {
-                n: '2',
-                title: 'Provision & connect',
-                body: "Railway spins up PostgreSQL and wires the DATABASE_URL for you. Add your auth secret and you're set."
-              },
-              {
-                n: '3',
-                title: 'Ship it',
-                body: 'Your SaaS is live on a public URL with HTTPS. Push to main and Railway redeploys automatically.'
-              }
-            ].map((step, i, arr) => (
-              <div key={step.n} className='relative'>
-                <div className='border-border bg-background grid size-7.5 place-items-center rounded-[8px] border font-mono text-[0.78rem] font-medium'>
-                  {step.n}
-                </div>
-                {i < arr.length - 1 && (
-                  <div className='border-border absolute top-4 -right-3 left-10 h-px border-t' />
-                )}
-                <h3 className='mt-4 text-[1.05rem] font-semibold tracking-[-0.02em]'>
-                  {step.title}
-                </h3>
-                <p className='text-muted-foreground mt-2 text-[0.9rem] text-pretty'>
-                  {step.body}
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className='mt-10 flex flex-wrap items-center gap-[0.7rem]'>
-            <a
-              href={railwayDeployUrl('steps')}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
-            >
-              <img
-                src='https://railway.com/button.svg'
-                alt='Deploy on Railway'
-                className='h-11 w-auto'
-              />
-            </a>
-            <Link
-              href='#faq'
-              className='hover:bg-muted inline-flex h-11 items-center rounded-(--radius) px-[1.4rem] text-[0.95rem] font-medium transition-colors'
-            >
-              Read the docs →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <DeploySteps />
 
       {/* ── What's inside ── */}
       <section className='py-21'>
@@ -685,7 +385,7 @@ export default function Home() {
                 }
               ].map((item) => (
                 <div key={item.title} className='flex items-start gap-3'>
-                  <span className='bg-primary text-primary-foreground rounded-1.5 mt-px grid size-5.5 flex-none place-items-center'>
+                  <span className='bg-primary text-primary-foreground mt-px grid size-5.5 flex-none place-items-center rounded-md'>
                     <Check className='size-4' />
                   </span>
                   <div>
@@ -730,7 +430,7 @@ export default function Home() {
             ].map((q) => (
               <div
                 key={q.name}
-                className='border-border bg-card rounded-3.5 border p-6.5'
+                className='border-border bg-card rounded-2xl border p-6.5'
               >
                 <div className='text-foreground mb-3.5 flex gap-0.5'>
                   {[...Array(5)].map((_, i) => (
@@ -775,42 +475,37 @@ export default function Home() {
       {/* ── Final CTA ── */}
       <section className='pb-21'>
         <div className='mx-auto max-w-6xl px-6'>
-          <div className='border-border bg-card rounded-4.5 relative overflow-hidden border px-8 py-14 text-center shadow-lg'>
+          <div className='relative overflow-hidden rounded-3xl border border-white/10 bg-neutral-950 px-8 py-16 text-center text-white shadow-2xl'>
+            <div className='pointer-events-none absolute -top-32 left-1/4 size-96 rounded-full bg-violet-600/45 blur-3xl' />
+            <div className='pointer-events-none absolute -right-10 -bottom-32 size-96 rounded-full bg-fuchsia-600/35 blur-3xl' />
             <div
-              className='landing-grid-bg opacity-50'
-              style={{
-                maskImage:
-                  'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)',
-                WebkitMaskImage:
-                  'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)'
-              }}
+              className='landing-grid-bg'
+              style={
+                {
+                  '--grid-line': 'rgb(255 255 255 / 0.07)',
+                  maskImage:
+                    'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)',
+                  WebkitMaskImage:
+                    'radial-gradient(ellipse 70% 100% at 50% 0%, #000 30%, transparent 75%)'
+                } as React.CSSProperties
+              }
             />
             <h2 className='relative text-[clamp(1.9rem,3.6vw,2.6rem)] font-semibold tracking-[-0.035em] text-balance'>
               Your SaaS is one click away.
             </h2>
-            <p className='text-muted-foreground relative mx-auto mt-3.5 max-w-120'>
+            <p className='relative mx-auto mt-3.5 max-w-120 text-neutral-300'>
               Skip the boilerplate. Deploy the starter to Railway and start
               building the features that actually matter.
             </p>
-            <div className='relative mt-7 flex flex-wrap justify-center gap-[0.7rem]'>
-              <a
-                href={railwayDeployUrl('final-cta')}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='inline-flex h-11 items-center transition-all hover:-translate-y-px'
-              >
-                <img
-                  src='https://railway.com/button.svg'
-                  alt='Deploy on Railway'
-                  className='h-11 w-auto'
-                />
-              </a>
+            <div className='relative mt-8 flex flex-wrap items-center justify-center gap-3.5'>
+              <DeployButton placement='final-cta' size='lg' glow />
               <a
                 href={GITHUB_URL}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='border-border bg-background hover:bg-muted inline-flex h-11 items-center gap-2 rounded-(--radius) border px-[1.4rem] text-[0.95rem] font-medium transition-colors'
+                className='inline-flex h-12 items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-6 text-[0.95rem] font-medium transition-colors hover:bg-white/10 sm:h-14'
               >
+                <GithubIcon className='size-4' />
                 View on GitHub
               </a>
             </div>
@@ -819,7 +514,7 @@ export default function Home() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className='border-border mt-21 border-t pt-14 pb-10'>
+      <footer className='border-border border-t pt-14 pb-10 max-md:pb-28'>
         <div className='mx-auto max-w-6xl px-6'>
           <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]'>
             {/* Brand col */}
@@ -927,6 +622,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      <StickyDeployBar />
     </div>
   );
 }

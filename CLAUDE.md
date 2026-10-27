@@ -8,9 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 bun dev              # Start development server
-bun build            # Generate Prisma client + build for production
-bun start            # Apply pending migrations + start production server
-bun lint             # Run ESLint
+bun run build        # Generate Prisma client + build for production
+bun start            # prisma migrate deploy (against DATABASE_URL) + next start
+bunx tsc --noEmit    # Type-check
+bun lint             # Run ESLint (currently broken, see below)
 
 bunx prisma migrate dev      # Create and apply a new migration
 bunx prisma migrate deploy   # Apply pending migrations (production)
@@ -18,9 +19,11 @@ bunx prisma studio           # Open Prisma Studio GUI
 bunx prisma generate         # Regenerate Prisma client after schema changes
 ```
 
-There are no tests in this project.
+Use `bun run build`, not `bun build`: the latter is Bun's own bundler and fails with "Missing entrypoints" instead of running the package script. `bun start` applies migrations to whatever database `DATABASE_URL` points at, so check `.env` first.
 
-`bun lint` currently fails in this environment with `TypeError: Class extends value undefined is not a constructor or null` from `@typescript-eslint/utils` — a pre-existing dependency-version mismatch, not something broken by your changes. Use `bunx tsc --noEmit` to type-check instead.
+There are no tests. `bun run build` is the real check: besides type errors it fails on Cache Components violations (see below), which `next dev` only shows in the browser overlay while the page still returns 200. `src/generated/` is gitignored, so on a fresh clone run `bunx prisma generate` (or `bun run build`) before `bunx tsc --noEmit`, which otherwise fails to resolve `@/generated/prisma/client`.
+
+`bun lint` currently fails because `typescript-eslint` does not support TypeScript 7 (`typescript@^7` in `package.json`; tracking: typescript-eslint issue #10940). It is a dependency mismatch, not something your changes broke. Use `bunx tsc --noEmit` instead.
 
 ## Environment Variables
 
@@ -37,6 +40,12 @@ RESEND_API_KEY="re_..."
 EMAIL_SENDER_NAME="Your App"
 EMAIL_SENDER_ADDRESS="noreply@yourapp.com"
 ```
+
+`SITE_URL` in `src/lib/constants.ts` (OG image, sitemap, robots, password-reset link) resolves `NEXT_PUBLIC_BASE_URL` → `BETTER_AUTH_URL` → `http://localhost:3000` **at build time**, so set them before `bun run build` in production.
+
+## Git
+
+Work happens on `dev` and reaches `main` through pull requests (`dev` → `main`). Commit messages use conventional prefixes (`feat:`, `fix:`, `refactor:`, `chore:`).
 
 ## Architecture
 
@@ -92,6 +101,8 @@ Protection has two layers:
 
 After changing `prisma/schema.prisma`, always run `bunx prisma migrate dev` (dev) or `bunx prisma generate` (client-only) before building.
 
+`.env` may point at a hosted database. To test sign-in flows without touching it, `bunx prisma dev --detach --name <name>` starts an isolated local Postgres (no Docker); use the `postgres://…` URL it prints as `DATABASE_URL`, apply migrations with `bunx prisma migrate deploy`, and remove it afterwards with `bunx prisma dev rm <name> -f`.
+
 ### UI Components (Base UI, not Radix)
 
 Shadcn UI components live in `src/components/ui/`. Add new Shadcn components with `bunx shadcn@latest add <component>`. Components are configured via `components.json`, which sets `"style": "base-rhea"` — this project uses the **Base UI** shadcn style, not the default Radix-based one. Components import from `@base-ui/react/*`, not `@radix-ui/react-*` or `vaul`. Training-data assumptions about shadcn/Radix prop APIs do not apply here — check `node_modules/@base-ui/react/<component>/**/*.d.ts` before assuming a prop exists or has a particular shape. Recurring gotchas hit in this codebase:
@@ -104,9 +115,13 @@ Shadcn UI components live in `src/components/ui/`. Add new Shadcn components wit
 - **`Select` / `ToggleGroup` `onValueChange`**: signature is `(value, eventDetails) => void`, not a plain `Dispatch<SetStateAction<...>>` — passing a raw `useState` setter fails to type-check. `Select`'s value can be `null`; guard before forwarding to a string setter. `ToggleGroup` has no `type="single"` prop (unlike the old Radix version) — it always takes an array `value`/`onValueChange`, even when used for single-selection (multi-select is opted into via `multiple`).
 - **Anchor-width CSS var**: use `w-(--anchor-width)` (Base UI), not `w-(--radix-dropdown-menu-trigger-width)` (a Radix leftover that silently resolves to nothing).
 
-Tailwind CSS 4 is used — configuration is in `postcss.config.mjs` and `src/app/globals.css` (no `tailwind.config.*` file). CSS-variable utilities use the v4 parens shorthand (`rounded-(--radius)`), not the v3 bracket form (`rounded-[var(--radius)]`); `calc()` expressions still need brackets (`rounded-[calc(var(--radius)-2px)]`).
+Tailwind CSS 4 is used — configuration is in `postcss.config.mjs` and `src/app/globals.css` (no `tailwind.config.*` file). CSS-variable utilities use the v4 parens shorthand (`rounded-(--radius)`), not the v3 bracket form (`rounded-[var(--radius)]`); `calc()` expressions still need brackets (`rounded-[calc(var(--radius)-2px)]`). Tailwind 4 has no numeric radius utilities: classes like `rounded-3.5` or `rounded-4.5` generate no CSS and are silently ignored (they left cards square before), so use `rounded-lg`/`xl`/`2xl`/`3xl` or an arbitrary value.
 
-`lucide-react` is pinned to an unusual major version (`^1.46.0`, per `package.json`); it has no brand/logo icons (GitHub, X/Twitter, framework/tool logos). Those are either custom inline SVGs (`src/components/shared/icons.tsx`) or files under `public/*.svg`, loaded via `next/image` (apply `dark:invert` for monochrome-black logo files so they stay visible in dark mode; skip it for logos that already carry their own brand color).
+`cn()` in `src/lib/utils.ts` re-exports `cn` from the `cn` package (shadcn-ui's drop-in for `clsx` + `tailwind-merge`). Do not re-add those two packages or the old implementation.
+
+Dark is the default theme (`defaultTheme='dark'` with `enableSystem` in `src/app/layout.tsx`). `ModeToggle` (`src/components/shared/mode-toggle.tsx`) is a Light/System/Dark radiogroup with a sliding thumb. `next-themes` injects `transition: none !important` while the theme changes (`disableTransitionOnChange`), which would make a CSS transition tied to the theme snap, so the thumb is animated with the Web Animations API instead.
+
+`lucide-react` is pinned to an unusual major version (`1.x`, per `package.json`); it has no brand/logo icons (GitHub, X/Twitter, framework/tool logos). Those are either custom inline SVGs (`src/components/shared/icons.tsx`) or files under `public/*.svg`, loaded via `next/image` (apply `dark:invert` for monochrome-black logo files so they stay visible in dark mode; skip it for logos that already carry their own brand color).
 
 Admin and dashboard panel components are mirrored under `src/components/admin/` and `src/components/dashboard/` respectively, each with a `layout/` subfolder containing sidebar, nav, and header components.
 
@@ -122,7 +137,13 @@ Email templates are React Email components in `src/components/emails/`. Sending 
 
 ### Role System
 
-Users have a `role` field (`"user"` | `"admin"`) on the `User` model, managed by the Better Auth `admin` plugin. Role checks are done against `session.user.role`.
+Users have a `role` field (`"user"` | `"admin"`) on the `User` model, managed by the Better Auth `admin` plugin. Role checks are done against `session.user.role`. There is no UI to promote a user: set `role` to `admin` by hand (Prisma Studio).
+
+`src/lib/auth.ts` sets `requireEmailVerification: true`, so email/password sign-in only works once `emailVerified` is true. Locally that needs a working `RESEND_API_KEY` (verification email) or flipping `emailVerified` in Prisma Studio; Google sign-in avoids it.
+
+### Landing page
+
+`src/app/(public)/page.tsx` composes sections from `src/components/landing/`. Every Railway deploy CTA must use `<DeployButton placement='…' />`: `placement` becomes `utm_content` via `railwayDeployUrl()` in `src/lib/constants.ts`, which is how Railway's referral stats attribute conversions, so give each new CTA its own placement name. Site name, tagline, GitHub URL and the deploy link (with the owner's referral code) also live in `constants.ts`. Landing-only styles are the `.landing-*` / `.deploy-*` classes at the bottom of `src/app/globals.css`. The animated deploy log (`deploy-log.tsx`) lists only steps the project really runs (Postgres, `DATABASE_URL`, `prisma migrate deploy`, build, `/api/health`); keep it in sync with the `package.json` scripts and `railway.toml`.
 
 ### Deployment
 

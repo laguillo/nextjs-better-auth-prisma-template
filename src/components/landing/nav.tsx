@@ -79,7 +79,7 @@ export function LandingNav() {
               href={GITHUB_URL}
               target='_blank'
               rel='noopener noreferrer'
-              className='border-border bg-background text-foreground hover:bg-muted inline-flex size-9 items-center justify-center rounded-[calc(var(--radius)-2px)] border transition-colors'
+              className='border-border bg-background text-foreground hover:bg-muted hidden size-9 items-center justify-center rounded-[calc(var(--radius)-2px)] border transition-colors md:inline-flex'
               aria-label='GitHub'
             >
               <GithubIcon className='size-5' />

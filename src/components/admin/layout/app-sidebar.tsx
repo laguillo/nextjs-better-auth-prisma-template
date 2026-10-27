@@ -13,7 +13,7 @@ import {
 
 import { NavMain } from '@/components/admin/layout/nav-main';
 import { NavSecondary } from '@/components/admin/layout/nav-secondary';
-import { NavUser } from '@/components/admin/layout/nav-user';
+import { NavUser, NavUserSkeleton } from '@/components/admin/layout/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -66,7 +66,7 @@ const data = {
 export function AppSidebar({
   user,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { user: userType }) {
+}: React.ComponentProps<typeof Sidebar> & { user: userType | null }) {
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -85,7 +85,7 @@ export function AppSidebar({
         <NavSecondary items={data.navSecondary} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        {user ? <NavUser user={user} /> : <NavUserSkeleton />}
       </SidebarFooter>
     </Sidebar>
   );

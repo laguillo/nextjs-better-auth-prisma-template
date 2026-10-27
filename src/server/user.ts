@@ -3,6 +3,12 @@
 import { auth } from '@/lib/auth';
 import { SITE_URL } from '@/lib/constants';
 import { headers } from 'next/headers';
+import { cache } from 'react';
+
+// Memoized per request so the layout, sidebar and page share one session lookup.
+const getSession = cache(async () =>
+  auth.api.getSession({ headers: await headers() })
+);
 
 export async function forgotPassword(data: { email: string }) {
   try {
@@ -44,7 +50,5 @@ export async function resetPassword(data: {
 }
 
 export async function isAuthenticated() {
-  return await auth.api.getSession({
-    headers: await headers()
-  });
+  return await getSession();
 }

@@ -4,10 +4,7 @@ import { fontSans, fontMono } from '@/lib/fonts';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Inter } from 'next/font/google';
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from '@/lib/constants';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

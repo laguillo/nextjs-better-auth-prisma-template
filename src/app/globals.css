@@ -279,6 +279,43 @@
   animation: landing-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+/* Mobile nav popover. .\:popover-open is the class the polyfill applies
+   where :popover-open is unsupported; :is() keeps the rule valid there. */
+.landing-menu {
+  display: none;
+}
+
+.landing-menu:is(:popover-open, .\:popover-open) {
+  display: flex;
+}
+
+@media (width >= 48rem) {
+  .landing-menu:is(:popover-open, .\:popover-open) {
+    display: none;
+  }
+}
+
+/* FAQ: native <details>, sliding open where interpolate-size is supported */
+.landing-faq details::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+.landing-faq details:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-faq details::details-content {
+    /* Longhands only: the minifier moves a shorthand after allow-discrete, which resets it */
+    transition-property: block-size, content-visibility;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-behavior: allow-discrete;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .deploy-cta::before,
   .landing-ping {

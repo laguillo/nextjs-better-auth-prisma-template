@@ -1,7 +1,4 @@
-'use client';
-
 import { PlusIcon } from 'lucide-react';
-import { useState } from 'react';
 
 const ITEMS = [
   {
@@ -42,30 +39,25 @@ const ITEMS = [
 ];
 
 export function LandingFAQ() {
-  const [open, setOpen] = useState<number | null>(0);
-
   return (
-    <div className='mx-auto mt-10 max-w-190'>
+    <div className='landing-faq mx-auto mt-10 max-w-190'>
       {ITEMS.map((item, i) => (
-        <div key={i} className='border-border border-b last:border-b-0'>
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className='flex w-full cursor-pointer items-center justify-between gap-4 px-1 py-4.5 text-left text-base font-medium tracking-[-0.01em]'
-          >
+        <details
+          key={item.q}
+          open={i === 0}
+          className='group border-border border-b last:border-b-0'
+        >
+          <summary className='flex w-full cursor-pointer list-none items-center justify-between gap-4 px-1 py-4.5 text-left text-base font-medium tracking-[-0.01em] [&::-webkit-details-marker]:hidden'>
             <span>{item.q}</span>
-            <span
-              className='text-muted-foreground flex-none transition-transform duration-200'
-              style={{ transform: open === i ? 'rotate(45deg)' : 'none' }}
-            >
-              <PlusIcon className='size-4' />
-            </span>
-          </button>
-          {open === i && (
-            <div className='text-muted-foreground max-w-160 px-1 pb-4.5 text-[0.92rem] text-pretty'>
-              {item.a}
-            </div>
-          )}
-        </div>
+            <PlusIcon
+              aria-hidden
+              className='text-muted-foreground size-4 flex-none group-open:rotate-45 motion-safe:transition-transform motion-safe:duration-200'
+            />
+          </summary>
+          <div className='text-muted-foreground max-w-160 px-1 pb-4.5 text-[0.92rem] text-pretty'>
+            {item.a}
+          </div>
+        </details>
       ))}
     </div>
   );

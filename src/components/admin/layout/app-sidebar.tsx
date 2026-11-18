@@ -5,7 +5,6 @@ import {
   BarChart,
   CreditCard,
   LayoutDashboard,
-  Layers,
   Newspaper,
   Settings,
   Users

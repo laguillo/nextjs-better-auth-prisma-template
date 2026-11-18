@@ -101,6 +101,7 @@ export function ResetPasswordForm({
                       aria-invalid={fieldState.invalid}
                       placeholder='New password'
                       autoComplete='new-password'
+                      required
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -119,6 +120,7 @@ export function ResetPasswordForm({
                       aria-invalid={fieldState.invalid}
                       placeholder='Confirm new password'
                       autoComplete='new-password'
+                      required
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />

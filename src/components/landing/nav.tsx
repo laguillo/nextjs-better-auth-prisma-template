@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, Terminal } from 'lucide-react';
 import { GithubIcon } from '@/components/shared/icons';
@@ -11,8 +11,19 @@ import { authClient } from '@/lib/auth-client';
 import { DeployButton } from '@/components/landing/deploy-button';
 import { GITHUB_URL } from '@/lib/constants';
 
+const MENU_ID = 'landing-menu';
+
 export function LandingNav() {
+  const menuRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => menuRef.current?.hidePopover();
+
+  useEffect(() => {
+    // Popover is not Baseline widely available yet: polyfill only where missing.
+    if (!Object.hasOwn(HTMLElement.prototype, 'popover')) {
+      import('@oddbird/popover-polyfill');
+    }
+  }, []);
   const { data: session, isPending } = authClient.useSession();
 
   const authHref = session
@@ -49,7 +60,10 @@ export function LandingNav() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className='hidden items-center gap-1 md:flex'>
+          <nav
+            aria-label='Primary'
+            className='hidden items-center gap-1 md:flex'
+          >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -95,51 +109,56 @@ export function LandingNav() {
               className='hidden md:inline-flex'
             />
 
-            {/* Mobile menu button */}
+            {/* Mobile menu: native popover (Escape, light dismiss, expanded state) */}
             <button
-              onClick={() => setMenuOpen((v) => !v)}
-              className='border-border bg-background text-foreground hover:bg-muted inline-flex size-9 items-center justify-center rounded-[calc(var(--radius)-2px)] border transition-colors md:hidden'
+              type='button'
+              popoverTarget={MENU_ID}
+              aria-controls={MENU_ID}
               aria-label='Menu'
+              className='border-border bg-background text-foreground hover:bg-muted inline-flex size-9 items-center justify-center rounded-[calc(var(--radius)-2px)] border transition-colors md:hidden'
             >
               {menuOpen ? (
-                <X className='size-4.5' />
+                <X aria-hidden className='size-4.5' />
               ) : (
-                <Menu className='size-4.5' />
+                <Menu aria-hidden className='size-4.5' />
               )}
             </button>
+            <nav
+              ref={menuRef}
+              id={MENU_ID}
+              popover='auto'
+              aria-label='Primary'
+              onToggle={(e) => setMenuOpen(e.newState === 'open')}
+              className='landing-menu border-border bg-background text-foreground inset-x-0 top-15 bottom-auto m-0 h-auto max-h-[calc(100dvh-3.75rem)] w-full max-w-none flex-col gap-1 overflow-auto border-0 border-t p-6'
+            >
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className='border-border hover:bg-muted rounded-lg border-b px-3 py-4 text-[1.05rem] font-[450] transition-colors last:border-b-0'
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <a
+                href={GITHUB_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+                onClick={closeMenu}
+                className='border-border hover:bg-muted rounded-lg border-b px-3 py-4 text-[1.05rem] font-[450] transition-colors'
+              >
+                GitHub ↗
+              </a>
+              <DeployButton
+                placement='nav-mobile'
+                size='lg'
+                className='mt-4 self-center'
+              />
+            </nav>
           </div>
         </div>
       </header>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className='border-border bg-background fixed inset-x-0 top-15 z-40 flex flex-col gap-1 border-t p-6 md:hidden'>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className='border-border hover:bg-muted rounded-lg border-b px-3 py-4 text-[1.05rem] font-[450] transition-colors last:border-b-0'
-            >
-              {link.label}
-            </Link>
-          ))}
-          <a
-            href={GITHUB_URL}
-            target='_blank'
-            rel='noopener noreferrer'
-            onClick={() => setMenuOpen(false)}
-            className='border-border hover:bg-muted rounded-lg border-b px-3 py-4 text-[1.05rem] font-[450] transition-colors'
-          >
-            GitHub ↗
-          </a>
-          <DeployButton
-            placement='nav-mobile'
-            size='lg'
-            className='mt-4 self-center'
-          />
-        </div>
-      )}
     </>
   );
 }

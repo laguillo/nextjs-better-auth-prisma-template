@@ -19,7 +19,6 @@ import {
   FieldGroup,
   FieldLabel
 } from '@/components/ui/field';
-import Image from 'next/image';
 import { Checkbox } from '@/components/ui/checkbox';
 import { AlertTriangleIcon } from 'lucide-react';
 import { Alert } from '@/components/ui/alert';
@@ -142,7 +141,9 @@ export function LoginForm({
                     id='email'
                     type='email'
                     placeholder='name@example.com'
-                    autoComplete='email'
+                    autoComplete='username'
+                    spellCheck={false}
+                    required
                     autoCapitalize='none'
                     autoCorrect='off'
                     aria-invalid={fieldState.invalid}
@@ -174,6 +175,7 @@ export function LoginForm({
                     id='password'
                     placeholder='••••••••'
                     autoComplete='current-password'
+                    required
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (

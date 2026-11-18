@@ -74,6 +74,7 @@ export function ModeToggle() {
   }
 
   return (
+    // oxlint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex: focus lives on the radio buttons
     <div
       role='radiogroup'
       aria-label='Theme'
@@ -102,7 +103,7 @@ export function ModeToggle() {
             tabIndex={selected || (index < 0 && i === 0) ? 0 : -1}
             onClick={() => setTheme(value)}
             className={cn(
-              'focus-visible:ring-ring relative z-10 grid size-7 place-items-center rounded-[7px] transition-colors outline-none focus-visible:ring-2',
+              'focus-visible:ring-ring relative z-10 grid size-7 place-items-center rounded-[7px] transition-colors outline-hidden focus-visible:ring-2',
               selected ? active : 'text-muted-foreground hover:text-foreground'
             )}
           >

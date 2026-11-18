@@ -18,7 +18,6 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { forgotPassword } from '@/server/user';
 import { Spinner } from '@/components/ui/spinner';
-import Image from 'next/image';
 
 const formSchema = z.object({
   email: z
@@ -96,7 +95,9 @@ export function ForgotPasswordForm({
                     id='email'
                     type='email'
                     placeholder='name@example.com'
-                    autoComplete='email'
+                    autoComplete='username'
+                    spellCheck={false}
+                    required
                     autoCapitalize='none'
                     autoCorrect='off'
                     aria-invalid={fieldState.invalid}

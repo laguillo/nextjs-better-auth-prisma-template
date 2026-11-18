@@ -24,6 +24,7 @@ A production-ready Next.js 16 SaaS starter: authentication, PostgreSQL, admin an
 - **Cache Components**: Next.js 16 Cache Components and Partial Prefetching are enabled, so pages prerender a static shell and stream the personalized parts
 - **Railway-ready**: Healthcheck at `/api/health`, restart on failure, and migrations applied on every start
 - **Type-Safe**: Safe development with TypeScript throughout the project
+- **Fast linting**: [Oxlint](https://oxc.rs/docs/guide/usage/linter) with Next.js, React Hooks and accessibility rules, plus Prettier with Tailwind class sorting
 
 ## 🚀 Technologies
 
@@ -34,6 +35,7 @@ A production-ready Next.js 16 SaaS starter: authentication, PostgreSQL, admin an
 - **[Tailwind CSS 4](https://tailwindcss.com/)**: Fast and flexible styling
 - **[Shadcn UI](https://ui.shadcn.com/)** on **[Base UI](https://base-ui.com/)**: Accessible and customizable UI components
 - **[Resend](https://resend.com/)** and **[React Email](https://react.email/)**: Transactional emails
+- **[Oxlint](https://oxc.rs/docs/guide/usage/linter)**: Rust-based linter that replaces ESLint, with built-in Next.js, React and jsx-a11y rules
 - **[Bun](https://bun.sh/)**: Fast JavaScript runtime and package manager (recommended)
 
 ## 🛠️ Installation and Setup
@@ -159,6 +161,7 @@ The fix is to move the request-time read into a small async component wrapped in
 ## 📂 Project Structure
 
 ```
+├── .oxlintrc.json          # Oxlint rules (Next.js, React, jsx-a11y)
 ├── prisma/
 │   ├── schema.prisma       # Database schema
 │   └── migrations/         # Migration history
@@ -206,7 +209,8 @@ The fix is to move the request-time read into a small async component wrapped in
 - `bun run build`: Generates the Prisma client and builds the application for production (use `bun run build`, not `bun build`, which is Bun's own bundler)
 - `bun start`: Applies pending migrations (`prisma migrate deploy`) and starts the production server
 - `bunx tsc --noEmit`: Type-checks the project
-- `bun lint`: Runs ESLint. It currently fails because `typescript-eslint` does not support TypeScript 7 yet ([tracking issue](https://github.com/typescript-eslint/typescript-eslint/issues/10940)); use `bunx tsc --noEmit` in the meantime
+- `bun lint`: Lints the project with Oxlint (rules in `.oxlintrc.json`; shadcn components in `src/components/ui/` are skipped)
+- `bun run lint:fix`: Applies Oxlint's automatic fixes
 - `bunx prisma studio`: Opens Prisma Studio to visually manage the database
 - `bunx prisma migrate dev`: Creates and applies database migrations
 - `bunx prisma generate`: Regenerates the Prisma client after schema changes without creating a migration
@@ -238,6 +242,7 @@ After the first deploy:
 - [Prisma Documentation](https://www.prisma.io/docs)
 - [Shadcn UI Documentation](https://ui.shadcn.com/docs)
 - [Base UI Documentation](https://base-ui.com/react/overview/quick-start)
+- [Oxlint Documentation](https://oxc.rs/docs/guide/usage/linter)
 
 ## 📄 License
 

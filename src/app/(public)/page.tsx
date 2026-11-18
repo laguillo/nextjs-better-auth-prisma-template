@@ -381,7 +381,7 @@ export default function Home() {
                 },
                 {
                   title: 'Lint & format preset',
-                  body: 'ESLint, Prettier and a tuned tsconfig so commits stay clean.'
+                  body: 'Oxlint, Prettier and a tuned tsconfig so commits stay clean.'
                 }
               ].map((item) => (
                 <div key={item.title} className='flex items-start gap-3'>

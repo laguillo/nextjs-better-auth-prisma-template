@@ -19,7 +19,6 @@ import {
   FieldGroup,
   FieldLabel
 } from '@/components/ui/field';
-import Image from 'next/image';
 import { Checkbox } from '@/components/ui/checkbox';
 import { AlertTriangleIcon } from 'lucide-react';
 import { Alert } from '@/components/ui/alert';

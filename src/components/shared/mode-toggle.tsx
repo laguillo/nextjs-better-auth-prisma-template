@@ -74,6 +74,7 @@ export function ModeToggle() {
   }
 
   return (
+    // oxlint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex: focus lives on the radio buttons
     <div
       role='radiogroup'
       aria-label='Theme'

@@ -19,7 +19,6 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Spinner } from '@/components/ui/spinner';
-import Image from 'next/image';
 import { Alert } from '@/components/ui/alert';
 import { AlertTriangleIcon } from 'lucide-react';
 

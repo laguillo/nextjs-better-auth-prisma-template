@@ -33,6 +33,7 @@ export function DeployButton({
         className
       )}
     >
+      {/* oxlint-disable-next-line nextjs/no-img-element -- Railway's hosted SVG badge; next/image does not optimize SVG */}
       <img
         src='https://railway.com/button.svg'
         alt='Deploy on Railway'

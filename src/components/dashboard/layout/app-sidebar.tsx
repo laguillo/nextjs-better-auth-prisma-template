@@ -26,7 +26,6 @@ import {
   Meh,
   Settings
 } from 'lucide-react';
-import Image from 'next/image';
 
 const data = {
   navMain: [

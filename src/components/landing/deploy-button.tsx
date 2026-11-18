@@ -28,7 +28,7 @@ export function DeployButton({
       target='_blank'
       rel='noopener noreferrer'
       className={cn(
-        'focus-visible:ring-ring inline-flex rounded-lg transition-transform outline-none hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2',
+        'focus-visible:ring-ring inline-flex rounded-lg transition-transform outline-hidden hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-offset-2',
         glow && 'deploy-cta',
         className
       )}

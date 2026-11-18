@@ -129,7 +129,8 @@ export function SignupForm({
                       id={field.name}
                       type='text'
                       placeholder='Enter your first name'
-                      autoComplete='name'
+                      autoComplete='given-name'
+                      required
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
@@ -150,6 +151,7 @@ export function SignupForm({
                       type='text'
                       placeholder='Enter your last name'
                       autoComplete='family-name'
+                      required
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
@@ -172,7 +174,9 @@ export function SignupForm({
                     id='email'
                     type='email'
                     placeholder='name@example.com'
-                    autoComplete='email'
+                    autoComplete='username'
+                    spellCheck={false}
+                    required
                     autoCapitalize='none'
                     autoCorrect='off'
                     aria-invalid={fieldState.invalid}
@@ -196,6 +200,7 @@ export function SignupForm({
                     id='password'
                     placeholder='••••••••'
                     autoComplete='new-password'
+                    required
                     aria-invalid={fieldState.invalid}
                     className='rounded-l-lg'
                   />

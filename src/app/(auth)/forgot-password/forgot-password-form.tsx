@@ -95,7 +95,9 @@ export function ForgotPasswordForm({
                     id='email'
                     type='email'
                     placeholder='name@example.com'
-                    autoComplete='email'
+                    autoComplete='username'
+                    spellCheck={false}
+                    required
                     autoCapitalize='none'
                     autoCorrect='off'
                     aria-invalid={fieldState.invalid}

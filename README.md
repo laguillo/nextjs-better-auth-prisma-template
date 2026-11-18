@@ -45,7 +45,7 @@ Follow these steps to set up the project in your local environment.
 ### Prerequisites
 
 - [Bun](https://bun.sh/) 1.4.3 or newer
-- [Node.js](https://nodejs.org/) 20.9 or newer (required by Next.js 16)
+- [Node.js](https://nodejs.org/) 26 or newer (`engines.node` in `package.json`)
 - A PostgreSQL database: local, hosted, or the zero-setup option in step 4
 
 ### 1. Clone the repository
